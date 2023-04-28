@@ -3,6 +3,10 @@ package DataUserClasses;
 import OrderClasses.Item;
 import SystemClasses.*;
 public class Admin extends User {
+    public Admin(String name, String password, String address, String phone) {
+        super(name, password, address, phone);
+    }
+
     public boolean addItem(Item item) {
         // Logic to add an item
         return true; // Return true if successful, false otherwise

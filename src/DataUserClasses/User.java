@@ -3,13 +3,13 @@ package DataUserClasses;
 public class User{
     private String name,phone,password,address ;
 
-    // Constructor
-    // public User(String name  , String password , String address , String phone) {
-    //     this.name = name;
-    //     this.password = password;
-    //     this.phone = phone;
-    //     this.address = address;
-    // }
+     //Constructor
+     public User(String name  , String phone , String address , String password) {
+         this.name = name;
+         this.password = password;
+         this.phone = phone;
+         this.address = address;
+     }
     
     // Getters and setters
      public String getName() {

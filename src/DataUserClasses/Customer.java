@@ -8,7 +8,7 @@ import java.util.Vector;
 import SystemClasses.*;
 
 public class Customer extends User {
-    private int loyaltyPoints;
+    private int loyaltyPoints=0;
     private Vector<Order> prevOrders;
     private ShoppingCart shoppingCart;
     private DataManager dataManager;
@@ -21,6 +21,12 @@ public class Customer extends User {
         }
         return null;
     }
+
+    public Customer(String name, String phone, String address, String password) {
+        super(name, phone, address, password);
+        this.loyaltyPoints = loyaltyPoints;
+    }
+
     // public void placeOrder(Order order, String address) {
     //     // Logic to place an order with the given address
     // }
