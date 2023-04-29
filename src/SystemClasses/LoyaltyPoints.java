@@ -26,9 +26,9 @@ public class LoyaltyPoints {
     }
 
     public boolean checkLoyaltyPoints() {
-        // Add logic to check if loyalty points are available for redemption
-        // Return true if points can be redeemed, false otherwise
-        // Add your specific implementation here
+        if(pointsEarnedperEgp < 0 || maximumpoint < 0){
+            return false;
+        }
         return true;
     }
 }
