@@ -1,10 +1,14 @@
 package DataUserClasses;
 
+import java.net.PasswordAuthentication;
+
 import OrderClasses.Item;
 import SystemClasses.*;
 public class Admin extends User {
-    public Admin(String name, String password, String address, String phone) {
-        super(name, password, address, phone);
+    private String email;
+    public Admin(String name, String password, String email) {
+        super(name, password);
+        this.email = email;
     }
 
     public boolean addItem(Item item) {
@@ -57,5 +61,11 @@ public class Admin extends User {
 
     public void viewAllOrders() {
         // Logic to view all orders
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

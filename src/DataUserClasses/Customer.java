@@ -8,11 +8,19 @@ import java.util.Vector;
 import SystemClasses.*;
 
 public class Customer extends User {
+    private String address;
+    private String phone;
+
     private int loyaltyPoints=0;
     private Vector<Order> prevOrders;
     private ShoppingCart shoppingCart;
     private DataManager dataManager;
-
+    
+    public Customer(String name, String password, String phone, String address) {
+        super(name, password);
+        this.address = address;
+        this.phone=phone;
+    }
     public Order getCurrentOrder() {
         for (Order order : dataManager.getOrders()) {
             if (order.getStatus().equals(Order_state.IN_PROGRESS) && order.getUser().equals(this)) {
@@ -20,11 +28,6 @@ public class Customer extends User {
             }
         }
         return null;
-    }
-
-    public Customer(String name, String phone, String address, String password) {
-        super(name, phone, address, password);
-        this.loyaltyPoints = loyaltyPoints;
     }
 
     // public void placeOrder(Order order, String address) {
@@ -57,4 +60,16 @@ public class Customer extends User {
     // public ShoppingCart getShoppingCart() {
     //     return shoppingCart;
     // }
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    public String getPhone() {
+        return phone;
+    }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }

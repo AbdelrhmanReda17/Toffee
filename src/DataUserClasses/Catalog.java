@@ -1,17 +1,38 @@
 package DataUserClasses;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
+
 import OrderClasses.Item;
 
 public class Catalog {
-    private List<Item> items;
+    private String name;
+    private Vector<Item> items;
+
+    public Catalog(String name) {
+        this.name = name;
+        this.items = new Vector<>();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Catalog() {
-        this.items = new ArrayList<>();
+        this.items = new Vector<>();
     }
 
     public boolean removeItem(Item item) {
         return items.remove(item);
+    }
+
+    public Vector<Item> getItems() {
+        return items;
     }
 
     public boolean updateItem(Item item) {
