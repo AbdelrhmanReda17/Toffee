@@ -415,4 +415,7 @@ public class DataManager {
     public Vector<Order> getOrders(){
         return orders;
     }
+    public Vector<GiftVoucher> getVouchers() {
+        return vouchers;
+    }
 }

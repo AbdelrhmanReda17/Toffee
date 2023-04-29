@@ -3,7 +3,10 @@ package SystemClasses;
 public class GiftVoucher {
     private String code;
     private float value;
-
+    public GiftVoucher(String code , float val){
+        this.code = code;
+        this.value = val;
+    }
     public String getCode() {
         return code;
     }

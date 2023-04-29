@@ -1,10 +1,11 @@
 package DataUserClasses;
 
 import java.net.PasswordAuthentication;
-
+import java.util.Scanner;
 import OrderClasses.Item;
 import SystemClasses.*;
 public class Admin extends User {
+    private DataManager Data;
     private String email;
     public Admin(String name, String password, String email) {
         super(name, password);
@@ -35,9 +36,39 @@ public class Admin extends User {
         return true; // Return true if successful, false otherwise
     }
 
-    public boolean createAGiftVoucher(String code, float value) {
-        // Logic to create a gift voucher
-        return true; // Return true if successful, false otherwise
+    public boolean createAGiftVoucher() {
+        Scanner X = new Scanner(System.in);
+        //voucher code
+        String codeRegex = "^[A-Za-z0-9]{16}$";
+        String vouchercode;
+        do {
+            System.out.print("Enter Voucher code: ");
+            vouchercode = X.nextLine();
+            if (!vouchercode.matches(codeRegex)) {
+                System.out.println("Invalid code! The code must be  16 characters  and consist of letters or digits.");
+            }
+        } while (!vouchercode.matches(codeRegex));
+
+
+        String valueRegex = "^[0-9]+(\\.[0-9]+)?$";
+        String value;
+        do {
+            System.out.print("Enter Voucher Value : ");
+            value = X.nextLine();
+            if (!value.matches(valueRegex)) {
+                System.out.println("Invalid voucher value, please enter a valid int or float values.");
+            }
+        } while (!value.matches(valueRegex));
+
+        float VoucherValue = Float.parseFloat(value);
+        GiftVoucher newVoucher = new GiftVoucher(vouchercode,VoucherValue);
+        if (newVoucher != null) {
+            Data.getVouchers().add(newVoucher);
+            Data.updateVouchers();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void viewStatistics() {
