@@ -227,32 +227,31 @@ public class DataManager {
             e.printStackTrace();
         }
     }
-    
+    /**  
+     * This method takes a string of catalog data as parameter and parses it to create a Catalog object. 
+     * It also takes care of invalid item data and prints it to the console.  
+     *  
+     * @param catalogData The string of catalog data 
+     * @return Catalog object 
+     */ 
     private Catalog parseCatalogData(String catalogData) {
         String[] data = catalogData.split(",");
-        if (data.length < 2) {
-            return null;
-        }
         String catalogName = data[0];
         Catalog catalog = new Catalog(catalogName);
         catalog.getItems().clear();
-        for (int i = 1; i < data.length; i++) {
-            String itemData = data[i].replaceAll("\"", "").trim();
-            Item item = parseItemsData(itemData);
-            if (item != null) {
-                catalog.addItem(item);
-            } else {
-                System.out.println("Invalid item data: " + itemData);
+        if (data.length < 2) {
+            return null;
+        }else{
+            for (int i = 1; i < data.length; i++) {
+                String itemData = data[i].replaceAll("\"", "").trim();
+                Item item = parseItemsData(itemData);
+                    catalog.addItem(item);
             }
         }
         return catalog;
     }
-    
     private Item parseItemsData(String itemData) {
         String[] data = itemData.split("\\|");
-        if (data.length != 10) {
-            return null;
-        }
         int ID = Integer.parseInt(data[0]);
         String name = data[1];
         String category = data[2];
