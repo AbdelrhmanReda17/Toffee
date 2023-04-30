@@ -48,46 +48,43 @@ public class DataManager {
     // -------------------------------------------------------
     //  LOAD USERS VECTOR 
     public void loadCustomers() {
-        String filePath = "D:/Projects/Toffee/src/ApplicationData/users.txt";
+        String filePath = "D:/Projects/Toffee/src/ApplicationData/CustomersData.csv";
         File file = new File(filePath);
+    
         try {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
-                String userData = scanner.nextLine();
-                // Parse the user data and create a User object
-                Customer user = parseCustomerData(userData);
-                customers.add(user);  // Assuming User extends Customer class
+                String customerData = scanner.nextLine();
+                Customer customer = parseCustomerData(customerData);
+                customers.add(customer);
             }
             scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
-    private Customer parseCustomerData(String userData) {
-        String[] data = userData.split("\\|");
+    
+    private Customer parseCustomerData(String customerData) {
+        String[] data = customerData.split(",");
         String name = data[0];
         String password = data[1];
         String phone = data[2];
         String address = data[3];
         return new Customer(name, password, phone, address);
     }
-
-    // UPDATE USERS TO FILE 
+    
     public void updateCustomers() {
+        String filePath = "D:/Projects/Toffee/src/ApplicationData/CustomersData.csv";
         try {
-            String filePath = "D:/Projects/Toffee/src/ApplicationData/users.txt";
-            File file = new File(filePath);
-            FileWriter writer = new FileWriter(file, false);
-
-            for (Customer user : customers) {
-                writer.write(  user.getName() + "|" + user.getPassword() + "|" + user.getPhone() + "|" + user.getAddress() + "\n");
+            FileWriter writer = new FileWriter(filePath);
+            for (Customer customer : customers) {
+                writer.write(customer.getName() + "," + customer.getPassword() + "," + customer.getPhone() + "," + customer.getAddress() + "\n");
             }
-
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }    
+    } 
 
     // GET ALL USERS
     public Vector<Customer> getCustomers(){
@@ -98,48 +95,49 @@ public class DataManager {
     //                 ADMIN CLASSES
     // -------------------------------------------------------
     //  LOAD ADMINS VECTOR 
-    public void loadAdmins() {
-        String filePath = "D:/Projects/Toffee/src/ApplicationData/admins.txt";
-        File file = new File(filePath);
-
-        try {
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                String adminData = scanner.nextLine();
-                // Parse the admin data and create an Admin object
-                Admin admin = parseAdminData(adminData);
-                admins.add(admin);
+        
+        public void loadAdmins() {
+            String filePath = "D:/Projects/Toffee/src/ApplicationData/AdminsData.csv";
+            File file = new File(filePath);
+    
+            try {
+                Scanner scanner = new Scanner(file);
+                while (scanner.hasNextLine()) {
+                    String adminData = scanner.nextLine();
+                    Admin admin = parseAdminData(adminData);
+                    admins.add(admin);
+                }
+                scanner.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
-    }
-    private Admin parseAdminData(String adminData) {
-        String[] data = adminData.split("\\|");
-        String name = data[0];
-        String password = data[1];
-        String email = data[2];
-        return new Admin(name, password, email);
-    }
-    //  UPDATE ADMINS INTO FILE 
-
-    public void updateAdmins() {
-        String filePath = "D:/Projects/Toffee/src/ApplicationData/admins.txt";
-
-        try {
-            FileWriter writer = new FileWriter(filePath);
-            for (Admin admin : admins) {
-                writer.write(admin.getName() + "|" + admin.getPassword() + "|" + admin.getEmail() + "\n");
+        
+    
+        private Admin parseAdminData(String adminData) {
+            String[] data = adminData.split(",");
+            String name = data[0];
+            String password = data[1];
+            String email = data[2];
+            return new Admin(name, password, email);
+        }
+    
+        public void updateAdmins() {
+            String filePath = "D:/Projects/Toffee/src/ApplicationData/AdminsData.csv";
+            try {
+                FileWriter writer = new FileWriter(filePath);
+                for (Admin admin : admins) {
+                    writer.write(admin.getName() + "," + admin.getPassword() + "," + admin.getEmail() + "\n");
+                }
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-    }
-    public Vector<Admin> getAdmins() {
-        return admins;
-    }
+    
+        public Vector<Admin> getAdmins() {
+            return admins;
+        }
 
 
 
@@ -148,9 +146,8 @@ public class DataManager {
     // -------------------------------------------------------
     //  LOAD ITEMS VECTOR 
     public void loadItems() {
-        String filePath = "D:/Projects/Toffee/src/ApplicationData/items.txt";
+        String filePath = "D:/Projects/Toffee/src/ApplicationData/ItemsData.csv";
         File file = new File(filePath);
-
         try {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
@@ -163,8 +160,9 @@ public class DataManager {
             e.printStackTrace();
         }
     }
+    
     private Item parseItemData(String itemData) {
-        String[] data = itemData.split("\\|");
+        String[] data = itemData.split(",");
         int ID = Integer.parseInt(data[0]);
         String name = data[1];
         String category = data[2];
@@ -175,18 +173,18 @@ public class DataManager {
         int points = Integer.parseInt(data[7]);
         String image = data[8];
         int quantity = Integer.parseInt(data[9]);
-        return new Item(ID,name, category, description, brand, price, discountPercentage, points, image, quantity);
+        return new Item(ID, name, category, description, brand, price, discountPercentage, points, image, quantity);
     }
-    // UPDATE ITEMS INTO FILE 
+    
     public void updateItems() {
-        String filePath = "D:/Projects/Toffee/src/ApplicationData/items.txt";
-
+        String filePath = "D:/Projects/Toffee/src/ApplicationData/ItemsData.csv";
+    
         try {
             FileWriter writer = new FileWriter(filePath);
             for (Item item : items) {
-                writer.write(item.getID() + "|" + item.getName() + "|" + item.getCategory() + "|" + item.getDescription() + "|" +
-                        item.getBrand() + "|" + item.getPrice() + "|" + item.getDiscountPercentage() + "|" +
-                        item.getPoints() + "|" + item.getImage() + "|" + item.getQuantity() + "\n");
+                writer.write(item.getID() + "," + item.getName() + "," + item.getCategory() + "," + item.getDescription() + "," +
+                        item.getBrand() + "," + item.getPrice() + "," + item.getDiscountPercentage() + "," +
+                        item.getPoints() + "," + item.getImage() + "," + item.getQuantity() + "\n");
             }
             writer.close();
         } catch (IOException e) {
@@ -203,7 +201,7 @@ public class DataManager {
     // -------------------------------------------------------
     // LOAD CATALOG VECTOR 
     public void loadCatalogs() {
-        String filePath = "D:/Projects/Toffee/src/ApplicationData/catalogs.txt";
+        String filePath = "D:/Projects/Toffee/src/ApplicationData/CatalogsData.csv";
         File file = new File(filePath);
     
         try {
@@ -226,58 +224,76 @@ public class DataManager {
     }
     
     private Catalog parseCatalogData(String catalogData) {
-        int catalogNameStartIndex = catalogData.indexOf("(");
-        int catalogNameEndIndex = catalogData.indexOf("[");
-        String catalogName = catalogData.substring(catalogNameStartIndex + 1, catalogNameEndIndex).trim();
-        int itemsStartIndex = catalogData.indexOf("[");
-        int itemsEndIndex = catalogData.indexOf("]");
-        String itemsString = catalogData.substring(itemsStartIndex + 1, itemsEndIndex).trim();
-        String[] itemStrings = itemsString.split(",");
-        
+        String[] data = catalogData.split(",");
+        if (data.length < 2) {
+            return null; // Invalid catalog data
+        }
+        String catalogName = data[0];
         Catalog catalog = new Catalog(catalogName);
         catalog.getItems().clear();
-        
-        for (String it : itemStrings) {
-            Item item = parseItemData(it);
-            catalog.addItem(item);
+    
+        for (int i = 1; i < data.length; i++) {
+            String itemData = data[i].replaceAll("\"", "").trim();
+            Item item = parseItemsData(itemData);
+            if (item != null) {
+                catalog.addItem(item);
+            } else {
+                System.out.println("Invalid item data: " + itemData);
+            }
         }
-        
+    
         return catalog;
     }
     
+    private Item parseItemsData(String itemData) {
+        String[] data = itemData.split("\\|");
+        if (data.length != 10) {
+            return null;
+        }
+        int ID = Integer.parseInt(data[0]);
+        String name = data[1];
+        String category = data[2];
+        String description = data[3];
+        String brand = data[4];
+        double price = Double.parseDouble(data[5]);
+        double discountPercentage = Double.parseDouble(data[6]);
+        int points = Integer.parseInt(data[7]);
+        String image = data[8];
+        int quantity = Integer.parseInt(data[9]);
+
     
+        return new Item(ID, name, category, description, brand, price, discountPercentage, points, image, quantity);
+    }
     
     public void updateCatalogs() {
-        String filePath = "D:/Projects/Toffee/src/ApplicationData/catalogs.txt";
-        File file = new File(filePath);
+        String filePath = "D:/Projects/Toffee/src/ApplicationData/CatalogsData.csv";
     
         try {
-            FileWriter writer = new FileWriter(file);
+            FileWriter writer = new FileWriter(filePath);
             for (Catalog catalog : catalogs) {
-                writer.write("(" + catalog.getName() + "[");
+                writer.write(catalog.getName() + ",");
                 Vector<Item> items = catalog.getItems();
                 for (int i = 0; i < items.size(); i++) {
                     Item item = items.get(i);
-                    writer.write(item.getID() + "|" + item.getName() + "|" + item.getCategory() + "|" + item.getDescription() + "|" +
+                    writer.write("\"" + item.getID() + "|" + item.getName() + "|" + item.getCategory() + "|" + item.getDescription() + "|" +
                             item.getBrand() + "|" + item.getPrice() + "|" + item.getDiscountPercentage() + "|" +
-                            item.getPoints() + "|" + item.getImage() + "|" + item.getQuantity());
+                            item.getPoints() + "|" + item.getImage() + "|" + item.getQuantity() + "\"");
                     if (i < items.size() - 1) {
                         writer.write(",");
                     }
                 }
-                writer.write("])\n");
+                writer.write("\n");
             }
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-     }
-
-
-     public Vector<Catalog> getCatalogs() {
+    }
+    
+    public Vector<Catalog> getCatalogs() {
         return catalogs;
     }
-
+    
 
 
 

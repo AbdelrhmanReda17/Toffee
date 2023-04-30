@@ -16,43 +16,39 @@ public class ApplicationController{
         this.Data = Data;
     }
     public void StartApplication(){
-        Data.LoadDATA();
-        Vector<Catalog> ct = Data.getCatalogs();
-        ct.forEach(catalog -> {
-            System.out.println(catalog.getName() + " ");
-            catalog.getItems().forEach(item -> {
-                System.out.println(item.getName() + " " + item.getID() + " " + item.getCategory());
-            });
-            catalog.getItems().removeIf(item -> item.getName().equals("TOFd"));
-        });
-        
-       // Data.updateData();
+        // Data.LoadDATA();
+        // Vector<Catalog> ct = Data.getCatalogs();
+        // for(Catalog d : ct){
+        //     System.out.println(d.getName());
+        //     Vector<Item> itt = d.getItems();
+        //     for(Item it : itt)
+        //     {
+        //         System.out.println(it.getName() + it.getDescription() + it.getDiscountPercentage());
+        //     }
+        // }
+        // Data.updateData();
         Scanner input = new Scanner(System.in);
         System.out.println("HEllO TO TOFFEE SHOP !");   
         System.out.println("Do you wanna Login or Register !"); 
-        while(true){
-            String Choosing = input.next();
-            if(Choosing.toUpperCase().equals("LOGIN")) {
+        boolean shouldContinue = true;
+        while (shouldContinue) {
+            String choosing = input.next().toUpperCase();
+
+            if (choosing.equals("LOGIN")) {
                 System.out.println("SIGN IN");
-                boolean shouldContinue = true;
-                while (shouldContinue) {
-                    boolean isLoggedIn = Data.login();
-                    if (isLoggedIn) {
-                        shouldContinue = false;
-                        break;
-                    } else {
-                        System.out.println("You have entered an invalid password or username");
-                    }
+                boolean isLoggedIn = Data.login();
+                if (isLoggedIn) {
+                    shouldContinue = false;
+                } else {
+                    System.out.println("You have entered an invalid password or username");
                 }
-            }
-            else if(Choosing.toUpperCase().equals("REGISTER")) {
+            } else if (choosing.equals("REGISTER")) {
                 System.out.println("SIGN UP");
                 Data.register();
-                break;
+                shouldContinue = false;
+            } else {
+                System.out.println("Wrong choice, enter 'LOGIN' or 'REGISTER' only!");
             }
-            else
-                System.out.println("Wrong Choose , Enter [Login or Register] Only !");
         }
-    System.out.println("TYYYY");
     }
 }

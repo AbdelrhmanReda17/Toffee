@@ -9,7 +9,10 @@ import OrderClasses.Item;
 public class Catalog {
     private String name;
     private Vector<Item> items;
-
+    public Catalog(String name , Vector<Item> items) {
+        this.name = name;
+        this.items = items;
+    }
     public Catalog(String name) {
         this.name = name;
         this.items = new Vector<>();
