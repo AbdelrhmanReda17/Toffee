@@ -66,4 +66,16 @@ public class Item {
     public int getQuantity() {
         return quantity;
     }
+
+    public void setID(int ID) {this.ID = ID;}
+    public void setName(String name) {this.name = name;}
+    public void setCategory(String category) {this.category = category;}
+    public void setDescription(String description) {this.description = description;}
+    public void setBrand(String brand) {this.brand = brand;}
+    public void setPrice(double price) {this.price = price;}
+    public void setDiscountPercentage(double discountPercentage) {this.discountPercentage = discountPercentage;}
+    public void setPoints(int points) {this.points = points;}
+    public void setImage(String image) {this.image = image;}
+    public void setQuantity(int quantity) {this.quantity = quantity;}
+
 }

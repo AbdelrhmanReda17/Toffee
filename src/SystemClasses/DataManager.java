@@ -48,7 +48,7 @@ public class DataManager {
     // -------------------------------------------------------
     //  LOAD USERS VECTOR 
     public void loadCustomers() {
-        String filePath = "D:/Projects/Toffee/src/ApplicationData/CustomersData.csv";
+        String filePath = "src/ApplicationData/CustomersData.csv";
         File file = new File(filePath);
     
         try {
@@ -74,7 +74,7 @@ public class DataManager {
     }
     
     public void updateCustomers() {
-        String filePath = "D:/Projects/Toffee/src/ApplicationData/CustomersData.csv";
+        String filePath = "src/ApplicationData/CustomersData.csv";
         try {
             FileWriter writer = new FileWriter(filePath);
             for (Customer customer : customers) {
@@ -90,16 +90,14 @@ public class DataManager {
     public Vector<Customer> getCustomers(){
         return customers;
     }
-    public void setCustomers(Vector<Customer> customers) {
-        this.customers = customers;
-    }
+
     // -------------------------------------------------------
     //                 ADMIN CLASSES
     // -------------------------------------------------------
     //  LOAD ADMINS VECTOR 
         
         public void loadAdmins() {
-            String filePath = "D:/Projects/Toffee/src/ApplicationData/AdminsData.csv";
+            String filePath = "src/ApplicationData/AdminsData.csv";
             File file = new File(filePath);
     
             try {
@@ -125,7 +123,7 @@ public class DataManager {
         }
     
         public void updateAdmins() {
-            String filePath = "D:/Projects/Toffee/src/ApplicationData/AdminsData.csv";
+            String filePath = "src/ApplicationData/AdminsData.csv";
             try {
                 FileWriter writer = new FileWriter(filePath);
                 for (Admin admin : admins) {
@@ -140,9 +138,7 @@ public class DataManager {
         public Vector<Admin> getAdmins() {
             return admins;
         }
-        public void setAdmins(Vector<Admin> admins) {
-            this.admins = admins;
-        }
+
 
 
     // -------------------------------------------------------
@@ -150,7 +146,7 @@ public class DataManager {
     // -------------------------------------------------------
     //  LOAD ITEMS VECTOR 
     public void loadItems() {
-        String filePath = "D:/Projects/Toffee/src/ApplicationData/ItemsData.csv";
+        String filePath = "src/ApplicationData/ItemsData.csv";
         File file = new File(filePath);
         try {
             Scanner scanner = new Scanner(file);
@@ -181,7 +177,7 @@ public class DataManager {
     }
     
     public void updateItems() {
-        String filePath = "D:/Projects/Toffee/src/ApplicationData/ItemsData.csv";
+        String filePath = "src/ApplicationData/ItemsData.csv";
     
         try {
             FileWriter writer = new FileWriter(filePath);
@@ -198,15 +194,14 @@ public class DataManager {
     public Vector<Item> getItems(){
         return items;
     }
-    public void setItems(Vector<Item> items) {
-        this.items = items;
-    }
+
+    
     // -------------------------------------------------------
     //                 Catalog CLASSES
     // -------------------------------------------------------
     // LOAD CATALOG VECTOR 
     public void loadCatalogs() {
-        String filePath = "D:/Projects/Toffee/src/ApplicationData/CatalogsData.csv";
+        String filePath = "src/ApplicationData/CatalogsData.csv";
         File file = new File(filePath);
     
         try {
@@ -227,31 +222,34 @@ public class DataManager {
             e.printStackTrace();
         }
     }
-    /**  
-     * This method takes a string of catalog data as parameter and parses it to create a Catalog object. 
-     * It also takes care of invalid item data and prints it to the console.  
-     *  
-     * @param catalogData The string of catalog data 
-     * @return Catalog object 
-     */ 
+    
     private Catalog parseCatalogData(String catalogData) {
         String[] data = catalogData.split(",");
+        if (data.length < 2) {
+            return null; // Invalid catalog data
+        }
         String catalogName = data[0];
         Catalog catalog = new Catalog(catalogName);
         catalog.getItems().clear();
-        if (data.length < 2) {
-            return null;
-        }else{
-            for (int i = 1; i < data.length; i++) {
-                String itemData = data[i].replaceAll("\"", "").trim();
-                Item item = parseItemsData(itemData);
-                    catalog.addItem(item);
+    
+        for (int i = 1; i < data.length; i++) {
+            String itemData = data[i].replaceAll("\"", "").trim();
+            Item item = parseItemsData(itemData);
+            if (item != null) {
+                catalog.addItem(item);
+            } else {
+                System.out.println("Invalid item data: " + itemData);
             }
         }
+    
         return catalog;
     }
+    
     private Item parseItemsData(String itemData) {
         String[] data = itemData.split("\\|");
+        if (data.length != 10) {
+            return null;
+        }
         int ID = Integer.parseInt(data[0]);
         String name = data[1];
         String category = data[2];
@@ -262,11 +260,13 @@ public class DataManager {
         int points = Integer.parseInt(data[7]);
         String image = data[8];
         int quantity = Integer.parseInt(data[9]);
+
+    
         return new Item(ID, name, category, description, brand, price, discountPercentage, points, image, quantity);
     }
     
     public void updateCatalogs() {
-        String filePath = "D:/Projects/Toffee/src/ApplicationData/CatalogsData.csv";
+        String filePath = "src/ApplicationData/CatalogsData.csv";
     
         try {
             FileWriter writer = new FileWriter(filePath);
@@ -300,22 +300,18 @@ public class DataManager {
 
 
     //---------------------------------------------------------------------------------------------
-    public boolean login() {
-        boolean found = false;
-        Scanner X = new Scanner(System.in);
-        int choice;
-        do {
-            System.out.print("Please enter your choice:\n   1. for Sign in as customer\n   2. for Sign in as User\n: ");
-            choice = X.nextInt();
-            if (choice != 1 && choice != 2) {
-                System.out.println("Invalid choice! Please enter 1 or 2.");
+
+    public Admin getCurrentAdmin(String name,String password) {
+        for (Admin admin : admins) {
+            if (admin.getName().equals(name) && admin.getPassword().equals(password)) {
+                return admin;
             }
-        } while (choice != 1 && choice != 2);
-        X.nextLine(); // Consume the newline character left in the buffer
-        System.out.print("Enter Username: ");
-        String nameE = X.nextLine();
-        System.out.print("Enter Password: ");
-        String passwordD = X.nextLine();
+        }
+        return null;
+    }
+
+    public boolean login(int choice,String nameE , String passwordD) {
+        boolean found = false;
         if (choice == 1) {
             for (Customer customer : customers) {
                 if (customer.getName().equals(nameE) && customer.getPassword().equals(passwordD)) {
@@ -333,8 +329,10 @@ public class DataManager {
         }
         return found;
     }
+
+
     public void register() {
-        Scanner X = new Scanner(System.in);
+
         // Enter username and check if it follows the rules or not + check is it unique or not
         boolean found;
         String usernameRegex = "^[a-zA-Z0-9_-]+$";
@@ -342,7 +340,7 @@ public class DataManager {
         do {
             found = false; // reset found to false
             System.out.print("Enter username: ");
-            name = X.nextLine();
+            name =  new Scanner(System.in).nextLine();
             if (!name.matches(usernameRegex)) {
                 System.out.println("Invalid username!! , Username can consist of [ letters, numbers , _ , - ]");
             }
@@ -361,7 +359,7 @@ public class DataManager {
         String phone;
         do {
             System.out.print("Enter phone number: ");
-            phone = X.nextLine();
+            phone =  new Scanner(System.in).nextLine();
             if (!phone.matches(phoneRegex)) {
                 System.out.println("Invalid phone number !! it must only numbers and 11 digit");
             }
@@ -373,7 +371,7 @@ public class DataManager {
         String address;
         do {
             System.out.print("Enter address: ");
-            address = X.nextLine();
+            address =  new Scanner(System.in).nextLine();
             if (!address.matches(addressRegex)) {
                 System.out.println("Invalid address!! Addresses can consist of letters, numbers, [  ,_ ,- ]");
             }
@@ -384,18 +382,17 @@ public class DataManager {
         String password;
         do {
             System.out.print("Enter password: ");
-            password = X.nextLine();
+            password =  new Scanner(System.in).nextLine();
             if (!password.matches(passwordRegex)) {
                 System.out.println("Invalid password!! it must consist of letters, numbers and one of [$ # & * % ^ ] and be at least 8 characters long");
             }
         } while (!password.matches(passwordRegex));
 
         // add new customer to the vector
-        Customer newCustomer = new Customer(name, password, phone, address);
+        Customer newCustomer = new Customer(name, password, address, address);
         customers.add(newCustomer);
         updateCustomers();
     }
-
 
     public void loadVouchers() {
         // Add logic to load vouchers from a data source
@@ -433,5 +430,10 @@ public class DataManager {
     }
     public Vector<GiftVoucher> getVouchers() {
         return vouchers;
+    }
+
+    public boolean addItemToVector(Item newItem) {
+        boolean isAdded = items.add(newItem);
+        return isAdded;
     }
 }
