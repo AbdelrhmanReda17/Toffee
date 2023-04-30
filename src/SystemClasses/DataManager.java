@@ -90,7 +90,9 @@ public class DataManager {
     public Vector<Customer> getCustomers(){
         return customers;
     }
-
+    public void setCustomers(Vector<Customer> customers) {
+        this.customers = customers;
+    }
     // -------------------------------------------------------
     //                 ADMIN CLASSES
     // -------------------------------------------------------
@@ -138,7 +140,9 @@ public class DataManager {
         public Vector<Admin> getAdmins() {
             return admins;
         }
-
+        public void setAdmins(Vector<Admin> admins) {
+            this.admins = admins;
+        }
 
 
     // -------------------------------------------------------
@@ -194,8 +198,9 @@ public class DataManager {
     public Vector<Item> getItems(){
         return items;
     }
-
-    
+    public void setItems(Vector<Item> items) {
+        this.items = items;
+    }
     // -------------------------------------------------------
     //                 Catalog CLASSES
     // -------------------------------------------------------
@@ -226,12 +231,11 @@ public class DataManager {
     private Catalog parseCatalogData(String catalogData) {
         String[] data = catalogData.split(",");
         if (data.length < 2) {
-            return null; // Invalid catalog data
+            return null;
         }
         String catalogName = data[0];
         Catalog catalog = new Catalog(catalogName);
         catalog.getItems().clear();
-    
         for (int i = 1; i < data.length; i++) {
             String itemData = data[i].replaceAll("\"", "").trim();
             Item item = parseItemsData(itemData);
@@ -241,7 +245,6 @@ public class DataManager {
                 System.out.println("Invalid item data: " + itemData);
             }
         }
-    
         return catalog;
     }
     
@@ -260,8 +263,6 @@ public class DataManager {
         int points = Integer.parseInt(data[7]);
         String image = data[8];
         int quantity = Integer.parseInt(data[9]);
-
-    
         return new Item(ID, name, category, description, brand, price, discountPercentage, points, image, quantity);
     }
     
@@ -335,7 +336,6 @@ public class DataManager {
     }
     public void register() {
         Scanner X = new Scanner(System.in);
-
         // Enter username and check if it follows the rules or not + check is it unique or not
         boolean found;
         String usernameRegex = "^[a-zA-Z0-9_-]+$";
@@ -392,8 +392,9 @@ public class DataManager {
         } while (!password.matches(passwordRegex));
 
         // add new customer to the vector
-        Customer newCustomer = new Customer(name, phone, address, password);
+        Customer newCustomer = new Customer(name, password, phone, address);
         customers.add(newCustomer);
+        updateCustomers();
     }
 
 
