@@ -436,4 +436,12 @@ public class DataManager {
         boolean isAdded = items.add(newItem);
         return isAdded;
     }
+    public boolean removeItemFromVector(Item toDelete) {
+        boolean isAdded = items.remove(toDelete);
+        return isAdded;
+    }
+    public boolean removeCustomerFromVector(Customer toDelete) {
+        boolean isremoved = customers.remove(toDelete);
+        return isremoved;
+    }
 }

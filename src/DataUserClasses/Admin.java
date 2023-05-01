@@ -2,8 +2,12 @@ package DataUserClasses;
 
 import java.net.PasswordAuthentication;
 import java.util.Scanner;
+
+import OrderClasses.CartItem;
 import OrderClasses.Item;
 import java.util.Vector;
+
+import OrderClasses.Order;
 import SystemClasses.*;
 public class Admin extends User {
     private DataManager Data = new DataManager();
@@ -64,6 +68,19 @@ public class Admin extends User {
             return false;
         }
     }
+    public void printItemData(Item item){
+        System.out.println("Current data:");
+        System.out.println("ID: " + item.getID());
+        System.out.println("Name: " + item.getName());
+        System.out.println("Category: " + item.getCategory());
+        System.out.println("Description: " + item.getDescription());
+        System.out.println("Brand: " + item.getBrand());
+        System.out.println("Price: " + item.getPrice());
+        System.out.println("Discount percentage: " + item.getDiscountPercentage());
+        System.out.println("Points: " + item.getPoints());
+        System.out.println("Image: " + item.getImage());
+        System.out.println("Quantity: " + item.getQuantity());
+    }
 
     public boolean editItem() {
         System.out.print("Enter The id of The item you want to Edit: ");
@@ -72,17 +89,7 @@ public class Admin extends User {
         for (Item item : items) {
 
             if (item.getID() == id) {
-                System.out.println("Current data:");
-                System.out.println("ID: " + item.getID());
-                System.out.println("Name: " + item.getName());
-                System.out.println("Category: " + item.getCategory());
-                System.out.println("Description: " + item.getDescription());
-                System.out.println("Brand: " + item.getBrand());
-                System.out.println("Price: " + item.getPrice());
-                System.out.println("Discount percentage: " + item.getDiscountPercentage());
-                System.out.println("Points: " + item.getPoints());
-                System.out.println("Image: " + item.getImage());
-                System.out.println("Quantity: " + item.getQuantity());
+               printItemData(item);
 
                 int choice = 0;
                 while (choice != 10) {
@@ -147,18 +154,63 @@ public class Admin extends User {
 
 
     public boolean deleteItem() {
-        // Logic to delete an item
-        return true; // Return true if successful, false otherwise
+        System.out.print("Enter the ID of the item you want to delete: ");
+        int id = new Scanner(System.in).nextInt();
+        Vector<Item> items = Data.getItems();
+        for (Item item : items) {
+            if (item.getID() == id) {
+                printItemData(item);
+                System.out.println("Do you want to delete this item? Press 1 to confirm, 2 to cancel.");
+                int choice = new Scanner(System.in).nextInt();
+                if (choice == 1) {
+                    boolean isRemoved = Data.removeItemFromVector(item);
+                    if (isRemoved) {
+                        Data.updateItems();
+                        return true;
+                    }
+                } else {
+                    System.out.println("Operation Cancelled.");
+                }
+            }
+        }
+        System.out.println("Item not found.");
+        return false;
     }
+
+
 
     public void setLoyaltyPointsSystem() {
         // Logic to set the loyalty points system
     }
 
     public boolean suspendUser() {
-        // Logic to suspend a customer
-        return true; // Return true if successful, false otherwise
+        System.out.print("Enter the username of the customer you want to suspend: ");
+        String username = new Scanner(System.in).nextLine();
+        Vector<Customer> customers = Data.getCustomers();
+        for (Customer c : customers) {
+            if (c.getName().equals(username)) {
+                System.out.println("Name: " + c.getName());
+                System.out.println("Phone: " + c.getPhone());
+                System.out.println("Address: " + c.getAddress());
+                System.out.println("Do you want to suspend this customer? Press 1 to confirm, 2 to cancel.");
+                int choice = new Scanner(System.in).nextInt();
+                if (choice == 1) {
+                    boolean isRemoved = Data.removeCustomerFromVector(c);
+                    if (isRemoved) {
+                        Data.updateCustomers();
+                        return true;
+                    } else {
+                        System.out.println("Error: could not suspend customer.");
+                    }
+                } else {
+                    System.out.println("Operation cancelled.");
+                }
+            }
+        }
+        System.out.println("customer not found.");
+        return false;
     }
+
 
     public boolean createAGiftVoucher() {
         Scanner X = new Scanner(System.in);
@@ -215,7 +267,29 @@ public class Admin extends User {
     }
 
     public void viewAllOrders() {
-        // Logic to view all orders
+        Vector<Order> orders = Data.getOrders();
+        int i=0;
+        for(Order order : orders){
+            System.out.println("Order id : " + order.getOrderId());
+            System.out.println("User: " + order.getUser().getName());
+            System.out.println("Order status: " + order.getStatus().toString());
+            System.out.println("Shopping cart: ");
+            for (CartItem item : order.getShopcart().getCartItems()) {
+                System.out.println(" - " + item.getName() + " (" + item.getID() + ")");
+            }
+            System.out.println("Shipping address: " + order.getShippingAddress());
+            System.out.println("Order time: " + order.getOrdertime().toString());
+            System.out.println("Phone number: " + order.getPhoneNo());
+            System.out.println("Gift vouchers: ");
+            for (GiftVoucher voucher : order.getGiftVouchers()) {
+                System.out.println(" - " + voucher.getCode());
+            }
+            System.out.println("Loyalty points: " + order.getLoyaltyPoints());
+            System.out.println("Total cost: " + order.getTotalCost());
+            System.out.println("Payment method: " + order.getPayment().toString());
+
+            i++;
+        }
     }
     public String getEmail() {
         return email;
