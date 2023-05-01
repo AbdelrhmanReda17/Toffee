@@ -87,9 +87,7 @@ public class DataManager {
     } 
 
     // GET ALL USERS
-    public Vector<Customer> getCustomers(){
-        return customers;
-    }
+    public Vector<Customer> getCustomers(){return customers;}
 
     // -------------------------------------------------------
     //                 ADMIN CLASSES

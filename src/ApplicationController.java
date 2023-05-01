@@ -20,9 +20,10 @@ public class ApplicationController{
     }
     public void StartApplication(){
          Data.LoadDATA();
-        // Vector<Catalog> ct = Data.getCatalogs();
-        // for(Catalog d : ct){
-        //     System.out.println(d.getName());
+
+//         Vector<Customer> ct = Data.getCustomers();
+//         for(Customer d : ct){
+//             System.out.println(d.getName());}
         //     Vector<Item> itt = d.getItems();
         //     for(Item it : itt)
         //     {

@@ -11,6 +11,7 @@ import OrderClasses.Order;
 import SystemClasses.*;
 public class Admin extends User {
     private DataManager Data = new DataManager();
+    private Catalog catalog = new Catalog();
     private String email;
     public Admin(String name, String password, String email) {
         super(name, password);
@@ -18,7 +19,6 @@ public class Admin extends User {
     }
 
     public boolean addItem() {
-        /*n2as part check if there is no catalog create new one lama a3ml addcatalog b2a hattzbt*/
         System.out.print("Enter item ID: ");
         int id = new Scanner(System.in).nextInt();
 
@@ -56,10 +56,12 @@ public class Admin extends User {
             Vector<Catalog> ct = Data.getCatalogs();
             for(Catalog x : ct){
                 if(category == x.getName()){
+                    catalog.addItem(item);
                     Data.updateCatalogs();
                     break;
                 }else{
                     addNewCatalog();
+                    catalog.addItem(item);
                     Data.updateCatalogs();
                 }
             }
@@ -143,6 +145,7 @@ public class Admin extends User {
                 }
 
                 Data.updateItems();
+                catalog.updateItem(item);
                 Data.updateCatalogs();
                 return true;
             }
@@ -166,6 +169,8 @@ public class Admin extends User {
                     boolean isRemoved = Data.removeItemFromVector(item);
                     if (isRemoved) {
                         Data.updateItems();
+                        catalog.removeItem(item);
+                        Data.updateCatalogs();
                         return true;
                     }
                 } else {
@@ -186,9 +191,9 @@ public class Admin extends User {
     public boolean suspendUser() {
         System.out.print("Enter the username of the customer you want to suspend: ");
         String username = new Scanner(System.in).nextLine();
-        Vector<Customer> customers = Data.getCustomers();
-        for (Customer c : customers) {
-            if (c.getName().equals(username)) {
+        Vector<Customer>ct = Data.getCustomers();
+        for (Customer c : ct) {
+            if (c.getName() == username) {
                 System.out.println("Name: " + c.getName());
                 System.out.println("Phone: " + c.getPhone());
                 System.out.println("Address: " + c.getAddress());
@@ -199,8 +204,6 @@ public class Admin extends User {
                     if (isRemoved) {
                         Data.updateCustomers();
                         return true;
-                    } else {
-                        System.out.println("Error: could not suspend customer.");
                     }
                 } else {
                     System.out.println("Operation cancelled.");
