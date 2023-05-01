@@ -145,7 +145,7 @@ public class Admin extends User {
                 }
 
                 Data.updateItems();
-                catalog.updateItem(item);
+                catalog.updateIteminCatalog(item);
                 Data.updateCatalogs();
                 return true;
             }
@@ -184,29 +184,16 @@ public class Admin extends User {
 
 
 
-    public boolean setLoyaltyPointsSystem() {
-
-        System.out.print("Enter the points per EGP : ");
-        int pointsEarned = new Scanner(System.in).nextInt();
-
-        System.out.print("Enter the maximum points Via one Order : ");
-        int maximumPoint = new Scanner(System.in).nextInt();
-
-        LoyaltyPoints loyaltyPoints = new LoyaltyPoints(pointsEarned,maximumPoint);
-        if(loyaltyPoints.checkLoyaltyPoints()){
-            return Data.updateLoyaltySchema();
-        }else{
-            return false;
-        }
+    public void setLoyaltyPointsSystem() {
+        // Logic to set the loyalty points system
     }
 
     public boolean suspendUser() {
-        Data.loadCustomers();
         System.out.print("Enter the username of the customer you want to suspend: ");
         String username = new Scanner(System.in).nextLine();
         Vector<Customer>ct = Data.getCustomers();
         for (Customer c : ct) {
-            if (c.getName().equals(username)) {
+            if (c.getName() == username) {
                 System.out.println("Name: " + c.getName());
                 System.out.println("Phone: " + c.getPhone());
                 System.out.println("Address: " + c.getAddress());
@@ -267,90 +254,18 @@ public class Admin extends User {
         // Logic to view statistics
     }
 
-    public Item addItemToCatalog(String catalogName){
-        System.out.print("Enter item ID: ");
-        int id = new Scanner(System.in).nextInt();
-
-        System.out.print("Enter item name: ");
-        String name = new Scanner(System.in).nextLine();
-
-        System.out.print("Enter item description: ");
-        String description = new Scanner(System.in).nextLine();
-
-        System.out.print("Enter item brand: ");
-        String brand = new Scanner(System.in).nextLine();
-
-        System.out.print("Enter item price: ");
-        double price = new Scanner(System.in).nextDouble();
-
-        System.out.print("Enter item discount percentage: ");
-        double discountPercentage =  new Scanner(System.in).nextDouble();
-
-        System.out.print("Enter item points: ");
-        int points =  new Scanner(System.in).nextInt();
-
-        System.out.print("Enter item image: ");
-        String image =  new Scanner(System.in).nextLine();
-
-        System.out.print("Enter item quantity: ");
-        int quantity =  new Scanner(System.in).nextInt();
-        Item item = new Item(id, name, catalogName, description, brand, price, discountPercentage, points, image, quantity);
-        Data.addItemToVector(item);
-        Data.updateItems();
-        return item;
-    }
-
     public boolean addNewCatalog() {
-        Data.loadCatalogs();
-        Vector<Catalog> ct = Data.getCatalogs();
-        System.out.print("Enter The Catalog Name : ");
-        String name = new Scanner(System.in).nextLine();
-        for (Catalog x : ct) {
-            if (x.getName() == name) {
-                System.out.println("The Catalog Name is Already Exist !");
-                return false;
-            }
-        }
-        System.out.println("Do You want To add Items to Catalog ? press 1 Yes , 2 No");
-        int choice = new Scanner(System.in).nextInt();
-        if (choice == 1) {
-            Vector<Item> items = new Vector<>();
-            while (true) {
-               items.add(addItemToCatalog(name));
-                System.out.println("Do you want to add more items to this catalog? press 1 Yes, 2 No");
-                int addMoreItemsChoice = new Scanner(System.in).nextInt();
-                if (addMoreItemsChoice == 2) {
-                    break;
-                }
-            }
-            Catalog newCatalog = new Catalog(name,items);
-            Data.addCatalogToVector(newCatalog);
-            Data.updateCatalogs();
-            return true;
-        } else if(choice == 2){
-            Catalog newCatalog = new Catalog(name);
-            Data.addCatalogToVector(newCatalog);
-            Data.updateCatalogs();
-            return true;
-        }
-        return false;
+        // Logic to add a new catalog
+        return true; // Return true if successful, false otherwise
     }
+
     public boolean updateCatalog(Catalog catalog) {
         // Logic to update a catalog
-        return true;
+        return true; // Return true if successful, false otherwise
     }
 
     public boolean removeCatalog() {
-        Data.loadCatalogs();
-        Vector<Catalog> ct = Data.getCatalogs();
-        System.out.print("Enter The Catalog Name : ");
-        String name = new Scanner(System.in).nextLine();
-        for(Catalog x:ct){
-            if(x.getName() == name){
-                System.out.println("The Catalog Name is Already Exist !");
-                return false;
-            }
-        }
+        // Logic to remove a catalog
         return true; // Return true if successful, false otherwise
     }
 

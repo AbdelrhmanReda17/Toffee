@@ -1,11 +1,41 @@
 package PaymentClasses;
-
+import java.util.Scanner;
 public class CashPayment extends PaymentMethod {
+
+    private String phoneNumber;
+    private boolean isPhoneVerified=false;
+
     public boolean processPayment() {
-        // Add logic to process cash payment
-        // Return true if the payment is successful, false otherwise
-        return true; // Placeholder return statement
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your phone number: ");
+        phoneNumber = scanner.nextLine();
+        // System.out.println(phoneNumber);
+        sendVerificationCode();
+        if  (!isPhoneVerified) {
+            System.out.println("Payment could not be processed.");
+            return false;
+        }
+        else{
+            System.out.println("Payment processed successfully!");
+            return true;
+
+        }
+
     }
 
-    // Implement other methods and attributes specific to CashPayment
+    private void sendVerificationCode() {
+        int code = (int) (Math.random() * 900000) + 100000;
+        System.out.println("Your verification code is: " + code);
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter the verification code:");
+        int inputCode = scanner.nextInt();
+        if (inputCode == code) {
+            isPhoneVerified = true;
+            System.out.println("Phone number verified successfully.");
+        } else {
+            System.out.println("Invalid verification code.");
+        }
+
+    }
+
 }
