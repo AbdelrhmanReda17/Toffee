@@ -35,72 +35,54 @@ public class Catalog {
         this.items = new Vector<>();
     }
 
-    public boolean removeItem(Item item) {
+    public void removeItem(Item item) {
         Vector<Catalog> catalogs = DATA.getCatalogs();
         for (Catalog catalog : catalogs) {
             Vector<Item> items = catalog.getItems();
             for (int i = 0; i < items.size(); i++) {
                 if (items.get(i).getID() == item.getID()) {
                     items.remove(item);
-                    DATA.updateCatalogs();
-                    return true;
                 }
             }
         }
-        return false;
+        DATA.setCatalogs(catalogs);
+        DATA.updateCatalogs();
     }
 
     public Vector<Item> getItems() {
         return items;
     }
-
-    public boolean updateIteminCatalog(Item item) {
+    public void setItems(Vector<Item> items) {
+        this.items = items;
+    }
+    public void updateIteminCatalog(Item item) {
         Vector<Catalog> catalogs = DATA.getCatalogs();
         for (Catalog catalog : catalogs) {
             Vector<Item> items = catalog.getItems();
             for (int i = 0; i < items.size(); i++) {
                 if (items.get(i).getID() == item.getID()) {
                     items.set(i, item);
-                    DATA.updateCatalogs();
-                    return true;
                 }
             }
         }
-        return false;
+        DATA.setCatalogs(catalogs);
+        DATA.updateCatalogs();
     }
 
-
-
     public boolean addItem(Item item) {
-        Vector<Catalog> catalogs = DATA.getCatalogs();
-        for (Catalog catalog : catalogs) {
-            Vector<Item> items = catalog.getItems();
-            for (int i = 0; i < items.size(); i++) {
-                if (items.get(i).getCategory() == item.getCategory()) {
-                    items.add(item);
-                    DATA.updateCatalogs();
-                    return true;
-                }
-            }
-        }
-        Catalog newCatalog = new Catalog();
-        newCatalog.setName(item.getCategory());
-        newCatalog.addItem(item);
-        catalogs.add(newCatalog);
-        DATA.updateCatalogs();
+        items.add(item);
         return true;
     }
 
-    public void displayCatalogs() {
-        Vector<Catalog> catalogs = DATA.getCatalogs();
-        for (Catalog catalog : catalogs) {
-            System.out.println("Catalog: " + catalog.getName());
-            Vector<Item> items = catalog.getItems();
+    public void displayCatalog() {
+            System.out.println("Catalog: " + getName());
+            int counter = 1;
             for (Item item : items) {
-                System.out.println(item.getName() + "   "+"Price:" + item.getPrice());
+                System.out.println("ITEM " + counter++);
+                item.printItem();
+                System.out.println("");
             }
-            System.out.println();
-        }
+            System.out.println("");
     }
 
     public List<Item> searchItemsByName(String name) {

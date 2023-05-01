@@ -193,7 +193,9 @@ public class DataManager {
         return items;
     }
 
-    
+    public void setItems(Vector<Item> items) {
+        this.items = items;
+    }
     // -------------------------------------------------------
     //                 Catalog CLASSES
     // -------------------------------------------------------
@@ -292,6 +294,9 @@ public class DataManager {
         return catalogs;
     }
     
+    public void setCatalogs(Vector<Catalog> catalogs) {
+        this.catalogs = catalogs;
+    }
 
 
 

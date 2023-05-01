@@ -1,4 +1,5 @@
 package OrderClasses;
+import java.util.Scanner;
 
 public class Item {
     public int counter = 0;
@@ -30,6 +31,76 @@ public class Item {
     }
     public String getName() {
         return name;
+    }
+    public void getItem(){
+       // Create a Scanner object to read user input
+        Scanner scanner = new Scanner(System.in);
+        // Read and store item ID
+        System.out.print("Enter item ID: ");
+        int id = scanner.nextInt();
+        this.ID = id;
+        scanner.nextLine();
+
+        // Read and store item name
+        System.out.print("Enter item name: ");
+        String name = scanner.nextLine();
+        this.name = name;
+
+        // Read and store item category
+        System.out.print("Enter item category: ");
+        String category = scanner.nextLine();
+        this.category = category;
+
+        // Read and store item description
+        System.out.print("Enter item description: ");
+        String description = scanner.nextLine();
+        this.description = description;
+
+        // Read and store item brand
+        System.out.print("Enter item brand: ");
+        String brand = scanner.nextLine();
+        this.brand = brand;
+
+        // Read and store item price
+        System.out.print("Enter item price: ");
+        double price = scanner.nextDouble();
+        this.price = price;
+        scanner.nextLine();
+
+        // Read and store item discount percentage
+        System.out.print("Enter item discount percentage: ");
+        double discountPercentage = scanner.nextDouble();
+        this.discountPercentage = discountPercentage;
+        // Read and store item points
+        scanner.nextLine();
+
+        System.out.print("Enter item points: ");
+        int points = scanner.nextInt();
+        this.points = points;
+        // Read and store item image
+        scanner.nextLine();
+
+        System.out.print("Enter item image: ");
+        String image = scanner.nextLine();
+        this.image = image;
+
+        // Read and store item quantity
+        System.out.print("Enter item quantity: ");
+        int quantity = scanner.nextInt();
+        this.quantity = quantity;
+        scanner.close();
+    }
+    public void printItem(){
+        System.out.print("ID: " + getID()+ " || ");
+        System.out.print("Name: " + getName() + " || ");
+        System.out.print("Category: " + getCategory()+ " || ");
+        System.out.print("Description: " + getDescription()+ " || ");
+        System.out.print("Brand: " + getBrand()+ " || ");
+        System.out.print("Price: " + getPrice()+ " || ");
+        System.out.print("Discount percentage: " + getDiscountPercentage()+ " || ");
+        System.out.print("Points: " + getPoints()+ " || ");
+        System.out.print("Image: " + getImage()+ " || ");
+        System.out.print("Quantity: " + getQuantity());
     }
     public int getID() {
         return ID;
