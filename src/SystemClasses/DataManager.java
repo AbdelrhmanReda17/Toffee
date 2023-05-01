@@ -439,7 +439,7 @@ public class DataManager {
         return isAdded;
     }
     public boolean removeCustomerFromVector(Customer toDelete) {
-        boolean isremoved = customers.remove(toDelete);
-        return isremoved;
+        boolean isRemoved = customers.remove(toDelete);
+        return isRemoved;
     }
 }
