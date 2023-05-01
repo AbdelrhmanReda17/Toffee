@@ -437,6 +437,11 @@ public class DataManager {
         boolean isAdded = items.add(newItem);
         return isAdded;
     }
+
+    public boolean addCatalogToVector(Catalog newItem) {
+        boolean isAdded = catalogs.add(newItem);
+        return isAdded;
+    }
     public boolean removeItemFromVector(Item toDelete) {
         boolean isAdded = items.remove(toDelete);
         return isAdded;
