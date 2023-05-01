@@ -422,6 +422,9 @@ public class DataManager {
         return true;
     }
 
+    public boolean updateLoyaltySchema(){
+        return true;
+    }
 
     public Vector<Order> getOrders(){
         return orders;

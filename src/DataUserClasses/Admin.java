@@ -184,8 +184,20 @@ public class Admin extends User {
 
 
 
-    public void setLoyaltyPointsSystem() {
-        // Logic to set the loyalty points system
+    public boolean setLoyaltyPointsSystem() {
+
+        System.out.print("Enter the points per EGP : ");
+        int pointsEarned = new Scanner(System.in).nextInt();
+
+        System.out.print("Enter the maximum points Via one Order : ");
+        int maximumPoint = new Scanner(System.in).nextInt();
+
+        LoyaltyPoints loyaltyPoints = new LoyaltyPoints(pointsEarned,maximumPoint);
+        if(loyaltyPoints.checkLoyaltyPoints()){
+            return Data.updateLoyaltySchema();
+        }else{
+            return false;
+        }
     }
 
     public boolean suspendUser() {
