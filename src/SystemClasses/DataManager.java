@@ -3,16 +3,12 @@ import java.util.Vector;
 import java.util.Scanner;
 import DataUserClasses.*;
 import OrderClasses.*;
-
 import java.io.*;
-import java.util.Scanner;
-
 public class DataManager {
     private Vector<Customer> customers;
     private Vector<Catalog> catalogs;
     private Vector<GiftVoucher> vouchers;
     private LoyaltyPoints loyaltyScheme;
-    private Vector<Order> orders;
     private Vector<Admin> admins;
     private Vector<Item> items;
 
@@ -21,7 +17,6 @@ public class DataManager {
         catalogs = new Vector<>();
         vouchers = new Vector<>();
         loyaltyScheme = new LoyaltyPoints(0, 0);
-        orders = new Vector<>();
         admins = new Vector<>();
         items = new Vector<>();
     }
@@ -29,7 +24,6 @@ public class DataManager {
         loadItems();
         loadCatalogs();
         loadLoyaltyScheme();
-        loadOrders();
         loadCustomers();
         loadVouchers();
         loadAdmins();
@@ -38,10 +32,8 @@ public class DataManager {
         updateAdmins();
         updateCatalogs();
         updateCustomers();
-        updateVouchers();
-        updateOrders();
+        UpdateVouchers_Loyalty();
         updateItems();
-        //updateloyaltyScheme();
     }
     // -------------------------------------------------------
     //                 CUSTOMER / USER CLASSES
@@ -64,6 +56,11 @@ public class DataManager {
         }
     }
     
+    
+    /** 
+     * @param customerData
+     * @return Customer
+     */
     private Customer parseCustomerData(String customerData) {
         String[] data = customerData.split(",");
         String name = data[0];
@@ -85,9 +82,14 @@ public class DataManager {
             e.printStackTrace();
         }
     } 
-
-    // GET ALL USERS
+    
+    /** 
+     * @param loadAdmins(
+     * @return Vector<Customer>
+     */
+    // GET / SET ALL USERS
     public Vector<Customer> getCustomers(){return customers;}
+    public void setCustomers(Vector<Customer> customers) {this.customers = customers;}
 
     // -------------------------------------------------------
     //                 ADMIN CLASSES
@@ -112,6 +114,11 @@ public class DataManager {
         }
         
     
+        
+        /** 
+         * @param adminData
+         * @return Admin
+         */
         private Admin parseAdminData(String adminData) {
             String[] data = adminData.split(",");
             String name = data[0];
@@ -132,11 +139,8 @@ public class DataManager {
                 e.printStackTrace();
             }
         }
-    
-        public Vector<Admin> getAdmins() {
-            return admins;
-        }
-
+        // GET ADMINS
+        public Vector<Admin> getAdmins() {return admins;} 
 
 
     // -------------------------------------------------------
@@ -189,13 +193,9 @@ public class DataManager {
             e.printStackTrace();
         }
     }
-    public Vector<Item> getItems(){
-        return items;
-    }
-
-    public void setItems(Vector<Item> items) {
-        this.items = items;
-    }
+    // GET / SET ITEMS
+    public Vector<Item> getItems(){return items;}
+    public void setItems(Vector<Item> items) {this.items = items;}
     // -------------------------------------------------------
     //                 Catalog CLASSES
     // -------------------------------------------------------
@@ -290,17 +290,82 @@ public class DataManager {
         }
     }
     
-    public Vector<Catalog> getCatalogs() {
-        return catalogs;
+    // GET / SET CATALOGS
+    public Vector<Catalog> getCatalogs() {return catalogs;}
+    public void setCatalogs(Vector<Catalog> catalogs) {this.catalogs = catalogs;}
+
+    // -------------------------------------------------------
+    //                 VOUCHER/LOYALTY-SCHEME CLASSES
+    // -------------------------------------------------------
+    // LOAD VOUCHER VECTOR 
+    public void loadVouchers() {
+        String filePath = "src/ApplicationData/SystemData.csv";
+        File file = new File(filePath);
+    
+        try {
+            Scanner scanner = new Scanner(file);
+            int x = 0;
+            while (scanner.hasNextLine()) {
+                String VoucherData = scanner.nextLine();
+                if(x == 0) x++;
+                else {
+                    GiftVoucher GiftPayment = parseVoucherData(VoucherData);
+                    vouchers.add(GiftPayment);
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    private GiftVoucher parseVoucherData(String VoucherData){
+        String[] data = VoucherData.split(",");
+        String code = data[0];
+        float val = Float.parseFloat(data[1]);
+        return new GiftVoucher(code,val);
+    }
+
+    // UPDATE VOUCHER/LOYALTY IN FILE 
+    public void UpdateVouchers_Loyalty() {
+        String filePath = "src/ApplicationData/SystemData.csv";
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            writer.write(loyaltyScheme.getPointsEarnedperEgp()+ "," + loyaltyScheme.getMaximumpoint() + "\n");
+            for (GiftVoucher voucher : vouchers) {
+                writer.write(voucher.getCode() + "," + voucher.getValue() + "\n");
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    } 
+    // GET / SET VOUCHERS
+    public void setVouchers(Vector<GiftVoucher> vouchers) {this.vouchers = vouchers;}
+    public Vector<GiftVoucher> getVouchers() {return vouchers;}
+    
+    // LOAD Loyalty Scheme
+    public void loadLoyaltyScheme() {
+        String filePath = "src/ApplicationData/SystemData.csv";
+        File file = new File(filePath);
+        try {
+            Scanner scanner = new Scanner(file);
+            if(scanner.hasNextLine()) {
+                String LoyaltyData = scanner.nextLine();
+                String[] data = LoyaltyData.split(",");
+                int getPoints = Integer.parseInt(data[0]);
+                int getMaximumpoint = Integer.parseInt(data[1]);
+                loyaltyScheme.setPointsEarnedperEgp(getPoints);
+                loyaltyScheme.setMaximumpoint(getMaximumpoint);
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
     
-    public void setCatalogs(Vector<Catalog> catalogs) {
-        this.catalogs = catalogs;
-    }
-
-
-
-
+    // GET / SET Loyalty Scheme
+    public LoyaltyPoints getLoyaltyScheme() {return loyaltyScheme;}
+    public void setLoyaltyScheme(LoyaltyPoints loyaltyScheme) {this.loyaltyScheme = loyaltyScheme;}
 
     //---------------------------------------------------------------------------------------------
 
@@ -397,46 +462,6 @@ public class DataManager {
         updateCustomers();
     }
 
-    public void loadVouchers() {
-        // Add logic to load vouchers from a data source
-        // Add your specific implementation here
-    }
-
-    public void loadLoyaltyScheme() {
-        // Add logic to load loyalty scheme from a data source
-        // Add your specific implementation here
-    }
-
-    public void loadOrders() {
-        // Add logic to load orders from a data source
-        // Add your specific implementation here
-    }
-
-
-    public boolean updateOrders() {
-        // Add logic to update orders in the data source
-        // Return true if update is successful, false otherwise
-        // Add your specific implementation here
-        return true;
-    }
-
-    public boolean updateVouchers() {
-        // Add logic to update vouchers in the data source
-        // Return true if update is successful, false otherwise
-        // Add your specific implementation here
-        return true;
-    }
-
-    public boolean updateLoyaltySchema(){
-        return true;
-    }
-
-    public Vector<Order> getOrders(){
-        return orders;
-    }
-    public Vector<GiftVoucher> getVouchers() {
-        return vouchers;
-    }
 
     public boolean addItemToVector(Item newItem) {
         boolean isAdded = items.add(newItem);

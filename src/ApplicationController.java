@@ -1,4 +1,7 @@
 import SystemClasses.DataManager;
+import SystemClasses.GiftVoucher;
+import SystemClasses.LoyaltyPoints;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -7,6 +10,7 @@ import java.util.Scanner;
 import java.util.Vector;
 import DataUserClasses.*;
 import OrderClasses.*;
+import PaymentClasses.GiftPayment;
 public class ApplicationController{
     private DataManager Data;
 
@@ -19,11 +23,6 @@ public class ApplicationController{
         this.Data = Data;
     }
     public void StartApplication(){
-          Data.LoadDATA();
-            Vector<Catalog> ct = Data.getCatalogs();
-            for(Catalog D: ct){
-                D.displayCatalog();
-            }
         // Scanner input = new Scanner(System.in);
         // System.out.println("HEllO TO TOFFEE SHOP !");   
         // System.out.println("Do you wanna Login or Register !"); 

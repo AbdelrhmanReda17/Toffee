@@ -7,7 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 public class Order {
-    private int orderId = 0 ;
+    private int ORDERCount = 0;
+    private int orderId = 0;
     private Customer user;
     private Order_state status;
     private ShoppingCart shopcart;
@@ -27,9 +28,18 @@ public class Order {
         this.shippingAddress = shippingAddress;
         this.payment = payment;
         this.ordertime = new Date();
-        orderId+=1;
+        ORDERCount = orderId;
     }
-
+    public Order(Customer user, Order_state status, ShoppingCart shopcart, String shippingAddress, PaymentMethod payment) {
+        this.orderId = ORDERCount;
+        this.user = user;
+        this.status = status;
+        this.shopcart = shopcart;
+        this.shippingAddress = shippingAddress;
+        this.payment = payment;
+        this.ordertime = new Date();
+        ORDERCount++;
+    }
     public boolean placeOrder() {
         // Logic to place the order
         return true; // Placeholder return statement

@@ -10,25 +10,22 @@ import SystemClasses.*;
 public class Customer extends User {
     private String address;
     private String phone;
-
-    private int loyaltyPoints=0;
-    private Vector<Order> prevOrders;
     private ShoppingCart shoppingCart;
-    private DataManager dataManager;
+    private int loyaltyPoints=0;
     
     public Customer(String name, String password, String phone, String address) {
         super(name, password);
         this.address = address;
         this.phone=phone;
     }
-    public Order getCurrentOrder() {
-        for (Order order : dataManager.getOrders()) {
-            if (order.getStatus().equals(Order_state.IN_PROGRESS) && order.getUser().equals(this)) {
-                return order;
-            }
-        }
-        return null;
-    }
+    // public Order getCurrentOrder() {
+    //     for (Order order : dataManager.getOrders()) {
+    //         if (order.getStatus().equals(Order_state.IN_PROGRESS) && order.getUser().equals(this)) {
+    //             return order;
+    //         }
+    //     }
+    //     return null;
+    // }
 
     // public void placeOrder(Order order, String address) {
     //     // Logic to place an order with the given address
