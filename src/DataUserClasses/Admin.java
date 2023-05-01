@@ -189,11 +189,12 @@ public class Admin extends User {
     }
 
     public boolean suspendUser() {
+        Data.loadCustomers();
         System.out.print("Enter the username of the customer you want to suspend: ");
         String username = new Scanner(System.in).nextLine();
         Vector<Customer>ct = Data.getCustomers();
         for (Customer c : ct) {
-            if (c.getName() == username) {
+            if (c.getName().equals(username)) {
                 System.out.println("Name: " + c.getName());
                 System.out.println("Phone: " + c.getPhone());
                 System.out.println("Address: " + c.getAddress());
