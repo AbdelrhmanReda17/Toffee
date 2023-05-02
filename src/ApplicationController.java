@@ -148,20 +148,18 @@ public class ApplicationController{
                 System.out.println("| Welcome To Toffee |");
                 while (true) {
                     System.out.println("Here are the available catalogs:");
-                    int i = 0;
-                    for (Catalog ct : catalogs) {
-                        System.out.println((i+1) + " " + ct.getName());
-                        i++;
+                    for(int i = 0 ; i < catalogs.size() ; i++){
+                        System.out.println(i+1 + " " + catalogs.get(i).getName());
+
                     }
                     System.out.println("Please enter the number of the catalog you want to view or enter 0 to exit:");
                     int cho = input.nextInt();
                     input.nextLine();
-
                     if (cho == 0) {
                         break;
                     }
-
-                    catalogs.get(cho - 1).printItems();
+                    cho = cho - 1;
+                    catalogs.get(cho).printItems();
 
                     while (true) {
                         System.out.println("Please enter the number of the item you want to buy or enter 0 to choose a different catalog:");
@@ -170,7 +168,7 @@ public class ApplicationController{
                         if (itemChoice == 0) {
                             break;
                         }
-                        Vector<Item> catalogItems = catalogs.get(cho - 1).getItems();
+                        Vector<Item> catalogItems = catalogs.get(cho).getItems();
                         CartItem cart = new CartItem();
                         cart = cart.convertToCartItem(catalogItems.get(itemChoice-1),1);
                         customer.getShoppingCart().addCartItem(cart);

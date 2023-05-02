@@ -643,7 +643,4 @@ public class DataManager {
     public void setOrders(Order order) {
             orders.add(order);
     }
-    public void updateOrders(){
-
-    }
 }

@@ -105,7 +105,7 @@ public class Item {
         this.quantity = quantity;
         scanner.close();
     }
-    public void printItem(){
+    public void printItem(boolean IsCustomer){
         System.out.print("ID: " + getID()+ " || ");
         System.out.print("Name: " + getName() + " || ");
         System.out.print("Category: " + getCategory()+ " || ");
@@ -113,10 +113,14 @@ public class Item {
         System.out.print("Brand: " + getBrand()+ " || ");
         System.out.print("Price: " + getPrice()+ " || ");
         System.out.print("Discount percentage: " + getDiscountPercentage()+ " || ");
-        System.out.print("Points: " + getPoints()+ " || ");
-        System.out.print("Image: " + getImage()+ " || ");
+        System.out.print("Points: " + getPoints());
+        if(!IsCustomer)
+        {
+            System.out.print(" || "+ "Image: " + getImage()+ " || ");
         System.out.print("Quantity: " + getQuantity());
+        }
     }
+    
     public int getID() {
         return ID;
     }

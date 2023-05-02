@@ -10,7 +10,7 @@ import SystemClasses.*;
 public class Customer extends User {
     private String address;
     private String phone;
-    private ShoppingCart shoppingCart;
+    private ShoppingCart shoppingCart = new ShoppingCart();
     private int loyaltyPoints=0;
 
     public Customer(String name, String password, String phone, String address) {
