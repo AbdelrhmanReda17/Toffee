@@ -1,7 +1,9 @@
 package OrderClasses;
 import java.util.Scanner;
+import SystemClasses.DataManager;
 
 public class Item {
+    private DataManager data;
     public int counter = 0;
     private int ID ;
     private String name;
@@ -26,6 +28,19 @@ public class Item {
         this.points = points;
         this.image = image;
     }
+    public void setItem(Item item) {
+        setID(item.getID());
+        setName(item.getName());
+        setCategory(item.getCategory());
+        setDescription(item.getDescription());
+        setBrand(item.getBrand());
+        setPrice(item.getPrice());
+        setDiscountPercentage(item.getDiscountPercentage());
+        setPoints(item.getPoints());
+        setImage(item.getImage());
+        setQuantity(item.getQuantity());
+    }
+    
     public void setCounter(int counter) {
         this.counter = counter;
     }

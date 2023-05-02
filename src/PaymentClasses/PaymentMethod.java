@@ -2,7 +2,7 @@ package PaymentClasses;
 
 public abstract class PaymentMethod {
     protected double amount;
-
+    PaymentMethod(){};
     public double getAmount() {
         return amount;
     }

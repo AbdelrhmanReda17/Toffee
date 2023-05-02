@@ -36,6 +36,7 @@ public class Catalog {
     }
 
     public void removeItem(Item item) {
+        DATA.loadCatalogs();
         Vector<Catalog> catalogs = DATA.getCatalogs();
         for (Catalog catalog : catalogs) {
             Vector<Item> items = catalog.getItems();
@@ -56,6 +57,7 @@ public class Catalog {
         this.items = items;
     }
     public void updateIteminCatalog(Item item) {
+        DATA.loadCatalogs();
         Vector<Catalog> catalogs = DATA.getCatalogs();
         for (Catalog catalog : catalogs) {
             Vector<Item> items = catalog.getItems();

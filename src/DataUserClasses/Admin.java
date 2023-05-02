@@ -161,7 +161,6 @@ public class Admin extends User {
         if(loyaltyPoints.checkLoyaltyPoints()){
             Data.setLoyaltyScheme(loyaltyPoints);
             Data.UpdateVouchers_Loyalty();
-
         }
     }
 

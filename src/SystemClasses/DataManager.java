@@ -1,15 +1,26 @@
 package SystemClasses;
 import java.util.Vector;
+
+import javax.print.DocFlavor.STRING;
+
+import java.util.Date;
 import java.util.Scanner;
 import DataUserClasses.*;
 import OrderClasses.*;
+import PaymentClasses.CashPayment;
+import PaymentClasses.CreditPayment;
+import PaymentClasses.PaymentMethod;
+
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 public class DataManager {
     private Vector<Customer> customers;
     private Vector<Catalog> catalogs;
     private Vector<GiftVoucher> vouchers;
     private LoyaltyPoints loyaltyScheme;
     private Vector<Admin> admins;
+    private Vector<Order> orders;
     private Vector<Item> items;
 
     public DataManager() {
@@ -18,6 +29,7 @@ public class DataManager {
         vouchers = new Vector<>();
         loyaltyScheme = new LoyaltyPoints(0, 0);
         admins = new Vector<>();
+        orders = new Vector<>();
         items = new Vector<>();
     }
     public void LoadDATA(){
@@ -26,6 +38,7 @@ public class DataManager {
         loadLoyaltyScheme();
         loadCustomers();
         loadVouchers();
+        loadOrders();
         loadAdmins();
     }
     public void updateData(){
@@ -289,7 +302,9 @@ public class DataManager {
             e.printStackTrace();
         }
     }
-    
+    public Vector<Order> getOrders() {
+        return orders;
+    }
     // GET / SET CATALOGS
     public Vector<Catalog> getCatalogs() {return catalogs;}
     public void setCatalogs(Vector<Catalog> catalogs) {this.catalogs = catalogs;}
@@ -366,17 +381,113 @@ public class DataManager {
     // GET / SET Loyalty Scheme
     public LoyaltyPoints getLoyaltyScheme() {return loyaltyScheme;}
     public void setLoyaltyScheme(LoyaltyPoints loyaltyScheme) {this.loyaltyScheme = loyaltyScheme;}
+    // -------------------------------------------------------
+    //                 Order CLASSES
+    // -------------------------------------------------------
+    //  LOAD Order VECTOR 
+        
+    public void loadOrders() {
+        String filePath = "src/ApplicationData/OrderData.csv";
+        File file = new File(filePath);
 
-    //---------------------------------------------------------------------------------------------
-
-    public Admin getCurrentAdmin(String name,String password) {
-        for (Admin admin : admins) {
-            if (admin.getName().equals(name) && admin.getPassword().equals(password)) {
-                return admin;
+        try {
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String orderData = scanner.nextLine();
+                Order order = parseOrderData(orderData);
+                orders.add(order);
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private Order parseOrderData(String orderData) {
+        String[] data = orderData.split(",");
+        int orderId = Integer.parseInt(data[0]);
+        Customer customer = getCustomerByName(data[1]);
+        Order_state status = Order_state.valueOf(data[2]);
+        ShoppingCart shopcart = parseShoppingCartData(data[3]);
+        String shippingAddress = data[4];
+        Date ordertime = parseOrderTime(data[5]);
+        String PaymentMethod = data[6];
+        PaymentMethod payment;
+        if(PaymentMethod.equals("Cash On Payment")){
+            payment = new CashPayment();
+        }
+        else{
+            payment = new CreditPayment();
+        }
+        return new Order(orderId, customer, status, shopcart,ordertime, shippingAddress, payment);
+    }
+    private Customer getCustomerByName(String name) {
+        loadCustomers();
+        for (Customer customer : customers) {
+            if (customer.getName().equals(name)) {
+                return customer;
             }
         }
         return null;
     }
+    private ShoppingCart parseShoppingCartData(String cartData) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        String[] data = cartData.split("/");
+        double totalCost = Double.parseDouble(data[0].replaceAll("\"", "").trim());
+        int loyaltyPoints = Integer.parseInt(data[1].replaceAll("\"", "").trim());
+
+        for (int i = 2; i < data.length; i++) {
+            CartItem item = parseCartItem(data[i]);
+            if (item != null) {
+                CartItem cartItem = new CartItem();
+                cartItem.setItem(item);
+                cartItem.setQuantity(item.getQuantity());
+                shoppingCart.addCartItem(cartItem);
+            }
+        }
+    
+        shoppingCart.setTotalCost(totalCost);
+        shoppingCart.setLoyaltyPoints(loyaltyPoints);
+    
+        return shoppingCart;
+    }
+    private CartItem parseCartItem(String itemData) {
+        CartItem cartItem = new CartItem();
+        String[] data = itemData.split("\\|");
+        int Qun = Integer.parseInt(data[0]);
+        int ID = Integer.parseInt(data[1]);
+        loadItems();
+        Item item = new Item();
+        for(Item it : items){
+            if(it.getID()== ID)
+            {
+                item = it;
+            }
+        }
+        cartItem.setItem(item);
+        cartItem.setQuantity(Qun);
+        return cartItem;
+    }
+    
+    private Date parseOrderTime(String timeString) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm");
+        try {
+            return dateFormat.parse(timeString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null; // or handle the error in an appropriate way
+        }
+    }
+    //---------------------------------------------------------------------------------------------
+
+    // public Admin getCurrentAdmin(String name,String password) {
+    //     for (Admin admin : admins) {
+    //         if (admin.getName().equals(name) && admin.getPassword().equals(password)) {
+    //             return admin;
+    //         }
+    //     }
+    //     return null;
+    // }
 
     public boolean login(int choice,String nameE , String passwordD) {
         boolean found = false;

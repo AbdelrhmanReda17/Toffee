@@ -5,21 +5,25 @@ import java.util.List;
 
 public class ShoppingCart {
     private double totalCost;
+    private int loyaltyPoints;
     private List<CartItem> cartItems;
 
     public ShoppingCart() {
         this.totalCost = 0.0;
+        this.loyaltyPoints = 0;
         this.cartItems = new ArrayList<>();
     }
 
     public void addCartItem(CartItem item) {
         cartItems.add(item);
         totalCost += (item.getPrice() * item.getDiscountPercentage());
+        loyaltyPoints += item.getPoints();
     }
 
     public void removeCartItem(CartItem item) {
         cartItems.remove(item);
         totalCost -= (item.getPrice() * item.getDiscountPercentage());
+        loyaltyPoints -= item.getPoints();
     }
 
     public void updateCartItem(CartItem item) {
@@ -38,5 +42,14 @@ public class ShoppingCart {
 
     public double getTotalCost() {
         return totalCost;
+    }
+    public int getLoyaltyPoints() {
+        return loyaltyPoints;
+    }
+    public void setLoyaltyPoints(int loyaltyPoints) {
+        this.loyaltyPoints = loyaltyPoints;
+    }
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
     }
 }

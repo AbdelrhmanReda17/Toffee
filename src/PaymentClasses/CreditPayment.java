@@ -3,10 +3,16 @@ package PaymentClasses;
 import java.util.Scanner;
 
 public class CreditPayment extends PaymentMethod {
+    private String methodName;
     private String cardNumber;
     private String expDate;
     private int cvv;
-
+    public CreditPayment(){
+        this.methodName = "Credit Payment";
+    }
+    public String getMethod() {
+        return methodName;
+    }
     public boolean processPayment() {
         Scanner scanner = new Scanner(System.in);
 
