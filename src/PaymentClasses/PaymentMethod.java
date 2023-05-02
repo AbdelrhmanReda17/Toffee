@@ -11,5 +11,5 @@ public abstract class PaymentMethod {
         this.amount = amount;
     }
 
-    public abstract boolean processPayment();
+    public abstract boolean processPayment(String phoneNumber,double total_price);
 }

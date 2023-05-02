@@ -10,7 +10,7 @@ public class CashPayment extends PaymentMethod {
     public String getMethod() {
         return methodName;
     }
-    public boolean processPayment() {
+    public boolean processPayment(String phoneNumber,double total_price) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your phone number: ");
         phoneNumber = scanner.nextLine();

@@ -13,12 +13,11 @@ public class CreditPayment extends PaymentMethod {
     public String getMethod() {
         return methodName;
     }
-    public boolean processPayment() {
+    public boolean processPayment(String phoneNumber,double total_price) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter card number: ");
         cardNumber = scanner.nextLine();
-
         System.out.print("Enter expiration date : ");
         expDate = scanner.nextLine();
 
@@ -29,7 +28,6 @@ public class CreditPayment extends PaymentMethod {
 
     }
 
-    // Implement other methods and attributes specific to CreditPayment
 }
 
 

@@ -24,15 +24,8 @@ public class ApplicationController{
     }
     public void StartApplication(){
         Data.LoadDATA();
-        // Vector<Catalog> or = Data.getCatalogs();
-        // for(Catalog d : or){
-        //     System.out.println(d.getName());
-        //     for(Item it : d.getItems()){
-        //         System.out.println(it.getName() + " " + it.getID());
-        //     }
-        // }
-        Admin dd = new Admin("ADa", "Adad", "dasdasd");
-        dd.setLoyaltyPointsSystem();
+        Admin admin = new Admin("hoda", "131232","hhhhhh@gmail.com");
+        admin.setLoyaltyPointsSystem();
         // Scanner input = new Scanner(System.in);
         // System.out.println("HEllO TO TOFFEE SHOP !");
         // System.out.println("Do you wanna Login or Register !");
