@@ -12,7 +12,7 @@ public class Customer extends User {
     private String phone;
     private ShoppingCart shoppingCart;
     private int loyaltyPoints=0;
-    
+
     public Customer(String name, String password, String phone, String address) {
         super(name, password);
         this.address = address;
@@ -53,7 +53,7 @@ public class Customer extends User {
     // public Vector<Order> getPrevOrders() {
     //     return prevOrders;
     // }
-    
+
     // public ShoppingCart getShoppingCart() {
     //     return shoppingCart;
     // }
@@ -68,5 +68,8 @@ public class Customer extends User {
     }
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+    public void setLoyaltyPoints(int loyaltyPoints) {
+        this.loyaltyPoints= loyaltyPoints;
     }
 }
