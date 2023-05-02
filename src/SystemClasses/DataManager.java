@@ -9,6 +9,8 @@ import DataUserClasses.*;
 import OrderClasses.*;
 import PaymentClasses.CashPayment;
 import PaymentClasses.CreditPayment;
+import PaymentClasses.GiftPayment;
+import PaymentClasses.LoyaltyPayment;
 import PaymentClasses.PaymentMethod;
 
 import java.io.*;
@@ -190,7 +192,6 @@ public class DataManager {
         int quantity = Integer.parseInt(data[9]);
         return new Item(ID, name, category, description, brand, price, discountPercentage, points, image, quantity);
     }
-    
     public void updateItems() {
         String filePath = "src/ApplicationData/ItemsData.csv";
     
@@ -411,13 +412,19 @@ public class DataManager {
         ShoppingCart shopcart = parseShoppingCartData(data[3]);
         String shippingAddress = data[4];
         Date ordertime = parseOrderTime(data[5]);
-        String PaymentMethod = data[6];
-        PaymentMethod payment;
-        if(PaymentMethod.equals("Cash On Payment")){
+        String PaymentName = data[6];
+        PaymentMethod payment = null;
+        if(PaymentName.equals("Cash On Payment")){
             payment = new CashPayment();
         }
-        else{
+        else if (PaymentName.equals("Credit Payment")){
             payment = new CreditPayment();
+        }
+        else if (PaymentName.equals("Gift Voucher Payment")){
+            payment = new GiftPayment();
+        }
+        else if (PaymentName.equals("Loyalty Payment")){
+            payment = new LoyaltyPayment();
         }
         return new Order(orderId, customer, status, shopcart,ordertime, shippingAddress, payment);
     }
@@ -470,13 +477,35 @@ public class DataManager {
     }
     
     private Date parseOrderTime(String timeString) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
         try {
             return dateFormat.parse(timeString);
         } catch (ParseException e) {
             e.printStackTrace();
-            return null; // or handle the error in an appropriate way
+            return null; 
         }
+    }
+    public void updateOrders(){
+        String filePath = "src/ApplicationData/OrderData.csv";
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            for (Order order : orders) {
+                writer.write(order.getOrderId() + "," + order.getUser().getName() + "," +order.getStatus() + "," + order.getShopcart().getTotalCost() +"/"+ order.getShopcart().getLoyaltyPoints() + "/");
+                for (int i = 0; i < order.getShopcart().getCartItems().size() ; i++) {
+                    CartItem item = order.getShopcart().getCartItems().get(i);
+                    writer.write(item.getQuantity() + "|" + item.getID()) ;
+                    if (i < order.getShopcart().getCartItems().size() - 1) {
+                        writer.write("/");
+                    }
+                }
+                writer.write("," + order.getShippingAddress() + "," + order.getOrdertime().toString() + "," + order.getPayment().getMethod());
+                writer.write("\n");
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
     //---------------------------------------------------------------------------------------------
 
