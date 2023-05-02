@@ -144,7 +144,17 @@ public class Admin extends User {
 
 
     public void setLoyaltyPointsSystem() {
-        // Logic to set the loyalty points system
+        System.out.print("Enter the points per EGP : ");
+        int pointsEarned = new Scanner(System.in).nextInt();
+
+        System.out.print("Enter the maximum points Via one Order : ");
+        int maximumPoint = new Scanner(System.in).nextInt();
+        LoyaltyPoints loyaltyPoints = new LoyaltyPoints(pointsEarned,maximumPoint);
+        if(loyaltyPoints.checkLoyaltyPoints()){
+            Data.setLoyaltyScheme(loyaltyPoints);
+            Data.UpdateVouchers_Loyalty();
+
+        }
     }
 
     public boolean suspendUser() {
@@ -254,10 +264,29 @@ public class Admin extends User {
 
     }
 
-    public boolean removeCatalog() {
-        // Logic to remove a catalog
-        return true; // Return true if successful, false otherwise
+    public void removeCatalog() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the Name of the catalog you want to remove: ");
+        String catalogName = scanner.nextLine();
+        Vector<Catalog> catalogs = Data.getCatalogs();
+        Catalog ToRemove = null;
+        for (Catalog catalog : catalogs) {
+            if (catalog.getName().equals(catalogName)) {
+                ToRemove = catalog;
+                break;
+            }
+        }
+
+        if (ToRemove != null) {
+            catalogs.remove(ToRemove);
+            Data.setCatalogs(catalogs);
+            Data.updateCatalogs();
+            System.out.println("Catalog Deleted Successfully");
+        }
+        scanner.close();
     }
+
 
     // public void viewAllOrders() {
     //     Vector<Order> orders = Data.getOrders();
