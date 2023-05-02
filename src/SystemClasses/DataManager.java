@@ -192,7 +192,6 @@ public class DataManager {
         int quantity = Integer.parseInt(data[9]);
         return new Item(ID, name, category, description, brand, price, discountPercentage, points, image, quantity);
     }
-    
     public void updateItems() {
         String filePath = "src/ApplicationData/ItemsData.csv";
     
@@ -483,7 +482,7 @@ public class DataManager {
             return dateFormat.parse(timeString);
         } catch (ParseException e) {
             e.printStackTrace();
-            return null; // or handle the error in an appropriate way
+            return null; 
         }
     }
     public void updateOrders(){

@@ -15,12 +15,8 @@ public class CreditPayment extends PaymentMethod {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter card number: ");
-<<<<<<< HEAD
         this.cardNumber = scanner.nextLine();
-
-=======
         cardNumber = scanner.nextLine();
->>>>>>> c0997b5831fb6aeee612587a23b7b56d0b61be2e
         System.out.print("Enter expiration date : ");
         expDate = scanner.nextLine();
 

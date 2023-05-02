@@ -1,17 +1,13 @@
 package PaymentClasses;
 
 public class LoyaltyPayment extends PaymentMethod {
-    private String methodName;
-    public LoyaltyPayment(){
-        this.methodName = "Loyalty Payment";
-    }
-    
+    private String methodName = "Loyalty Payment";
+
+
     public String getMethod() {
         return methodName;
     }
-    public boolean processPayment() {
-        // Add logic to process loyalty payment
-        // Return true if the payment is successful, false otherwise
+    public boolean processPayment(String phoneNumber,double total_price) {
         return true; // Placeholder return statement
     }
 
