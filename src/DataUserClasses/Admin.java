@@ -116,8 +116,7 @@ public class Admin extends User {
         return false;
     }
 
-
-       public void deleteItem() {
+    public void deleteItem() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the ID of the item you want to delete: ");
         int id = scanner.nextInt();
@@ -150,9 +149,6 @@ public class Admin extends User {
             System.out.println("Item not found.");
         }
     }
-
-
-
 
 
     public void setLoyaltyPointsSystem() {
