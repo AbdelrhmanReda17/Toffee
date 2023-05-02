@@ -1,19 +1,18 @@
 package PaymentClasses;
 import java.util.Scanner;
 public class CashPayment extends PaymentMethod {
-    private String methodName;
+    private String methodName = "Cash On Payment";
     private String phoneNumber;
     private boolean isPhoneVerified=false;
     public CashPayment(){
-        this.methodName = "Cash On Payment";
     }
     public String getMethod() {
         return methodName;
     }
-    public boolean processPayment() {
+    public boolean processPayment(String phoneNumber,double total_price) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your phone number: ");
-        phoneNumber = scanner.nextLine();
+        this.phoneNumber = scanner.nextLine();
         scanner.close();
         // System.out.println(phoneNumber);
         sendVerificationCode();
@@ -40,6 +39,8 @@ public class CashPayment extends PaymentMethod {
         } else {
             System.out.println("Invalid verification code.");
         }
-
+    }
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 }

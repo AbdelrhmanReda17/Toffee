@@ -24,6 +24,7 @@ public class ApplicationController{
     }
     public void StartApplication(){
         Data.LoadDATA();
+        Data.updateOrders();
         // Vector<Catalog> or = Data.getCatalogs();
         // for(Catalog d : or){
         //     System.out.println(d.getName());
@@ -31,8 +32,7 @@ public class ApplicationController{
         //         System.out.println(it.getName() + " " + it.getID());
         //     }
         // }
-        Admin dd = new Admin("ADa", "Adad", "dasdasd");
-        dd.setLoyaltyPointsSystem();
+
         // Scanner input = new Scanner(System.in);
         // System.out.println("HEllO TO TOFFEE SHOP !");
         // System.out.println("Do you wanna Login or Register !");
