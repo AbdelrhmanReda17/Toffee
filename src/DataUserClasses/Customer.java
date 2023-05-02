@@ -1,5 +1,6 @@
 package DataUserClasses;
 
+import OrderClasses.Item;
 import OrderClasses.Order;
 import OrderClasses.ShoppingCart;
 import OrderClasses.Order_state;
@@ -68,5 +69,9 @@ public class Customer extends User {
     }
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
     }
 }

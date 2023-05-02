@@ -593,4 +593,28 @@ public class DataManager {
         return isAdded;
     }
 
+    public Admin getCurrentAdmin(String name,String password) {
+        for (Admin admin : admins) {
+            if (admin.getName().equals(name) && admin.getPassword().equals(password)) {
+                return admin;
+            }
+        }
+        return null;
+    }
+
+    public Customer getCurrentCustomer(String name,String password) {
+        for (Customer customerR : customers) {
+            if (customerR.getName().equals(name) && customerR.getPassword().equals(password)) {
+                return customerR;
+            }
+        }
+        return null;
+    }
+
+    public void setOrders(Order order) {
+            orders.add(order);
+    }
+    public void updateOrders(){
+
+    }
 }

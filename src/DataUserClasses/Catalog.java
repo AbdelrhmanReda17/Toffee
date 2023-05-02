@@ -53,6 +53,13 @@ public class Catalog {
     public Vector<Item> getItems() {
         return items;
     }
+    public void printItems(){
+        for(int i=0;i<items.size();i++){
+            System.out.println((i+1) + " - Name: " + items.get(i).getName() + " - Price : " + items.get(i).getPrice() + "EGP"
+            + " - Discount : "+ items.get(i).getDiscountPercentage() + " - Loyalty Points : " + items.get(i).getPoints());
+        }
+    }
+
     public void setItems(Vector<Item> items) {
         this.items = items;
     }

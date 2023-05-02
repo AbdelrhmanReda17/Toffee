@@ -26,7 +26,7 @@ public class ShoppingCart {
         loyaltyPoints -= item.getPoints();
     }
 
-    public void updateCartItem(CartItem item) {
+    public void updateCartItem() {
         // Update logic goes here
         // You can update the quantity, price, or any other details of the cart item
     }
@@ -34,6 +34,12 @@ public class ShoppingCart {
     public void clearCart() {
         cartItems.clear();
         totalCost = 0.0;
+    }
+
+    public void printCartItems(){
+        for(int i=0;i<cartItems.size();i++){
+            System.out.println(" Name : " + cartItems.get(i).getName() +" Price : "+ cartItems.get(i).getPrice() + "EGP" + "Quantity : " +cartItems.get(i).getQuantity());
+        }
     }
 
     public List<CartItem> getCartItems() {

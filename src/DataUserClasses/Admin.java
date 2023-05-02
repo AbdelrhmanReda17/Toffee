@@ -295,31 +295,27 @@ public class Admin extends User {
     }
 
 
-    // public void viewAllOrders() {
-    //     Vector<Order> orders = Data.getOrders();
-    //     int i=0;
-    //     for(Order order : orders){
-    //         System.out.println("Order id : " + order.getOrderId());
-    //         System.out.println("User: " + order.getUser().getName());
-    //         System.out.println("Order status: " + order.getStatus().toString());
-    //         System.out.println("Shopping cart: ");
-    //         for (CartItem item : order.getShopcart().getCartItems()) {
-    //             System.out.println(" - " + item.getName() + " (" + item.getID() + ")");
-    //         }
-    //         System.out.println("Shipping address: " + order.getShippingAddress());
-    //         System.out.println("Order time: " + order.getOrdertime().toString());
-    //         System.out.println("Phone number: " + order.getPhoneNo());
-    //         System.out.println("Gift vouchers: ");
-    //         for (GiftVoucher voucher : order.getGiftVouchers()) {
-    //             System.out.println(" - " + voucher.getCode());
-    //         }
-    //         System.out.println("Loyalty points: " + order.getLoyaltyPoints());
-    //         System.out.println("Total cost: " + order.getTotalCost());
-    //         System.out.println("Payment method: " + order.getPayment().toString());
-
-    //         i++;
-    //     }
-    // }
+//     public void viewAllOrders() {
+//         Vector<Order> orders = Data.getOrders();
+//         int i=0;
+//         for(Order order : orders){
+//             System.out.println("Order id : " + order.getOrderId());
+//             System.out.println("User: " + order.getUser().getName());
+//             System.out.println("Order status: " + order.getStatus().toString());
+//             System.out.println("Shopping cart: ");
+//             for (CartItem item : order.getShopcart().getCartItems()) {
+//                 System.out.println(" - " + item.getName() + " (" + item.getID() + ")");
+//             }
+//             System.out.println("Shipping address: " + order.getShippingAddress());
+//             System.out.println("Order time: " + order.getOrdertime().toString());
+//             System.out.println("Phone number: " + order.getPhoneNo());
+//             System.out.println("Loyalty points: " + order.getLoyaltyPoints());
+//             System.out.println("Total cost: " + order.getUser().get);
+//             System.out.println("Payment method: " + order.getPayment().toString());
+//
+//             i++;
+//         }
+//     }
     public String getEmail() {
         return email;
     }
