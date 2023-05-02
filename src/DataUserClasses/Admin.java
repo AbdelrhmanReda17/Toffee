@@ -117,29 +117,41 @@ public class Admin extends User {
     }
 
 
-    public void deleteItem() {
+       public void deleteItem() {
+        Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the ID of the item you want to delete: ");
-        int id = new Scanner(System.in).nextInt();
+        int id = scanner.nextInt();
         Vector<Item> items = Data.getItems();
+        Item itemToRemove = null;
         for (Item item : items) {
             if (item.getID() == id) {
                 item.printItem();
+                System.out.println("");
                 System.out.println("Do you want to delete this item? Press 1 to confirm, 2 to cancel.");
-                int choice = new Scanner(System.in).nextInt();
+                int choice = scanner.nextInt();
                 if (choice == 1) {
-                    boolean isRemoved = Data.removeItemFromVector(item);
-                    if (isRemoved) {
-                        Data.setItems(items);
-                        Data.updateItems();
-                        catalog.removeItem(item);
-                    }
+                    itemToRemove = item;
                 } else {
                     System.out.println("Operation Cancelled.");
+                    return;
                 }
             }
         }
-        System.out.println("Item not found.");
+        if (itemToRemove != null) {
+            boolean isRemoved = Data.removeItemFromVector(itemToRemove);
+            if (isRemoved) {
+                items.remove(itemToRemove);
+                Data.setItems(items);
+                Data.updateItems();
+                catalog.removeItem(itemToRemove);
+                System.out.println("Item Delete Successfully");
+            }
+        } else {
+            System.out.println("Item not found.");
+        }
     }
+
+
 
 
 
