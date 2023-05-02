@@ -84,7 +84,7 @@ public class DataManager {
     } 
     
     /** 
-     * @param loadAdmins(
+//     * @param loadAdmins()
      * @return Vector<Customer>
      */
     // GET / SET ALL USERS

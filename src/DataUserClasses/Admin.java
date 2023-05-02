@@ -17,7 +17,9 @@ public class Admin extends User {
         super(name, password);
         this.email = email;
         Data.loadItems();
-        Data.getCustomers();
+        Data.loadCustomers();
+        Data.loadCatalogs();
+        Data.loadVouchers();
     }
 
     public void addItem() {
@@ -29,19 +31,23 @@ public class Admin extends User {
             boolean foundCategory = false;
             for (Catalog x : ct) {
                 if (item.getCategory().equals(x.getName())) {
-                    catalog.addItem(item);
+                    x.addItem(item);
                     foundCategory = true;
                     break;
                 }
             }
             if (!foundCategory) {
-                addNewCatalog();
-                catalog.addItem(item);
+                Catalog newCatalog = new Catalog(item.getCategory());
+                newCatalog.addItem(item);
+                ct.add(newCatalog);
+                Data.setCatalogs(ct);
+                Data.updateCatalogs();
             }
             Data.setCatalogs(ct);
             Data.updateCatalogs();
         }
     }
+
 
     public boolean editItem() {
         System.out.print("Enter The id of The item you want to Edit: ");
@@ -155,6 +161,7 @@ public class Admin extends User {
                 if (choice == 1) {
                     boolean isRemoved = Data.removeCustomerFromVector(c);
                     if (isRemoved) {
+                        Data.setCustomers(ct);
                         Data.updateCustomers();
                         return true;
                     }
@@ -168,7 +175,7 @@ public class Admin extends User {
     }
 
 
-    public boolean createAGiftVoucher() {
+    public void createAGiftVoucher() {
         Scanner X = new Scanner(System.in);
         //voucher code
         String codeRegex = "^[A-Za-z0-9]{16}$";
@@ -195,11 +202,11 @@ public class Admin extends User {
         float VoucherValue = Float.parseFloat(value);
         GiftVoucher newVoucher = new GiftVoucher(vouchercode,VoucherValue);
         if (newVoucher != null) {
-            Data.getVouchers().add(newVoucher);
+            Vector<GiftVoucher> vouchersS = Data.getVouchers();
+            vouchersS.add(newVoucher);
+            Data.setVouchers(vouchersS);
             Data.UpdateVouchers_Loyalty();
-            return true;
-        } else {
-            return false;
+
         }
     }
 
@@ -207,40 +214,7 @@ public class Admin extends User {
         // Logic to view statistics
     }
 
-    public Item addItemToCatalog(String catalogName){
-        System.out.print("Enter item ID: ");
-        int id = new Scanner(System.in).nextInt();
-
-        System.out.print("Enter item name: ");
-        String name = new Scanner(System.in).nextLine();
-
-        System.out.print("Enter item description: ");
-        String description = new Scanner(System.in).nextLine();
-
-        System.out.print("Enter item brand: ");
-        String brand = new Scanner(System.in).nextLine();
-
-        System.out.print("Enter item price: ");
-        double price = new Scanner(System.in).nextDouble();
-
-        System.out.print("Enter item discount percentage: ");
-        double discountPercentage =  new Scanner(System.in).nextDouble();
-
-        System.out.print("Enter item points: ");
-        int points =  new Scanner(System.in).nextInt();
-
-        System.out.print("Enter item image: ");
-        String image =  new Scanner(System.in).nextLine();
-
-        System.out.print("Enter item quantity: ");
-        int quantity =  new Scanner(System.in).nextInt();
-        Item item = new Item(id, name, catalogName, description, brand, price, discountPercentage, points, image, quantity);
-        Data.addItemToVector(item);
-        Data.updateItems();
-        return item;
-    }
-
-    public boolean addNewCatalog() {
+    public void addNewCatalog() {
         Data.loadCatalogs();
         Vector<Catalog> ct = Data.getCatalogs();
         System.out.print("Enter The Catalog Name : ");
@@ -248,32 +222,36 @@ public class Admin extends User {
         for (Catalog x : ct) {
             if (x.getName() == name) {
                 System.out.println("The Catalog Name is Already Exist !");
-                return false;
             }
         }
-        System.out.println("Do You want To add Items to Catalog ? press 1 Yes , 2 No");
+        Catalog NewCatalog = new Catalog(name);
+        ct.add(NewCatalog);
+        Data.updateCatalogs();
+
+        System.out.print("Press 1.Add New Item , 2.Add Existing Item, 3.No Need To Add Item  : ");
         int choice = new Scanner(System.in).nextInt();
-        if (choice == 1) {
-            Vector<Item> items = new Vector<>();
-            while (true) {
-               items.add(addItemToCatalog(name));
-                System.out.println("Do you want to add more items to this catalog? press 1 Yes, 2 No");
-                int addMoreItemsChoice = new Scanner(System.in).nextInt();
-                if (addMoreItemsChoice == 2) {
-                    break;
+        if(choice == 1){
+            System.out.println("You Must Add The Item First ! ");
+            Item item = new Item();
+            item.getItem();
+            Data.addItemToVector(item);
+            Data.updateItems();
+            NewCatalog.addItem(item);
+            Data.updateCatalogs();
+        }else if(choice == 2){
+            System.out.print("Enter Item ID : ");
+            int id = new Scanner(System.in).nextInt();
+            Vector<Item> it = Data.getItems();
+            for (Item item : it) {
+                if (id == item.getID()) {
+                    item.setCategory(name);
+                    NewCatalog.addItem(item);
                 }
             }
-            Catalog newCatalog = new Catalog(name,items);
-            Data.addCatalogToVector(newCatalog);
-            Data.updateCatalogs();
-            return true;
-        } else if(choice == 2){
-            Catalog newCatalog = new Catalog(name);
-            Data.addCatalogToVector(newCatalog);
-            Data.updateCatalogs();
-            return true;
         }
-        return false;
+        Data.updateCatalogs();
+        System.out.println("Catalog added successfully!!");
+
     }
 
     public boolean removeCatalog() {

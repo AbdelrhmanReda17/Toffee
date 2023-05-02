@@ -23,39 +23,40 @@ public class ApplicationController{
         this.Data = Data;
     }
     public void StartApplication(){
-        // Scanner input = new Scanner(System.in);
-        // System.out.println("HEllO TO TOFFEE SHOP !");   
-        // System.out.println("Do you wanna Login or Register !"); 
-        // boolean shouldContinue = true;
-        // while (shouldContinue) {
-        //     String choosing = input.next().toUpperCase();
+        Data.LoadDATA();
+         Scanner input = new Scanner(System.in);
+         System.out.println("HEllO TO TOFFEE SHOP !");
+         System.out.println("Do you wanna Login or Register !");
+         boolean shouldContinue = true;
+         while (shouldContinue) {
+             String choosing = input.next().toUpperCase();
 
-        //     if (choosing.equals("LOGIN")) {
-        //         System.out.println("SIGN IN");
-        //         do {
-        //             System.out.println("Press you are a/an:\n   1) customer\n   2) Admin\n:");
-        //             choice = input.nextInt();
-        //             System.out.print("Enter Username: ");
-        //             nameE = new Scanner(System.in).nextLine();
-        //             System.out.print("Enter Password: ");
-        //             passwordD = new Scanner(System.in).nextLine();
-        //             boolean isLoggedIn = Data.login(choice,nameE,passwordD);
-        //             if (isLoggedIn) {
-        //                 shouldContinue = false;
-        //             } else {
-        //                 System.out.println("You have entered an invalid password or username");
-        //                 shouldContinue = true;
-        //             }
-        //             } while (shouldContinue);
+             if (choosing.equals("LOGIN")) {
+                 System.out.println("SIGN IN");
+                 do {
+                     System.out.println("Press you are a/an:\n   1) customer\n   2) Admin\n:");
+                     choice = input.nextInt();
+                     System.out.print("Enter Username: ");
+                     nameE = new Scanner(System.in).nextLine();
+                     System.out.print("Enter Password: ");
+                     passwordD = new Scanner(System.in).nextLine();
+                     boolean isLoggedIn = Data.login(choice,nameE,passwordD);
+                     if (isLoggedIn) {
+                         shouldContinue = false;
+                     } else {
+                         System.out.println("You have entered an invalid password or username");
+                         shouldContinue = true;
+                     }
+                     } while (shouldContinue);
 
-        //     } else if (choosing.equals("REGISTER")) {
-        //         System.out.println("SIGN UP");
-        //         Data.register();
-        //         shouldContinue = false;
-        //     } else {
-        //         System.out.println("Wrong choice, enter 'LOGIN' or 'REGISTER' only!");
-        //     }
-        // }
+             } else if (choosing.equals("REGISTER")) {
+                 System.out.println("SIGN UP");
+                 Data.register();
+                 shouldContinue = false;
+             } else {
+                 System.out.println("Wrong choice, enter 'LOGIN' or 'REGISTER' only!");
+             }
+         }
         // Admin admin;
         // if(choice == 2){
         //     admin = Data.getCurrentAdmin(nameE,passwordD);
