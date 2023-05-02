@@ -72,4 +72,5 @@ public class Customer extends User {
     public void setLoyaltyPoints(int loyaltyPoints) {
         this.loyaltyPoints= loyaltyPoints;
     }
+    public ShoppingCart getShoppingCart(){ return shoppingCart;}
 }
