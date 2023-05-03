@@ -17,8 +17,13 @@ public class Order {
     private String shippingAddress;
     private Date ordertime;
     private PaymentMethod payment;
-    private DataManager Data;
-    
+    private DataManager Data = new DataManager();
+
+    public Order() {
+
+    }
+
+    public void Order(){};
     public Order(int orderId, Customer user, Order_state status, ShoppingCart shopcart ,Date ordertime, String shippingAddress, PaymentMethod payment) {
         this.orderId = orderId;
         this.user = user;
@@ -58,6 +63,7 @@ public class Order {
         System.out.println("3. Using Loyalty Points");
         System.out.println("4. Using Gift voucher");
         int paymentMethodChoice = input.nextInt();
+        input.close();
         if (paymentMethodChoice == 1) {
             payment = new CreditPayment();
             paymentSuccess = payment.processPayment(phoneNo,user.getShoppingCart().getTotalCost());
@@ -78,7 +84,7 @@ public class Order {
             return;
         }
 
-        Order order = new Order(orderId++, user, Order_state.Ordered, user.getShoppingCart(),getOrdertime(),shippingAddress, payment);
+        Order order = new Order(orderId++, user, Order_state.Ordered, user.getShoppingCart(),ordertime,shippingAddress, payment);
         Data.setOrders(order);
         Data.updateOrders();
         System.out.println("Delivery Expected Time " + getOrderTime());
@@ -89,8 +95,8 @@ public class Order {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
         calendar.add(Calendar.DAY_OF_YEAR, 4);
-        Date dateFourDaysAfter = calendar.getTime();
-        ordertime = dateFourDaysAfter;
+        Date date1DaysAfter = calendar.getTime();
+        this.ordertime = date1DaysAfter;
         return ordertime;
     }
 
@@ -126,4 +132,5 @@ public class Order {
     public PaymentMethod getPayment() {
         return payment;
     }
+
 }

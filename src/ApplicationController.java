@@ -13,7 +13,7 @@ import OrderClasses.*;
 import PaymentClasses.GiftPayment;
 public class ApplicationController{
     public DataManager Data = new DataManager();
-    private Order order;
+    private Order order = new Order();
     int choice;
     String nameE , passwordD;
     ApplicationController(){
@@ -118,7 +118,7 @@ public class ApplicationController{
                             admin.deleteItem();
                             break;
                         case 4:
-//                            admin.viewAllOrders();
+                            admin.viewAllOrders();
                             break;
                         case 5:
                             admin.viewStatistics();
@@ -154,7 +154,6 @@ public class ApplicationController{
                     }
                     System.out.println("Please enter the number of the catalog you want to view or enter 0 to exit:");
                     int cho = input.nextInt();
-                    input.nextLine();
                     if (cho == 0) {
                         break;
                     }
