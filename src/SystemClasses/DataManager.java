@@ -540,8 +540,8 @@ public class DataManager {
 
 
     public void register() {
-
         // Enter username and check if it follows the rules or not + check is it unique or not
+        System.out.println(customers.size());
         boolean found;
         String usernameRegex = "^[a-zA-Z0-9_-]+$";
         String name;
@@ -599,6 +599,7 @@ public class DataManager {
         // add new customer to the vector
         Customer newCustomer = new Customer(name, password, address, address);
         customers.add(newCustomer);
+        System.out.println(customers.size());
         updateCustomers();
     }
 
