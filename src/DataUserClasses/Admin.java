@@ -1,23 +1,22 @@
 package DataUserClasses;
-
-import java.net.PasswordAuthentication;
+import java.util.Objects;
 import java.util.Scanner;
-
 import OrderClasses.CartItem;
 import OrderClasses.Item;
 import java.util.Vector;
-
 import OrderClasses.Order;
 import SystemClasses.*;
 public class Admin extends User {
     private DataManager Data = new DataManager();
     private Catalog catalog = new Catalog();
+
     private String email;
     public Admin(String name, String password, String email) {
         super(name, password);
         this.email = email;
         Data.loadItems();
         Data.loadCustomers();
+        Data.loadOrders();
         Data.loadCatalogs();
         Data.loadVouchers();
     }
@@ -45,11 +44,12 @@ public class Admin extends User {
             }
             Data.setCatalogs(ct);
             Data.updateCatalogs();
+            System.out.println("Item added successfully");
         }
     }
 
 
-    public boolean editItem() {
+    public void editItem() {
         System.out.print("Enter The id of The item you want to Edit: ");
         int id = new Scanner(System.in).nextInt();
         Vector<Item> items = Data.getItems();
@@ -58,9 +58,11 @@ public class Admin extends User {
                item.printItem(false);
                 int choice = 0;
                 while (choice != 10) {
-                    System.out.println("\nWhich field do you want to edit?");
-                    System.out.println("   1. Name\n   2. Category\n   3. Description\n   4. Brand\n   5. Price\n   " +
-                            "6. Discount percentage\n   7. Points\n   8. Image\n   9. Quantity\n   10. Save");
+                    System.out.println("\nWhich field do you want to edit? Choose from the following options:\n" +
+                            "1. Name   2. Category   3. Description   4. Brand   5. Price\n" +
+                            "6. Discount percentage  7. Points        8. Image   9. Quantity\n"
+                            +"10. Save");
+
                     choice = new Scanner(System.in).nextInt();
                     switch (choice) {
                         case 1:
@@ -109,11 +111,11 @@ public class Admin extends User {
                 Data.setItems(items);
                 Data.updateItems();
                 catalog.updateIteminCatalog(item);
-                return true;
+                System.out.println("Item Edited Successful");
+                return;
             }
         }
         System.out.println("Item not found");
-        return false;
     }
 
     public void deleteItem() {
@@ -125,7 +127,7 @@ public class Admin extends User {
         for (Item item : items) {
             if (item.getID() == id) {
                 item.printItem(false);
-                System.out.println("");
+                System.out.println();
                 System.out.println("Do you want to delete this item? Press 1 to confirm, 2 to cancel.");
                 int choice = scanner.nextInt();
                 if (choice == 1) {
@@ -161,6 +163,7 @@ public class Admin extends User {
         if(loyaltyPoints.checkLoyaltyPoints()){
             Data.setLoyaltyScheme(loyaltyPoints);
             Data.UpdateVouchers_Loyalty();
+            System.out.println("Loyalty Schema Added Successful");
         }
     }
 
@@ -168,8 +171,9 @@ public class Admin extends User {
         System.out.print("Enter the username of the customer you want to suspend: ");
         String username = new Scanner(System.in).nextLine();
         Vector<Customer>ct = Data.getCustomers();
+        Vector<Order> or = Data.getOrders();
         for (Customer c : ct) {
-            if (c.getName() == username) {
+            if (Objects.equals(c.getName(), username)){
                 System.out.println("Name: " + c.getName());
                 System.out.println("Phone: " + c.getPhone());
                 System.out.println("Address: " + c.getAddress());
@@ -178,8 +182,16 @@ public class Admin extends User {
                 if (choice == 1) {
                     boolean isRemoved = Data.removeCustomerFromVector(c);
                     if (isRemoved) {
+                        for (Order order : or){
+                            if(order.getUser() == c){
+                                or.remove(order);
+                                Data.setOrderVector(or);
+                                Data.updateOrders();
+                            }
+                        }
                         Data.setCustomers(ct);
                         Data.updateCustomers();
+                        System.out.println("User Suspended Successful");
                         return true;
                     }
                 } else {
@@ -223,6 +235,7 @@ public class Admin extends User {
             vouchersS.add(newVoucher);
             Data.setVouchers(vouchersS);
             Data.UpdateVouchers_Loyalty();
+            System.out.println("Voucher Created Successful");
 
         }
     }
