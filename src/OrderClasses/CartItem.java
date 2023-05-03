@@ -12,21 +12,13 @@ public class CartItem extends Item{
         super(item.getID(), item.getName(), item.getCategory(), item.getDescription(), item.getBrand(), item.getPrice(), item.getDiscountPercentage(), item.getPoints(), item.getImage(), item.getQuantity());
         this.quantity = quantity;
     }
-
+    public void displayCartItem(){
+        printItem(true , true);
+        System.out.println(" || Quantity: " + quantity);
+    }
     public CartItem convertToCartItem(Item item, int quantity) {
         CartItem cartItem = new CartItem(item, quantity);
-        cartItem.setID(item.getID());
-        cartItem.setName(item.getName());
-        cartItem.setCategory(item.getCategory());
-        cartItem.setDescription(item.getDescription());
-        cartItem.setBrand(item.getBrand());
-        cartItem.setPrice(item.getPrice());
-        cartItem.setDiscountPercentage(item.getDiscountPercentage());
-        cartItem.setPoints(item.getPoints());
-        cartItem.setImage(item.getImage());
-        cartItem.setQuantity(quantity);
         return cartItem;
     }
-
     public CartItem(){};
 }

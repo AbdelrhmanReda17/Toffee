@@ -54,7 +54,8 @@ public class DataManager {
     //                 CUSTOMER / USER CLASSES
     // -------------------------------------------------------
     //  LOAD USERS VECTOR 
-    public void loadCustomers() {
+    public void loadCustomers() {    
+        customers = new Vector<>();
         String filePath = "src/ApplicationData/CustomersData.csv";
         File file = new File(filePath);
     
@@ -82,7 +83,8 @@ public class DataManager {
         String password = data[1];
         String phone = data[2];
         String address = data[3];
-        return new Customer(name, password, phone, address);
+        int LoyaltyPoints = Integer.parseInt(data[4]);
+        return new Customer(name, password, phone, address ,LoyaltyPoints );
     }
     
     public void updateCustomers() {
@@ -90,7 +92,7 @@ public class DataManager {
         try {
             FileWriter writer = new FileWriter(filePath);
             for (Customer customer : customers) {
-                writer.write(customer.getName() + "," + customer.getPassword() + "," + customer.getPhone() + "," + customer.getAddress() + "\n");
+                writer.write(customer.getName() + "," + customer.getPassword() + "," + customer.getPhone() + "," + customer.getAddress() + "," + customer.getLoyaltyPoints()+ "\n");
             }
             writer.close();
         } catch (IOException e) {
@@ -128,8 +130,6 @@ public class DataManager {
             }
         }
         
-    
-        
         /** 
          * @param adminData
          * @return Admin
@@ -163,6 +163,7 @@ public class DataManager {
     // -------------------------------------------------------
     //  LOAD ITEMS VECTOR 
     public void loadItems() {
+        items = new Vector<>();
         String filePath = "src/ApplicationData/ItemsData.csv";
         File file = new File(filePath);
         try {
@@ -215,6 +216,8 @@ public class DataManager {
     // -------------------------------------------------------
     // LOAD CATALOG VECTOR 
     public void loadCatalogs() {
+        catalogs = new Vector<>();
+
         String filePath = "src/ApplicationData/CatalogsData.csv";
         File file = new File(filePath);
     
@@ -315,6 +318,7 @@ public class DataManager {
     // -------------------------------------------------------
     // LOAD VOUCHER VECTOR 
     public void loadVouchers() {
+        vouchers = new Vector<>();
         String filePath = "src/ApplicationData/SystemData.csv";
         File file = new File(filePath);
     
@@ -388,6 +392,7 @@ public class DataManager {
     //  LOAD Order VECTOR 
         
     public void loadOrders() {
+        orders = new Vector<>();
         String filePath = "src/ApplicationData/OrderData.csv";
         File file = new File(filePath);
 
@@ -428,7 +433,7 @@ public class DataManager {
         }
         return new Order(orderId, customer, status, shopcart,ordertime, shippingAddress, payment);
     }
-    private Customer getCustomerByName(String name) {
+    private Customer getCustomerByName(String name) {        
         loadCustomers();
         for (Customer customer : customers) {
             if (customer.getName().equals(name)) {
@@ -442,20 +447,17 @@ public class DataManager {
         String[] data = cartData.split("/");
         double totalCost = Double.parseDouble(data[0].replaceAll("\"", "").trim());
         int loyaltyPoints = Integer.parseInt(data[1].replaceAll("\"", "").trim());
-
         for (int i = 2; i < data.length; i++) {
             CartItem item = parseCartItem(data[i]);
             if (item != null) {
-                CartItem cartItem = new CartItem();
-                cartItem.setItem(item);
-                cartItem.setQuantity(item.getQuantity());
-                shoppingCart.addCartItem(cartItem);
+                // CartItem cartItem = new CartItem();
+                // cartItem.setItem(item);
+                // cartItem.setQuantity(item.getQuantity());
+                shoppingCart.addCartItem(item);
             }
         }
-    
         shoppingCart.setTotalCost(totalCost);
         shoppingCart.setLoyaltyPoints(loyaltyPoints);
-    
         return shoppingCart;
     }
     private CartItem parseCartItem(String itemData) {
@@ -539,9 +541,8 @@ public class DataManager {
     }
 
 
-    public void register() {
+    public boolean register() {
         // Enter username and check if it follows the rules or not + check is it unique or not
-        System.out.println(customers.size());
         boolean found;
         String usernameRegex = "^[a-zA-Z0-9_-]+$";
         String name;
@@ -599,8 +600,8 @@ public class DataManager {
         // add new customer to the vector
         Customer newCustomer = new Customer(name, password, address, address);
         customers.add(newCustomer);
-        System.out.println(customers.size());
         updateCustomers();
+        return true;
     }
 
 

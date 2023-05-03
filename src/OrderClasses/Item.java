@@ -105,19 +105,21 @@ public class Item {
         this.quantity = quantity;
         scanner.close();
     }
-    public void printItem(boolean IsCustomer){
+    public void printItem(boolean IsCustomer , boolean isCartItem){
         System.out.print("ID: " + getID()+ " || ");
         System.out.print("Name: " + getName() + " || ");
         System.out.print("Category: " + getCategory()+ " || ");
-        System.out.print("Description: " + getDescription()+ " || ");
-        System.out.print("Brand: " + getBrand()+ " || ");
+        if(!isCartItem){
+            System.out.print("Description: " + getDescription()+ " || ");
+            System.out.print("Brand: " + getBrand()+ " || ");
+        }
         System.out.print("Price: " + getPrice()+ " || ");
         System.out.print("Discount percentage: " + getDiscountPercentage()+ " || ");
         System.out.print("Points: " + getPoints());
         if(!IsCustomer)
         {
             System.out.print(" || "+ "Image: " + getImage()+ " || ");
-        System.out.print("Quantity: " + getQuantity());
+            System.out.print("Quantity: " + getQuantity());
         }
     }
     

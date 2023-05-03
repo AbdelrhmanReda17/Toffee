@@ -11,15 +11,24 @@ public class Customer extends User {
     private String address;
     private String phone;
     private ShoppingCart shoppingCart = new ShoppingCart();
-    private int loyaltyPoints=0;
+    private int loyaltyPoints;
+    private DataManager Data = new DataManager();
 
     public Customer(String name, String password, String phone, String address) {
         super(name, password);
         this.address = address;
         this.phone=phone;
+        this.loyaltyPoints = 0;
+    }
+    public Customer(String name, String password, String phone,  String address , int loyaltyPoints) {
+        super(name, password);
+        this.address = address;
+        this.phone=phone;
+        this.loyaltyPoints = loyaltyPoints;
     }
     // public Order getCurrentOrder() {
-    //     for (Order order : dataManager.getOrders()) {
+    //     Data.loadOrders();
+    //     for (Order order : Data.getOrders()) {
     //         if (order.getStatus().equals(Order_state.IN_PROGRESS) && order.getUser().equals(this)) {
     //             return order;
     //         }
@@ -27,24 +36,32 @@ public class Customer extends User {
     //     return null;
     // }
 
-    // public void placeOrder(Order order, String address) {
-    //     // Logic to place an order with the given address
-    // }
-
-    // public Vector<Item> viewCatalog() {
-    //     // Logic to view the catalog and return a vector of items
-    //     return new Vector<Item>(); // Placeholder return statement
-    // }
-
     // public boolean reorder(Order order) {
     //     // Logic to reorder a previous order
     //     return true; // Return true if successful, false otherwise
     // }
-
-    // public Vector<Order> viewOrderHistory() {
-    //     // Logic to view the order history and return a vector of orders
-    //     return new Vector<>(); // Placeholder return statement
-    // }
+    public void DisplayPrevOrderHistory(){
+            Vector<Order> prevOrders = this.LoadPrevOrderHistory();
+            if(prevOrders.isEmpty()){
+                System.out.print("Customer Didn't have any orders");
+            }
+            for(int i = 0 ; i < prevOrders.size() ; i++){
+                System.out.println("--------------------------------------------------------Order - " + (i+1) + "--------------------------------------------------------");
+                System.out.print( "OrderID: " + prevOrders.get(i).getOrderId() + "  ||  ");
+                prevOrders.get(i).getShopcart().displayShoppingCart();
+                System.out.println("--------------------------------------------------------------------------------------------------------------------------");
+            }
+    }
+    public Vector<Order> LoadPrevOrderHistory() {
+        Vector<Order> prevOrders = new Vector<Order>();
+        Data.loadOrders();
+        for(Order order : Data.getOrders()){
+            if(order.getUser().getName().equals(this.getName())){
+                prevOrders.add(order);
+            }
+        }
+        return prevOrders;
+    }
 
     public int getLoyaltyPoints() {
         return loyaltyPoints;

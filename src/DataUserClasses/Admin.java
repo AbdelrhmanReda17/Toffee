@@ -55,7 +55,7 @@ public class Admin extends User {
         Vector<Item> items = Data.getItems();
         for (Item item : items) {
             if (item.getID() == id) {
-               item.printItem(false);
+               item.printItem(false , false);
                 int choice = 0;
                 while (choice != 10) {
                     System.out.println("\nWhich field do you want to edit? Choose from the following options:\n" +
@@ -126,7 +126,7 @@ public class Admin extends User {
         Item itemToRemove = null;
         for (Item item : items) {
             if (item.getID() == id) {
-                item.printItem(false);
+                item.printItem(false , false);
                 System.out.println();
                 System.out.println("Do you want to delete this item? Press 1 to confirm, 2 to cancel.");
                 int choice = scanner.nextInt();

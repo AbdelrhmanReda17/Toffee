@@ -19,6 +19,11 @@ public class ApplicationController {
     ApplicationController(DataManager Data) {
         this.Data = Data;
     }
+    public void Start() {
+        Data.LoadDATA();
+        Vector<Customer> customer = Data.getCustomers();
+        customer.get(3).DisplayPrevOrderHistory();
+    }
 
     public void StartApplication() {
         Data.LoadDATA();
@@ -152,7 +157,6 @@ public class ApplicationController {
                                     System.out.println("Invalid choice, please select again.");
                             }
                         }
-
                     } else if (CAOption == 1) {
                         customer = Data.getCurrentCustomer(nameE, passwordD);
                         System.out.println("Welcome to Toffee, " + customer.getName() + "! Get ready to satisfy your sweet tooth!");
@@ -161,7 +165,6 @@ public class ApplicationController {
                             System.out.println("Here Are The available Catalogs : ");
                             for (int i = 0; i < catalogs.size(); i++) {
                                 System.out.println(i + 1 + " " + catalogs.get(i).getName());
-
                             }
                             System.out.println("Please enter the number of the catalog you want to view or enter 0 to exit:");
                             int cho = input.nextInt();
@@ -185,8 +188,7 @@ public class ApplicationController {
                                 System.out.println("Item added to cart!");
                             }
                         }
-                        customer.getShoppingCart().printCartItems();
-
+                        customer.getShoppingCart().displayShoppingCart();
                         System.out.println("Please choose an option:");
                         System.out.println(" 1 : Update Cart Items Quantity");
                         System.out.println(" 2 : Place The Order");
@@ -201,7 +203,9 @@ public class ApplicationController {
                                 order.placeOrder(customer);
                                 break;
                             case 2:
-                                order.placeOrder(customer);
+                                if(order.placeOrder(customer)){
+                                    customer.setLoyaltyPoints( customer.getShoppingCart().getPointsEarned());
+                                }
                                 System.out.println("Ordered Place Successful ! ");
                                 break;
                             case 3:
@@ -228,7 +232,6 @@ public class ApplicationController {
                     }
 
                 }
-
             }else{
                 System.out.println("Sorry !! There is an Error While logging in");
             }

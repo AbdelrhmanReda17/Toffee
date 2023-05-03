@@ -3,43 +3,66 @@ package OrderClasses;
 import java.util.ArrayList;
 import java.util.List;
 
+import SystemClasses.DataManager;
+import SystemClasses.LoyaltyPoints;
+
 public class ShoppingCart {
     private double totalCost;
     private int loyaltyPoints;
     private List<CartItem> cartItems;
+    private int pointsEarned;
+    private LoyaltyPoints LoyaltyScheme; 
+    private DataManager Data = new DataManager();
 
     public ShoppingCart() {
         this.totalCost = 0.0;
         this.loyaltyPoints = 0;
+        this.pointsEarned=0;
         this.cartItems = new ArrayList<>();
+        Data.loadLoyaltyScheme();
+        LoyaltyScheme = Data.getLoyaltyScheme();
     }
 
     public void addCartItem(CartItem item) {
-        cartItems.add(item);
+        int index = -1;
+        for(int i = 0 ; i < cartItems.size() ; i++){
+            if(cartItems.get(i).getID() == item.getID()){
+                index = i;
+            }
+        }
+        if(index == -1){
+            cartItems.add(item);
+        }else{
+            cartItems.get(index).setQuantity(cartItems.get(index).getQuantity()+1);
+        }
         totalCost += (item.getPrice() * item.getDiscountPercentage());
         loyaltyPoints += item.getPoints();
+        if(pointsEarned < LoyaltyScheme.getMaximumpoint()){
+            pointsEarned += (item.getPrice() * LoyaltyScheme.getPointsEarnedperEgp());
+        }else{
+            pointsEarned = LoyaltyScheme.getMaximumpoint();
+        }
     }
 
     public void removeCartItem(CartItem item) {
         cartItems.remove(item);
         totalCost -= (item.getPrice() * item.getDiscountPercentage());
         loyaltyPoints -= item.getPoints();
+        pointsEarned -= (item.getPrice()*LoyaltyScheme.getPointsEarnedperEgp());
     }
 
-    public void updateCartItem() {
-        // Update logic goes here
-        // You can update the quantity, price, or any other details of the cart item
+    public void displayShoppingCart() {
+        System.out.print("Total Points Earned: "+pointsEarned+"  ||  "+"Total Cost: " + totalCost+"  ||  " + "Total Points Cost: " + loyaltyPoints + "\n");
+        for(CartItem d : cartItems){
+                d.displayCartItem();
+        }
     }
-
+    public boolean updateCartItem(){
+        return true;
+    }
     public void clearCart() {
         cartItems.clear();
         totalCost = 0.0;
-    }
-
-    public void printCartItems(){
-        for(int i=0;i<cartItems.size();i++){
-            System.out.println(" Name : " + cartItems.get(i).getName() +" Price : "+ cartItems.get(i).getPrice() + "EGP" + "Quantity : " +cartItems.get(i).getQuantity());
-        }
     }
 
     public List<CartItem> getCartItems() {
@@ -51,6 +74,9 @@ public class ShoppingCart {
     }
     public int getLoyaltyPoints() {
         return loyaltyPoints;
+    }
+    public int getPointsEarned() {
+        return pointsEarned;
     }
     public void setLoyaltyPoints(int loyaltyPoints) {
         this.loyaltyPoints = loyaltyPoints;

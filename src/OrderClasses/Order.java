@@ -45,7 +45,7 @@ public class Order {
         ORDERCount++;
     }
 
-    public void placeOrder( Customer user) {
+    public boolean placeOrder( Customer user) {
         Data.loadOrders();
         boolean paymentSuccess = false;
 
@@ -81,7 +81,7 @@ public class Order {
         
         if (!paymentSuccess) {
             System.out.println("Failed to process payment.");
-            return;
+            return false;
         }
 
         Order order = new Order(orderId++, user, Order_state.Ordered, user.getShoppingCart(),ordertime,shippingAddress, payment);
@@ -89,6 +89,7 @@ public class Order {
         Data.updateOrders();
         System.out.println("Delivery Expected Time " + getOrderTime());
         System.out.println("Order placed successfully!");
+        return true;
     }
     public Date getOrderTime() {
         Date currentDate = new Date();
