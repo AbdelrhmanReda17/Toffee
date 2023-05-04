@@ -3,7 +3,7 @@ package DataUserClasses;
 import OrderClasses.Order;
 import OrderClasses.ShoppingCart;
 import OrderClasses.Order_state;
-
+import java.util.Scanner;
 import java.util.Vector;
 import SystemClasses.*;
 
@@ -36,12 +36,17 @@ public class Customer extends User {
     //     return null;
     // }
 
-    public boolean reorder(Order order) {
-                             System.out.println("Please choose an option:");
-                        System.out.println(" 1 : Update Cart Items Quantity");
-                        System.out.println(" 2 : Place The Order");
-                        System.out.println(" 3 : Clear Cart");
-        return true;
+    public Order reorder() {
+            Vector<Order> PrevOrders = LoadPrevOrderHistory();
+            System.out.println("Please select one of you past orders them and enter it's number : ");
+            Scanner input = new Scanner(System.in);
+            int OrderCho = input.nextInt();
+            while(OrderCho > PrevOrders.size()){
+                System.out.println("You Entered a invalid Order Number Please Enter it again: ");
+                OrderCho = input.nextInt();
+            }
+            OrderCho = OrderCho-1;
+            return PrevOrders.get(OrderCho);
     }
     public void DisplayPrevOrderHistory(){
             Vector<Order> prevOrders = this.LoadPrevOrderHistory();
@@ -86,4 +91,5 @@ public class Customer extends User {
         this.loyaltyPoints= loyaltyPoints;
     }
     public ShoppingCart getShoppingCart(){ return shoppingCart;}
+    public void setShoppingCart(ShoppingCart shoppingCart) {this.shoppingCart = shoppingCart;}
 }

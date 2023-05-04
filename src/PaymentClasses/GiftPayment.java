@@ -19,7 +19,7 @@ public class GiftPayment extends PaymentMethod {
     public String getMethod() {
         return methodName;
     }
-    public float processPayment(String phone,double total_price) {
+    public float processPayment(int CustomerLoyalty ,String phone,double total_price  , int loyaltyPoints) {
         int choice; 
         DATA.loadVouchers();
         vouchers = DATA.getVouchers();
@@ -56,7 +56,7 @@ public class GiftPayment extends PaymentMethod {
                 }
                 else if (vouchers.get(i).getValue()>total_price){
                     System.out.println("You have a Remaining price : " + ( vouchers.get(i).getValue() - total_price) + "L.E");
-                    System.out.println(" You will take anthor Voucher with the Remaining Price , Confirm that you want to Add the voucher (y->1 /n->2): ");
+                    System.out.println("You will take anthor Voucher with the Remaining Price , Confirm that you want to Add the voucher (y->1 /n->2): ");
                     choice = scanner.nextInt();
                     if(choice == 1){
                         GiftVoucher voucher = generate_voucher(new Float(vouchers.get(i).getValue() - total_price));

@@ -52,7 +52,6 @@ public class Order {
         String shippingAddress = input.nextLine();
         System.out.print("Enter the phone number: ");
         String phoneNo = input.nextLine();
-
         System.out.println("Select a payment method:");
         System.out.println("1. Credit Card");
         System.out.println("2. Cash on Delivery");
@@ -68,25 +67,42 @@ public class Order {
         }else if(paymentMethodChoice == 4){
             payment = new GiftPayment();
         }
-        paymentSuccess = payment.processPayment(phoneNo,user.getShoppingCart().getTotalCost());
+        paymentSuccess = payment.processPayment(user.getLoyaltyPoints(),phoneNo,user.getShoppingCart().getTotalCost() , user.getShoppingCart().getLoyaltyPoints());
         if (paymentSuccess == -1 ) {
             System.out.println("Failed to process payment.");
             return false;
-        }else if (paymentSuccess == 0){
-            ordertime = getOrderTime();
-            Order order = new Order(user, Order_state.IN_PROGRESS, user.getShoppingCart(),ordertime,shippingAddress, payment);
-            Data.setOrders(order);
-            Data.updateOrders();
-            System.out.println("Delivery Expected Time " + formatOrderTime());
-            return true;
         }else{
-            user.getShoppingCart().setTotalCost(paymentSuccess);
-            return placeOrder(user);
+            if(payment.getMethod() == "Loyalty Payment"){
+                int loyaltyPoints = (int) Math.round(paymentSuccess);
+                user.setLoyaltyPoints(loyaltyPoints);
+                Data.setCurrentCustomer(user);
+                Data.updateCustomers();
+                CreateOrder(user, Order_state.IN_PROGRESS, user.getShoppingCart(),shippingAddress, payment);
+                return true;
+            }
+            else{
+                if(paymentSuccess == 0){
+                    CreateOrder(user, Order_state.IN_PROGRESS, user.getShoppingCart(),shippingAddress, payment);
+                    return true;
+                }else
+                {
+                    user.getShoppingCart().setTotalCost(paymentSuccess);
+                    return placeOrder(user);
+                }
+            }
         }
     }
+    private void CreateOrder(Customer user , Order_state status , ShoppingCart shoppingCart , String address , PaymentMethod payment){
+        ordertime = getOrderTime();
+        Order order = new Order(user, status, shoppingCart,ordertime,address, payment);
+        Data.setOrders(order);
+        Data.updateOrders();
+        System.out.println("Delivery Expected Time " + formatOrderTime());
+    }
+
     public Date getOrderTime() {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, 4);
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
         Date ordertime = calendar.getTime();
         return ordertime;
     }
@@ -96,8 +112,6 @@ public class Order {
         String formattedDate = dateFormat.format(orderTime);
         return formattedDate;
     }
-
-
 
     public int getOrderId() {
         return orderId;
@@ -118,7 +132,9 @@ public class Order {
     public ShoppingCart getShopcart() {
         return shopcart;
     }
-
+    public void setShopcart(ShoppingCart shopcart) {
+        this.shopcart = shopcart;
+    }
     public String getShippingAddress() {
         return shippingAddress;
     }

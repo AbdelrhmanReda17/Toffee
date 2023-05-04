@@ -10,7 +10,7 @@ public class CashPayment extends PaymentMethod {
     public String getMethod() {
         return methodName;
     }
-    public float processPayment(String phone,double total_price) {
+    public float processPayment(int CustomerLoyalty ,String phone,double total_price  , int loyaltyPoints) {
         Scanner scanner = new Scanner(System.in);
         this.phoneNumber = phone;
         // System.out.print("Enter your phone number: ");
@@ -20,11 +20,11 @@ public class CashPayment extends PaymentMethod {
         sendVerificationCode();
         if  (!isPhoneVerified) {
             System.out.println("Payment could not be processed.");
-            return 0;
+            return -1;
         }
         else{
             System.out.println("Payment processed successfully!");
-            return 1;
+            return 0;
         }
     }
 
@@ -34,7 +34,6 @@ public class CashPayment extends PaymentMethod {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the verification code:");
         int inputCode = scanner.nextInt();
-        scanner.close();
         if (inputCode == code) {
             isPhoneVerified = true;
             System.out.println("Phone number verified successfully.");

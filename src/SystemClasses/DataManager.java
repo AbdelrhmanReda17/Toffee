@@ -100,7 +100,7 @@ public class DataManager {
         }
     } 
     /** 
-//     * @param loadAdmins()
+     * @param loadAdmins()
      * @return Vector<Customer>
      */
     // GET / SET ALL USERS
@@ -391,6 +391,7 @@ public class DataManager {
     //  LOAD Order VECTOR 
         
     public void loadOrders() {
+        loadCustomers();      
         orders = new Vector<>();
         String filePath = "src/ApplicationData/OrderData.csv";
         File file = new File(filePath);
@@ -432,8 +433,7 @@ public class DataManager {
         }
         return new Order( orderId,customer, status, shopcart,ordertime, shippingAddress, payment);
     }
-    private Customer getCustomerByName(String name) {        
-        loadCustomers();
+    private Customer getCustomerByName(String name) {  
         for (Customer customer : customers) {
             if (customer.getName().equals(name)) {
                 return customer;
@@ -631,7 +631,14 @@ public class DataManager {
         }
         return null;
     }
-
+    public void setCurrentCustomer(Customer customer) {
+        for (Customer customerR : customers) {
+            if (customerR.getName().equals(customer.getName())) {
+                customerR.setLoyaltyPoints(customer.getLoyaltyPoints());
+                break; 
+            }
+        }
+    }
     public void setOrders(Order order) {
             orders.add(order);
     }

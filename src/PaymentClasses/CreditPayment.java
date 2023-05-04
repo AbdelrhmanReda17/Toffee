@@ -11,20 +11,17 @@ public class CreditPayment extends PaymentMethod {
     public String getMethod() {
         return methodName;
     }
-    public float processPayment(String phone, double total_price) {
+    public float processPayment(int CustomerLoyalty ,String phone, double total_price  , int loyaltyPoints) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter card number: ");
         this.cardNumber = scanner.nextLine();
-        cardNumber = scanner.nextLine();
         System.out.print("Enter expiration date : ");
         expDate = scanner.nextLine();
 
         System.out.print("Enter CVV: ");
         cvv = scanner.nextInt();
-        
-        scanner.close();
-        return 1;
+        return 0;
     }
 
 }

@@ -16,26 +16,19 @@ public class LoyaltyPayment extends PaymentMethod {
         return methodName;
     }
 
-    public float processPayment(String phone, double total_price) {
-        Customer c = null;
-        if (c.getLoyaltyPoints() == total_price) {
-            c.setLoyaltyPoints(0);
-            return 1;
-        } else if (c.getLoyaltyPoints() < total_price) {
-            total_price -= c.getLoyaltyPoints();
-            System.out.println("Please select another way to complete payment :");
-            int choice = new Scanner(System.in).nextInt();
-            System.out.println("1. pay cash");
-            System.out.println("2. pay with credit");
-            if (choice == 1) {
-                PaymentMethod PM = new CashPayment();
-                PM.processPayment(phone,total_price);
-            }
-            if (choice == 2) {
-                PaymentMethod CP = new CreditPayment();
-                CP.processPayment(phone,total_price);
+    public float processPayment(int CustomerLoyalty ,String phone, double total_price  , int loyaltyPoints) {
+        if (CustomerLoyalty >= loyaltyPoints) {
+            Scanner input = new Scanner(System.in);
+            System.out.println("Your Loyalty Points: " + CustomerLoyalty +" Loyalty point" + "and your Order Price is " + loyaltyPoints +" Loyalty Point");
+            System.out.println("Do you want to Confirm paid ? (y->1 , n->2 )");
+            int continueOption = input.nextInt();
+            if(continueOption == 1){
+                System.out.println("Your new Loyalty Points " + (CustomerLoyalty -loyaltyPoints) +" Loyalty Point");
+                return (CustomerLoyalty-loyaltyPoints);
+            }else{
+                return -1;
             }
         }
-        return 0;
+        return -1;
     }
 }
