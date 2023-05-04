@@ -2,6 +2,8 @@ package OrderClasses;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 
 import SystemClasses.DataManager;
 import SystemClasses.LoyaltyPoints;
@@ -57,8 +59,36 @@ public class ShoppingCart {
                 d.displayCartItem();
         }
     }
-    public boolean updateCartItem(){
-        return true;
+    public void updateCartItem() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the name of the item you want to update its Quantity: ");
+        String name = scanner.nextLine();
+        int quantity = 0;
+        while (true) {
+            System.out.println("Enter the Quantity you want -maximum 50-: ");
+            quantity = scanner.nextInt();
+            if (quantity <= 50) {
+                break;
+            }
+            System.out.println("quantity should not exceed 50!! ");
+        }
+        for (CartItem cartItem : cartItems) {
+            if (Objects.equals(cartItem.getName(), name)) {
+                int oldQuantity = cartItem.getQuantity();
+                double oldCost = (cartItem.getPrice() - cartItem.getPrice() * (cartItem.getDiscountPercentage() / 100))
+                        * oldQuantity;
+                cartItem.setQuantity(quantity);
+                double newCost = (cartItem.getPrice() - cartItem.getPrice() * (cartItem.getDiscountPercentage() / 100))
+                        * quantity;
+                totalCost += newCost - oldCost;
+                loyaltyPoints += cartItem.getPoints() * (quantity - oldQuantity);
+                pointsEarned += (cartItem.getPrice() * LoyaltyScheme.getPointsEarnedperEgp())
+                        * (quantity - oldQuantity);
+                if(pointsEarned > LoyaltyScheme.getMaximumpoint()){
+                    pointsEarned = LoyaltyScheme.getMaximumpoint();
+                }
+            }
+        }
     }
     public void clearCart() {
         cartItems.clear();
