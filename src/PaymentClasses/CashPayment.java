@@ -10,20 +10,20 @@ public class CashPayment extends PaymentMethod {
     public String getMethod() {
         return methodName;
     }
-    public boolean processPayment(String phoneNumber,double total_price) {
+    public float processPayment(double total_price) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your phone number: ");
-        phoneNumber = scanner.nextLine();
+        this.phoneNumber = scanner.nextLine();
         scanner.close();
         // System.out.println(phoneNumber);
         sendVerificationCode();
         if  (!isPhoneVerified) {
             System.out.println("Payment could not be processed.");
-            return false;
+            return 0;
         }
         else{
             System.out.println("Payment processed successfully!");
-            return true;
+            return 1;
         }
     }
 

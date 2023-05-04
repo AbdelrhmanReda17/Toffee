@@ -1,5 +1,8 @@
 package OrderClasses;
 import java.util.Scanner;
+
+import javax.lang.model.util.ElementScanner14;
+
 import SystemClasses.DataManager;
 
 public class Item {
@@ -108,13 +111,21 @@ public class Item {
     public void printItem(boolean IsCustomer , boolean isCartItem){
         System.out.print("ID: " + getID()+ " || ");
         System.out.print("Name: " + getName() + " || ");
-        System.out.print("Category: " + getCategory()+ " || ");
+        if(isCartItem)
+            System.out.print("Category: " + getCategory()+ " || ");
         if(!isCartItem){
             System.out.print("Description: " + getDescription()+ " || ");
             System.out.print("Brand: " + getBrand()+ " || ");
         }
-        System.out.print("Price: " + getPrice()+ " || ");
-        System.out.print("Discount percentage: " + getDiscountPercentage()+ " || ");
+        if(getDiscountPercentage() > 1){
+            System.out.print("Discount percentage: " + getDiscountPercentage()+ "% || ");
+            System.out.print("Price Before : " + getPrice() + "L.E || ");
+            System.out.print("Price After  : " + (getPrice()-getPrice()*(getDiscountPercentage()/100)) + "L.E || ");
+        }
+        else{
+            System.out.print("Price: " + getPrice() + "L.E || ");
+        }
+        
         System.out.print("Points: " + getPoints());
         if(!IsCustomer)
         {

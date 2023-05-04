@@ -35,7 +35,7 @@ public class ShoppingCart {
         }else{
             cartItems.get(index).setQuantity(cartItems.get(index).getQuantity()+1);
         }
-        totalCost += (item.getPrice() * item.getDiscountPercentage());
+        totalCost += ((item.getPrice()-item.getPrice()*(item.getDiscountPercentage()/100)));
         loyaltyPoints += item.getPoints();
         if(pointsEarned < LoyaltyScheme.getMaximumpoint()){
             pointsEarned += (item.getPrice() * LoyaltyScheme.getPointsEarnedperEgp());
@@ -46,7 +46,7 @@ public class ShoppingCart {
 
     public void removeCartItem(CartItem item) {
         cartItems.remove(item);
-        totalCost -= (item.getPrice() * item.getDiscountPercentage());
+        totalCost -=  ((item.getPrice()-item.getPrice()*(item.getDiscountPercentage()/100)));
         loyaltyPoints -= item.getPoints();
         pointsEarned -= (item.getPrice()*LoyaltyScheme.getPointsEarnedperEgp());
     }

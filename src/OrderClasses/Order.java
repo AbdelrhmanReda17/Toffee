@@ -47,13 +47,11 @@ public class Order {
 
     public boolean placeOrder( Customer user) {
         Data.loadOrders();
-        boolean paymentSuccess = false;
-
+        float paymentSuccess;
+        System.out.println("The Total Price of you items : " + user.getShoppingCart().getTotalCost());
         Scanner input = new Scanner(System.in);
-
         System.out.print("Enter the shipping address: ");
         String shippingAddress = input.nextLine();
-
         System.out.print("Enter the phone number: ");
         String phoneNo = input.nextLine();
 
@@ -63,41 +61,36 @@ public class Order {
         System.out.println("3. Using Loyalty Points");
         System.out.println("4. Using Gift voucher");
         int paymentMethodChoice = input.nextInt();
-        input.close();
         if (paymentMethodChoice == 1) {
             payment = new CreditPayment();
-            paymentSuccess = payment.processPayment(phoneNo,user.getShoppingCart().getTotalCost());
         } else if (paymentMethodChoice == 2) {
             payment = new CashPayment();
-            paymentSuccess = payment.processPayment(phoneNo,user.getShoppingCart().getTotalCost());
         } else if(paymentMethodChoice == 3){
             payment = new LoyaltyPayment();
-            paymentSuccess = payment.processPayment(phoneNo,user.getShoppingCart().getTotalCost());
         }else if(paymentMethodChoice == 4){
             payment = new GiftPayment();
-            paymentSuccess = payment.processPayment(phoneNo,user.getShoppingCart().getTotalCost());
         }
-
-        
-        if (!paymentSuccess) {
+        paymentSuccess = payment.processPayment(user.getShoppingCart().getTotalCost());
+        if (paymentSuccess == -1 ) {
             System.out.println("Failed to process payment.");
             return false;
+        }else if (paymentSuccess == 0){
+            ordertime = getOrderTime();
+            Order order = new Order(orderId++, user, Order_state.IN_PROGRESS, user.getShoppingCart(),ordertime,shippingAddress, payment);
+            Data.setOrders(order);
+            Data.updateOrders();
+            System.out.println("Delivery Expected Time " + getOrderTime());
+            System.out.println("Order placed successfully!");
+            return true;
+        }else{
+            user.getShoppingCart().setTotalCost(paymentSuccess);
+            return placeOrder(user);
         }
-
-        Order order = new Order(orderId++, user, Order_state.Ordered, user.getShoppingCart(),ordertime,shippingAddress, payment);
-        Data.setOrders(order);
-        Data.updateOrders();
-        System.out.println("Delivery Expected Time " + getOrderTime());
-        System.out.println("Order placed successfully!");
-        return true;
     }
     public Date getOrderTime() {
-        Date currentDate = new Date();
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentDate);
         calendar.add(Calendar.DAY_OF_YEAR, 4);
-        Date date1DaysAfter = calendar.getTime();
-        this.ordertime = date1DaysAfter;
+        Date ordertime = calendar.getTime();
         return ordertime;
     }
 

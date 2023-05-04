@@ -4,6 +4,8 @@ import DataUserClasses.Customer;
 import OrderClasses.CartItem;
 import OrderClasses.Item;
 import OrderClasses.Order;
+import PaymentClasses.GiftPayment;
+import PaymentClasses.PaymentMethod;
 import SystemClasses.DataManager;
 import java.util.Scanner;
 import java.util.Vector;
@@ -20,9 +22,8 @@ public class ApplicationController {
         this.Data = Data;
     }
     public void Start() {
-        Data.LoadDATA();
-        Vector<Customer> customer = Data.getCustomers();
-        customer.get(3).DisplayPrevOrderHistory();
+            PaymentMethod pay  = new GiftPayment();
+            pay.processPayment(50);
     }
 
     public void StartApplication() {
@@ -172,7 +173,7 @@ public class ApplicationController {
                                 break;
                             }
                             cho = cho - 1;
-                            catalogs.get(cho).printItems();
+                            catalogs.get(cho).displayCatalog();
 
                             while (true) {
                                 System.out.println("Please enter the number of the item you want to buy or enter 0 to choose a different catalog:");
@@ -204,9 +205,10 @@ public class ApplicationController {
                                 break;
                             case 2:
                                 if(order.placeOrder(customer)){
-                                    customer.setLoyaltyPoints( customer.getShoppingCart().getPointsEarned());
-                                }
-                                System.out.println("Ordered Place Successful ! ");
+                                    System.out.println("Ordered Place Successful ! ");
+                                    customer.setLoyaltyPoints(customer.getShoppingCart().getPointsEarned());
+                                }else
+                                    System.out.println("Ordered Didn't Placed ! ");
                                 break;
                             case 3:
                                 customer.getShoppingCart().clearCart();

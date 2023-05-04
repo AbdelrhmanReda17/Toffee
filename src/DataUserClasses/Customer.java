@@ -36,10 +36,13 @@ public class Customer extends User {
     //     return null;
     // }
 
-    // public boolean reorder(Order order) {
-    //     // Logic to reorder a previous order
-    //     return true; // Return true if successful, false otherwise
-    // }
+    public boolean reorder(Order order) {
+                             System.out.println("Please choose an option:");
+                        System.out.println(" 1 : Update Cart Items Quantity");
+                        System.out.println(" 2 : Place The Order");
+                        System.out.println(" 3 : Clear Cart");
+        return true;
+    }
     public void DisplayPrevOrderHistory(){
             Vector<Order> prevOrders = this.LoadPrevOrderHistory();
             if(prevOrders.isEmpty()){
@@ -67,13 +70,6 @@ public class Customer extends User {
         return loyaltyPoints;
     }
 
-    // public Vector<Order> getPrevOrders() {
-    //     return prevOrders;
-    // }
-
-    // public ShoppingCart getShoppingCart() {
-    //     return shoppingCart;
-    // }
     public String getAddress() {
         return address;
     }

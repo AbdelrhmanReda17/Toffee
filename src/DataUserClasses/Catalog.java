@@ -87,7 +87,7 @@ public class Catalog {
             System.out.println("Catalog: " + getName());
             int counter = 1;
             for (Item item : items) {
-                System.out.println("ITEM " + counter++);
+                System.out.print(counter++ + " - ");
                 item.printItem(true , false);
                 System.out.println("");
             }

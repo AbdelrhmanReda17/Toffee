@@ -11,7 +11,7 @@ public class CreditPayment extends PaymentMethod {
     public String getMethod() {
         return methodName;
     }
-    public boolean processPayment(String phoneNumber,double total_price) {
+    public float processPayment(double total_price) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter card number: ");
@@ -24,7 +24,7 @@ public class CreditPayment extends PaymentMethod {
         cvv = scanner.nextInt();
         
         scanner.close();
-        return true;
+        return 1;
     }
 
 }
