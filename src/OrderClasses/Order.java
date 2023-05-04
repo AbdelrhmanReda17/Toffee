@@ -48,10 +48,25 @@ public class Order {
         float paymentSuccess;
         System.out.println("The Total Price of you items : " + user.getShoppingCart().getTotalCost());
         Scanner input = new Scanner(System.in);
-        System.out.print("Enter the shipping address: ");
-        String shippingAddress = input.nextLine();
-        System.out.print("Enter the phone number: ");
-        String phoneNo = input.nextLine();
+        String addressRegex = "^[a-zA-Z0-9\\s,-]*$";
+        do {
+            System.out.print("Enter address: ");
+            shippingAddress =  new Scanner(System.in).nextLine();
+            if (!shippingAddress.matches(addressRegex)) {
+                System.out.println("Invalid address!! Addresses can consist of letters, numbers, [  ,_ ,- ]");
+            }
+        } while (!shippingAddress.matches(addressRegex));
+
+        String phoneRegex = "^[0-9]{11}$";
+        String phone;
+        do {
+            System.out.print("Enter phone number: ");
+            phone =  new Scanner(System.in).nextLine();
+            if (!phone.matches(phoneRegex)) {
+                System.out.println("Invalid phone number !! it must only numbers and 11 digit");
+            }
+        } while (!phone.matches(phoneRegex));
+
         System.out.println("Select a payment method:");
         System.out.println("1. Credit Card");
         System.out.println("2. Cash on Delivery");
@@ -67,7 +82,7 @@ public class Order {
         }else if(paymentMethodChoice == 4){
             payment = new GiftPayment();
         }
-        paymentSuccess = payment.processPayment(user.getLoyaltyPoints(),phoneNo,user.getShoppingCart().getTotalCost() , user.getShoppingCart().getLoyaltyPoints());
+        paymentSuccess = payment.processPayment(user.getLoyaltyPoints(),phone,user.getShoppingCart().getTotalCost() , user.getShoppingCart().getLoyaltyPoints());
         if (paymentSuccess == -1 ) {
             System.out.println("Failed to process payment.");
             return false;

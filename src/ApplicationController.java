@@ -47,30 +47,46 @@ public class ApplicationController {
                     System.out.println("Please choose an option : ");
                     System.out.println(" 1 : Register.");
                     System.out.println(" 2 : Sign In.");
-                    int SRChoice = input.nextInt();
-                    input.nextLine();
+                    int SRChoice;
+                    while (true) {
+                        SRChoice = input.nextInt();
+                        input.nextLine();
+                        if (SRChoice == 1 || SRChoice == 2) {
+                            break;
+                        }
+                        System.out.println("Invalid choice. Please enter 1 or 2.");
+                    }
                     if (SRChoice == 1) {
                         System.out.println("REGISTER");
                         Data.register();
-                        break;
-                    } else if (SRChoice == 2) {
-                        System.out.println("SIGN IN");
-
+                        System.out.println("Login Page !!");
+                        CAOption = 1;
                         System.out.print("Enter Username: ");
                         nameE = input.nextLine();
-
+                        System.out.print("Enter Password: ");
+                        passwordD = input.nextLine();
+                        isLoggedIn = Data.login(CAOption, nameE, passwordD);
+                        break;
+                    } else {
+                        System.out.println("SIGN IN");
+                        System.out.print("Enter Username: ");
+                        nameE = input.nextLine();
                         System.out.print("Enter Password: ");
                         passwordD = input.nextLine();
                         CAOption = 1;
                         isLoggedIn = Data.login(CAOption, nameE, passwordD);
                         break;
-                    } else {
-                        System.out.println("Invalid choice");
                     }
-                    break;
                 case 2:
                     System.out.println("REGISTRATION PAGE");
                     Data.register();
+                    System.out.println("Login Page !!");
+                    CAOption = 1;
+                    System.out.print("Enter Username: ");
+                    nameE = input.nextLine();
+                    System.out.print("Enter Password: ");
+                    passwordD = input.nextLine();
+                    isLoggedIn = Data.login(CAOption, nameE, passwordD);
                     break;
                 case 3:
                     System.out.println("SIGN IN AS : ");
@@ -78,22 +94,18 @@ public class ApplicationController {
                     System.out.println(" 2 : Admin.");
                     CAOption = input.nextInt();
                     input.nextLine();
-
                     System.out.print("Enter Username: ");
                     nameE = input.nextLine();
-
                     System.out.print("Enter Password: ");
                     passwordD = input.nextLine();
-
                     isLoggedIn = Data.login(CAOption, nameE, passwordD);
                     break;
                 case 4:
                     System.out.println("Thank you for using Toffee Shop!");
                     return;
                 default:
-                    System.out.println("Invalid choice");
+                    System.out.println("Invalid choice. Please enter a number between 1 and 4.");
             }
-
             if (isLoggedIn) {
                 Boolean isOrderProccess = false;
                 while (true) {
@@ -102,7 +114,7 @@ public class ApplicationController {
                     if (CAOption == 2) {
                         admin = Data.getCurrentAdmin(nameE, passwordD);
                         while (true) {
-                            System.out.println("Greetings, administrator "+admin.getName()+" ! You have arrived at the command center for all things Toffee. Let's get to work!");
+                            System.out.println("Greetings, administrator " + admin.getName() + " ! You have arrived at the command center for all things Toffee. Let's get to work!");
                             System.out.println("Please select an option:");
                             System.out.println("1. Add Item");
                             System.out.println("2. Edit Item");
@@ -153,121 +165,142 @@ public class ApplicationController {
                                     break;
                                 default:
                                     System.out.println("Invalid choice, please select again.");
+                                    continue;
                             }
                         }
                     } else if (CAOption == 1) {
                         customer = Data.getCurrentCustomer(nameE, passwordD);
                         System.out.println("Welcome to Toffee, " + customer.getName() + "! Get ready to satisfy your sweet tooth!");
-                        System.out.println("You have " + customer.getLoyaltyPoints()+ " Loyalty Points");
+                        System.out.println("You have " + customer.getLoyaltyPoints() + " Loyalty Points");
                         while (true) {
-                            System.out.println("Please select an option:");
-                            System.out.println("1. View Catalogs");
-                            System.out.println("2. View Past Orders");
-                            System.out.println("0. Exit");
+                            boolean isValid = true;
+                            boolean isValidInput = true;
+                            do {
+                                System.out.println("Please select an option:");
+                                System.out.println("1. View Catalogs");
+                                System.out.println("2. View Past Orders");
+                                System.out.println("0. Exit");
+                                int choose = input.nextInt();
+                                if (choose == 1) {
+                                    System.out.println("Here Are The available Catalogs : ");
+                                    for (int i = 0; i < catalogs.size(); i++) {
+                                        System.out.println(i + 1 + " " + catalogs.get(i).getName());
+                                    }
 
-                            int choose = input.nextInt();
-                            if(choose == 1)
-                            {
-                                System.out.println("Here Are The available Catalogs : ");
-                                for (int i = 0; i < catalogs.size(); i++) {
-                                    System.out.println(i + 1 + " " + catalogs.get(i).getName());
-                                }
-                                System.out.println("Please enter the number of the catalog you want to view or enter 0 to exit:");
-                                int cho = input.nextInt();
-                                if (cho == 0) {
-                                    break;
-                                }
-                                cho = cho - 1;
-                                catalogs.get(cho).displayCatalog();
+                                        System.out.println("Please enter the number of the catalog you want to view or enter 0 to exit:");
+                                        int cho = input.nextInt();
+                                        if (cho == 0) {
+                                            break;
+                                        }
+                                        cho = cho - 1;
+                                        catalogs.get(cho).displayCatalog();
 
-                                while (true) {
-                                    System.out.println("Please enter the number of the item you want to buy or enter 0 to choose a different catalog:");
-                                    int itemChoice = input.nextInt();
-                                    input.nextLine();
-                                    if (itemChoice == 0) {
+                                        while (true) {
+                                            do {
+                                                System.out.println("Please enter the number of the item you want to buy or enter 0 to choose a different catalog:");
+                                                int itemChoice = input.nextInt();
+                                                input.nextLine();
+                                                if (itemChoice == 0) {
+                                                    break;
+                                                } else if (itemChoice > catalogs.get(cho).getItems().size()) {
+                                                    System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
+                                                    isValidInput = false;
+                                                } else {
+                                                    Vector<Item> catalogItems = catalogs.get(cho).getItems();
+                                                    CartItem cartItem = new CartItem();
+                                                    cartItem = cartItem.convertToCartItem(catalogItems.get(itemChoice - 1), 1);
+                                                    customer.getShoppingCart().addCartItem(cartItem);
+                                                    System.out.println("Item added to cart! ");
+                                                    System.out.println("you Have " + customer.getShoppingCart().getCartItems().size() + "Items In Your Cart");
+                                                    isOrderProccess = true;
+                                                }
+                                            } while (!isValidInput);
+
+                                            if (isOrderProccess)
+                                                break;
+                                        }
+                                } else if (choose == 2) {
+                                    System.out.println("Here is your the Past Ordered");
+                                    customer.DisplayPrevOrderHistory();
+                                    System.out.println("do you want to reorder ? (y->1,n->2)");
+                                    int cho = input.nextInt();
+                                    if (cho == 1) {
+                                        order = customer.reorder();
+                                        customer.setShoppingCart(order.getShopcart());
+                                        isOrderProccess = true;
                                         break;
                                     }
-                                    Vector<Item> catalogItems = catalogs.get(cho).getItems();
-                                    CartItem cartItem = new CartItem();
-                                    cartItem = cartItem.convertToCartItem(catalogItems.get(itemChoice - 1), 1);
-                                    customer.getShoppingCart().addCartItem(cartItem);
-                                    System.out.println("Item added to cart!");
-                                    isOrderProccess = true;
-                                }
-                                if(isOrderProccess)
-                                    break;
-                            }else if (choose == 2){
-                                System.out.println("Here is your the Past Ordered");
-                                customer.DisplayPrevOrderHistory();
-                                System.out.println("do you want to reorder ? (y->1,n->2)");
-                                int cho = input.nextInt();
-                                if(cho == 1){
-                                    order = customer.reorder();
-                                    customer.setShoppingCart(order.getShopcart());
-                                    isOrderProccess = true;
-                                    break;
-                                }
-                                if(cho == 2){
-                                    break;
-                                }
-                            }else if (choose == 0){
-                                break;
-                            }
-                        }
-                        if(isOrderProccess){
-                            customer.getShoppingCart().displayShoppingCart();
-                            System.out.println("Please choose an option:");
-                            System.out.println(" 1 : Update Cart Items Quantity");
-                            System.out.println(" 2 : Place The Order");
-                            System.out.println(" 3 : Clear Cart");
-                            int cho = input.nextInt();
-                            input.nextLine();
-
-                            switch (cho) {
-                                case 1:
-                                    customer.getShoppingCart().updateCartItem();
-                                    System.out.println("Cart updated!");
-                                    order.placeOrder(customer);
-                                    break;
-                                case 2:
-                                    if(order.placeOrder(customer)){
-                                        System.out.println("Ordered Place Successful ! ");
-                                        if(order.getPayment().getMethod() != "Loyalty Payment" ){
-                                            customer.setLoyaltyPoints(customer.getLoyaltyPoints() + customer.getShoppingCart().getPointsEarned());
-                                            Data.setCurrentCustomer(customer);
-                                            Data.updateCustomers();
-                                            System.out.println("You Gained " + customer.getShoppingCart().getPointsEarned()+ " Loyalty Points Your Loyalty Points Balance updated to be " + (customer.getLoyaltyPoints()));
-                                        }
-                                    }else
-                                        System.out.println("Ordered Didn't Placed ! ");
-                                    break;
-                                case 3:
-                                    customer.getShoppingCart().clearCart();
-                                    System.out.println("Cart cleared!");
-                                    break;
-                                default:
-                                    System.out.println("Invalid input! Please try again.");
-                                    break;
-                            }
-
-                            while (true) {
-                                System.out.println("Do You Want To Create Another Order or To Exit ?");
-                                System.out.println("1 : Yes");
-                                System.out.println("2 : No");
-                                int continueOption = input.nextInt();
-                                if (continueOption == 1) {
+                                    if (cho == 2) {
+                                        break;
+                                    }
+                                } else if (choose == 0) {
                                     break;
                                 } else {
-                                    return;
+                                    System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
+                                    isValid = false;
                                 }
-                            }
+                            } while (!isValid);
 
+                            do{
+                                isValid = true;
+                            if (isOrderProccess) {
+                                customer.getShoppingCart().displayShoppingCart();
+                                System.out.println("Please choose an option:");
+                                System.out.println(" 1 : Update Cart Items Quantity");
+                                System.out.println(" 2 : Place The Order");
+                                System.out.println(" 3 : Clear Cart");
+                                int cho = input.nextInt();
+                                input.nextLine();
+
+                                switch (cho) {
+                                    case 1:
+                                        customer.getShoppingCart().updateCartItem();
+                                        System.out.println("Cart updated!");
+                                        order.placeOrder(customer);
+                                        break;
+                                    case 2:
+                                        if (order.placeOrder(customer)) {
+                                            System.out.println("Ordered Place Successful ! ");
+                                            if (order.getPayment().getMethod() != "Loyalty Payment") {
+                                                customer.setLoyaltyPoints(customer.getLoyaltyPoints() + customer.getShoppingCart().getPointsEarned());
+                                                Data.setCurrentCustomer(customer);
+                                                Data.updateCustomers();
+                                                System.out.println("You Gained " + customer.getShoppingCart().getPointsEarned() + " Loyalty Points Your Loyalty Points Balance updated to be " + (customer.getLoyaltyPoints()));
+                                            }
+                                        } else
+                                            System.out.println("Ordered Didn't Placed ! ");
+                                        break;
+                                    case 3:
+                                        customer.getShoppingCart().clearCart();
+                                        System.out.println("Cart cleared!");
+                                        break;
+                                    default:
+                                        System.out.println("Invalid input! Please try again.");
+                                        isValid = false;
+                                        break;
+                                }
+
+                                while (true) {
+                                    System.out.println("Do You Want To Create Another Order?");
+                                    System.out.println("1 : Yes");
+                                    System.out.println("2 : No");
+                                    int continueOption = input.nextInt();
+                                    if (continueOption == 1) {
+                                        break;
+                                    } else {
+                                        System.out.println("Thank you for choosing Toffee! We can't wait to serve you again!");
+                                        return;
+                                    }
+                                }
+
+                            }
+                        }while (!isValid);
                         }
-                    }
 
                 }
-            }else{
-                System.out.println("Sorry !! There is an Error While logging in");
+                }
+            }else {
+                System.out.println("Oops! Something went wrong while logging in. Please try again!");
             }
         }
     }

@@ -531,7 +531,7 @@ public class DataManager {
     }
 
 
-    public boolean register() {
+    public void register() {
         // Enter username and check if it follows the rules or not + check is it unique or not
         boolean found;
         String usernameRegex = "^[a-zA-Z0-9_-]+$";
@@ -591,7 +591,7 @@ public class DataManager {
         Customer newCustomer = new Customer(name, password, address, address);
         customers.add(newCustomer);
         updateCustomers();
-        return true;
+
     }
 
 
