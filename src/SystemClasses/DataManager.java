@@ -84,7 +84,7 @@ public class DataManager {
         String phone = data[2];
         String address = data[3];
         int LoyaltyPoints = Integer.parseInt(data[4]);
-        return new Customer(name, password, phone, address ,LoyaltyPoints );
+        return new Customer( name, password, phone, address ,LoyaltyPoints );
     }
     
     public void updateCustomers() {
@@ -95,11 +95,10 @@ public class DataManager {
                 writer.write(customer.getName() + "," + customer.getPassword() + "," + customer.getPhone() + "," + customer.getAddress() + "," + customer.getLoyaltyPoints()+ "\n");
             }
             writer.close();
-        } catch (IOException e) {
+        }catch (IOException e) {
             e.printStackTrace();
         }
     } 
-    
     /** 
 //     * @param loadAdmins()
      * @return Vector<Customer>

@@ -11,7 +11,7 @@ public class CreditPayment extends PaymentMethod {
     public String getMethod() {
         return methodName;
     }
-    public float processPayment(double total_price) {
+    public float processPayment(String phone, double total_price) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter card number: ");

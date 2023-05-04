@@ -16,12 +16,11 @@ public class LoyaltyPayment extends PaymentMethod {
         return methodName;
     }
 
-    public float processPayment(double total_price) {
+    public float processPayment(String phone, double total_price) {
         Customer c = null;
         if (c.getLoyaltyPoints() == total_price) {
             c.setLoyaltyPoints(0);
             return 1;
-
         } else if (c.getLoyaltyPoints() < total_price) {
             total_price -= c.getLoyaltyPoints();
             System.out.println("Please select another way to complete payment :");
@@ -30,14 +29,13 @@ public class LoyaltyPayment extends PaymentMethod {
             System.out.println("2. pay with credit");
             if (choice == 1) {
                 PaymentMethod PM = new CashPayment();
-                PM.processPayment(total_price);
+                PM.processPayment(phone,total_price);
             }
             if (choice == 2) {
                 PaymentMethod CP = new CreditPayment();
-                CP.processPayment(total_price);
+                CP.processPayment(phone,total_price);
             }
         }
-
         return 0;
     }
 }

@@ -13,5 +13,5 @@ public abstract class PaymentMethod {
         this.amount = amount;
     }
 
-    public abstract float processPayment(double total_price);
+    public abstract float processPayment(String phone,double total_price);
 }

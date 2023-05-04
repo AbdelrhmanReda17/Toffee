@@ -62,7 +62,6 @@ public class Admin extends User {
                             "1. Name   2. Category   3. Description   4. Brand   5. Price\n" +
                             "6. Discount percentage  7. Points        8. Image   9. Quantity\n"
                             +"10. Save");
-
                     choice = new Scanner(System.in).nextInt();
                     switch (choice) {
                         case 1:

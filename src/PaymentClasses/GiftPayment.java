@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.Vector;
 import java.security.SecureRandom;
-import java.util.Locale;
 import java.util.Random;
 
 public class GiftPayment extends PaymentMethod {
@@ -17,12 +16,10 @@ public class GiftPayment extends PaymentMethod {
     public GiftPayment() {
         this.methodName = "Gift Voucher Payment";
     }
-
     public String getMethod() {
         return methodName;
     }
-
-    public float processPayment(double total_price) {
+    public float processPayment(String phone,double total_price) {
         int choice; 
         DATA.loadVouchers();
         vouchers = DATA.getVouchers();

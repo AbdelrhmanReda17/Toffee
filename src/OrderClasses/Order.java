@@ -70,7 +70,7 @@ public class Order {
         }else if(paymentMethodChoice == 4){
             payment = new GiftPayment();
         }
-        paymentSuccess = payment.processPayment(user.getShoppingCart().getTotalCost());
+        paymentSuccess = payment.processPayment(phoneNo,user.getShoppingCart().getTotalCost());
         if (paymentSuccess == -1 ) {
             System.out.println("Failed to process payment.");
             return false;

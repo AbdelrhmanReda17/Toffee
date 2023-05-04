@@ -21,10 +21,6 @@ public class ApplicationController {
     ApplicationController(DataManager Data) {
         this.Data = Data;
     }
-    public void Start() {
-            PaymentMethod pay  = new GiftPayment();
-            pay.processPayment(50);
-    }
 
     public void StartApplication() {
         Data.LoadDATA();
