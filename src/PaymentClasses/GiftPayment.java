@@ -86,7 +86,7 @@ public class GiftPayment extends PaymentMethod {
         }
         DATA.loadLoyaltyScheme();
         DATA.setVouchers(vouchers);
-        DATA.updateData();
+        DATA.UpdateVouchers_Loyalty();
     }
     private String generateCode(){
         String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -111,7 +111,7 @@ public class GiftPayment extends PaymentMethod {
         vouchers.add(voucher);
         DATA.loadLoyaltyScheme();
         DATA.setVouchers(vouchers);
-        DATA.updateData();
+        DATA.UpdateVouchers_Loyalty();
         return voucher;
     }
 }
