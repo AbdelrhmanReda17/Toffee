@@ -430,7 +430,7 @@ public class DataManager {
         else if (PaymentName.equals("Loyalty Payment")){
             payment = new LoyaltyPayment();
         }
-        return new Order( customer, status, shopcart,ordertime, shippingAddress, payment);
+        return new Order( orderId,customer, status, shopcart,ordertime, shippingAddress, payment);
     }
     private Customer getCustomerByName(String name) {        
         loadCustomers();

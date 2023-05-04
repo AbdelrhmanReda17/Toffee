@@ -21,11 +21,20 @@ public class Order {
     private DataManager Data = new DataManager();
 
     public Order() {
-
     }
 
     public void Order(){};
-    public Order(Customer user, Order_state status, ShoppingCart shopcart ,Date ordertime, String shippingAddress, PaymentMethod payment) {
+    public Order(int OrderID ,Customer user, Order_state status, ShoppingCart shopcart ,Date ordertime, String shippingAddress, PaymentMethod payment) {
+        this.orderId = OrderID;
+        this.user = user;
+        this.status = status;
+        this.shopcart = shopcart;
+        this.shippingAddress = shippingAddress;
+        this.payment = payment;
+        this.ordertime = ordertime;
+        ORDERCount = OrderID;
+    }
+    public Order(Customer user, Order_state status, ShoppingCart shopcart,Date ordertime, String shippingAddress, PaymentMethod payment) {
         this.orderId = ++ORDERCount;
         this.user = user;
         this.status = status;
@@ -33,19 +42,7 @@ public class Order {
         this.shippingAddress = shippingAddress;
         this.payment = payment;
         this.ordertime = ordertime;
-
     }
-    public Order(Customer user, Order_state status, ShoppingCart shopcart, String shippingAddress, PaymentMethod payment) {
-        this.orderId = ORDERCount;
-        this.user = user;
-        this.status = status;
-        this.shopcart = shopcart;
-        this.shippingAddress = shippingAddress;
-        this.payment = payment;
-        this.ordertime = new Date();
-        ORDERCount++;
-    }
-
     public boolean placeOrder( Customer user) {
         Data.loadOrders();
         float paymentSuccess;
