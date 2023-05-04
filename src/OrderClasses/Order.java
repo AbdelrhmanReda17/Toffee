@@ -4,12 +4,13 @@ import DataUserClasses.Customer;
 import PaymentClasses.*;
 import SystemClasses.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
 public class Order {
-    private int ORDERCount = 0;
+    private static int ORDERCount = 0;
     private int orderId = 0;
     private Customer user;
     private Order_state status;
@@ -24,15 +25,15 @@ public class Order {
     }
 
     public void Order(){};
-    public Order(int orderId, Customer user, Order_state status, ShoppingCart shopcart ,Date ordertime, String shippingAddress, PaymentMethod payment) {
-        this.orderId = orderId;
+    public Order(Customer user, Order_state status, ShoppingCart shopcart ,Date ordertime, String shippingAddress, PaymentMethod payment) {
+        this.orderId = ++ORDERCount;
         this.user = user;
         this.status = status;
         this.shopcart = shopcart;
         this.shippingAddress = shippingAddress;
         this.payment = payment;
         this.ordertime = ordertime;
-        ORDERCount = orderId;
+
     }
     public Order(Customer user, Order_state status, ShoppingCart shopcart, String shippingAddress, PaymentMethod payment) {
         this.orderId = ORDERCount;
@@ -76,11 +77,10 @@ public class Order {
             return false;
         }else if (paymentSuccess == 0){
             ordertime = getOrderTime();
-            Order order = new Order(orderId++, user, Order_state.IN_PROGRESS, user.getShoppingCart(),ordertime,shippingAddress, payment);
+            Order order = new Order(user, Order_state.IN_PROGRESS, user.getShoppingCart(),ordertime,shippingAddress, payment);
             Data.setOrders(order);
             Data.updateOrders();
-            System.out.println("Delivery Expected Time " + getOrderTime());
-            System.out.println("Order placed successfully!");
+            System.out.println("Delivery Expected Time " + formatOrderTime());
             return true;
         }else{
             user.getShoppingCart().setTotalCost(paymentSuccess);
@@ -93,6 +93,13 @@ public class Order {
         Date ordertime = calendar.getTime();
         return ordertime;
     }
+    public String formatOrderTime() {
+        Date orderTime = getOrderTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' h:mm a");
+        String formattedDate = dateFormat.format(orderTime);
+        return formattedDate;
+    }
+
 
 
     public int getOrderId() {

@@ -1,9 +1,9 @@
 package DataUserClasses;
-import java.util.Objects;
-import java.util.Scanner;
+import java.lang.invoke.VarHandle;
+import java.util.*;
+
 import OrderClasses.CartItem;
 import OrderClasses.Item;
-import java.util.Vector;
 import OrderClasses.Order;
 import SystemClasses.*;
 public class Admin extends User {
@@ -240,7 +240,28 @@ public class Admin extends User {
     }
 
     public void viewStatistics() {
-        // Logic to view statistics
+        Map<String, Integer> map = new HashMap<>();
+        double TotalOrdersPrice = 0;
+        int NumberOfOrders =0;
+        Vector<Order> order = Data.getOrders();
+        for(Order x : order){
+            List<CartItem> orderItems = x.getShopcart().getCartItems();
+            NumberOfOrders++;
+            for(CartItem l : orderItems){
+                TotalOrdersPrice += (l.getPrice()*l.getQuantity());
+                if (map.containsKey(l.getName())){
+                    map.put(l.getName(), map.get(l.getName()) + 1);
+                } else {
+                    map.put(l.getName(), 1);
+                }
+            }
+        }
+        System.out.println("We Made " + NumberOfOrders + " Orders With Total Price " + TotalOrdersPrice);
+        Iterator<Map.Entry<String, Integer>> it = map.entrySet().iterator();
+        if (it.hasNext()) {
+            Map.Entry<String, Integer> entry = it.next();
+            System.out.println("The Best Selling  Item is ( "  + entry.getKey() + " ) with " + entry.getValue() + " sales");
+        }
     }
 
     public void addNewCatalog() {
