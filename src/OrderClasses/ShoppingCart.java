@@ -54,10 +54,13 @@ public class ShoppingCart {
     }
 
     public void displayShoppingCart() {
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.print("Total Points Earned: "+pointsEarned+"  ||  "+"Total Cost: " + totalCost+"  ||  " + "Total Points Cost: " + loyaltyPoints + "\n");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         for(CartItem d : cartItems){
                 d.displayCartItem();
         }
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
     public void updateCartItem() {
         Scanner scanner = new Scanner(System.in);
@@ -70,7 +73,7 @@ public class ShoppingCart {
             if (quantity <= 50) {
                 break;
             }
-            System.out.println("quantity should not exceed 50!! ");
+            System.out.println("\u26A0\uFE0F quantity should not exceed 50!! ");
         }
         for (CartItem cartItem : cartItems) {
             if (Objects.equals(cartItem.getName(), name)) {

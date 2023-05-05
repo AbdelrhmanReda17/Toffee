@@ -47,7 +47,7 @@ public class Order {
     public boolean placeOrder( Customer user) {
         Data.loadOrders();
         float paymentSuccess;
-        System.out.println("The Total Price of you items : " + user.getShoppingCart().getTotalCost());
+        System.out.println("The Total Price of you items : " + user.getShoppingCart().getTotalCost() + "L.E");
         Scanner input = new Scanner(System.in);
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         String email;
@@ -96,7 +96,7 @@ public class Order {
             }
             paymentSuccess = payment.processPayment(user.getLoyaltyPoints(),email,phone,user.getShoppingCart().getTotalCost() , user.getShoppingCart().getLoyaltyPoints());
             if (paymentSuccess == -1 ) {
-                System.out.println("Failed to process payment , please Select anthor payment");
+                System.out.println("Failed to process payment , please Select another payment");
             }else{
                 if(payment.getMethod() == "Loyalty Payment"){
                     int loyaltyPoints = (int) Math.round(paymentSuccess);
@@ -125,7 +125,8 @@ public class Order {
         Order order = new Order(user, status, shoppingCart,ordertime,address, payment);
         Data.setOrders(order);
         Data.updateOrders();
-        System.out.println("Delivery Expected Time " + formatOrderTime());
+        System.out.println("Delivery expected time: " + formatOrderTime() + " \uD83D\uDE9A");
+
     }
 
     public Date getOrderTime() {
@@ -153,8 +154,9 @@ public class Order {
         return status;
     }
 
-    public void setStatus(Order_state status) {
+    public Order_state setStatus(Order_state status) {
         this.status = status;
+        return status;
     }
 
     public ShoppingCart getShopcart() {

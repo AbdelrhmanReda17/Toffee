@@ -31,41 +31,42 @@ public class GiftPayment extends PaymentMethod {
             {
                 System.out.println("You Enter a Voucher With Value " + vouchers.get(i).getValue());
                 if (vouchers.get(i).getValue()==total_price){
-                    System.out.println("Order will be paid , Confirm that you want to Add the voucher (y->1 /n->2): ");
+                    System.out.println("Order will be paid , Confirm that you want to Add the voucher (y->1 /n->2) \uD83E\uDD14 : ");
                     choice = scanner.nextInt();
                     if(choice == 1){
-                        System.out.println("Sucessfully Added");
+                        System.out.println("Successfully added! \uD83D\uDE0A");
                         remove_voucher();
                         return 0;
                     }else if(choice == 2){
-                        System.out.println("Voucher Didn't Applied");
+                        System.out.println("Voucher didn't apply. \uD83D\uDE22");
                         return -1;
                     }
                     scanner.close();
                 }else if (vouchers.get(i).getValue()<total_price){
                     System.out.print("Total Price Will be Updated to be  :" + (total_price - vouchers.get(i).getValue()) + "L.E");
-                    System.out.println(" , Confirm that you want to Add the voucher (y->1 /n->2): ");
+                    System.out.println("Confirm that you want to add the voucher. (y->1 / n->2) \uD83E\uDD14 : ");
+
                     choice = scanner.nextInt();
                     if(choice == 1){
-                        System.out.println("Sucessfully Added");
+                        System.out.println("Successfully added! \uD83D\uDE0A");
                         return (float)(total_price - vouchers.get(i).getValue());
                     }else if(choice == 2){
-                        System.out.println("Voucher Didn't Applied");
+                        System.out.println("Voucher didn't apply. \uD83D\uDE22");
                         return -1;
                     }
                 }
                 else if (vouchers.get(i).getValue()>total_price){
                     System.out.println("You have a Remaining price : " + ( vouchers.get(i).getValue() - total_price) + "L.E");
-                    System.out.println("You will take anthor Voucher with the Remaining Price , Confirm that you want to Add the voucher (y->1 /n->2): ");
+                    System.out.println("You will take another voucher with the remaining price. Confirm that you want to add the voucher. (y->1 / n->2): \uD83D\uDCB0");
                     choice = scanner.nextInt();
                     if(choice == 1){
-                        GiftVoucher voucher = generate_voucher(new Float(vouchers.get(i).getValue() - total_price));
-                        System.out.println("Sucessfully Added");
+                        GiftVoucher voucher = generate_voucher((float)(vouchers.get(i).getValue() - total_price));
+                        System.out.println("Successfully added! \uD83D\uDE0A");
                         System.out.println("Here's your New Voucher, Code: " + voucher.getCode() + " - Value : " + voucher.getValue());
                         remove_voucher();
                         return 0;
                     }else if(choice == 2){
-                        System.out.println("Voucher Didn't Applied");
+                        System.out.println("Voucher didn't apply. \uD83D\uDE22");
                         return -1;
                     }
                 }

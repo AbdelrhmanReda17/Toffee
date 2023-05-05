@@ -11,10 +11,6 @@ public class GiftVoucher {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public float getValue() {
         return value;
     }
