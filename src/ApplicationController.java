@@ -22,10 +22,6 @@ public class ApplicationController {
     ApplicationController(DataManager Data) {
         this.Data = Data;
     }
-    public void admin(){
-        PaymentMethod lpp = new CashPayment();
-        lpp.processPayment(1, "abdelrhmanrmuhammed@gmail.com", "012953626", 1, 1);
-    }
     private void adminInterface(String nameE , String PasswordD){
         Admin admin = Data.getCurrentAdmin(nameE, passwordD);
         while (true) {
