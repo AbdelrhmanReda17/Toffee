@@ -1,7 +1,14 @@
 {
     "java.project.sourcePaths": ["src"],
     "java.project.outputPath": "bin",
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar"
-    ]
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar"
+        ],
+        "exclude": [
+            "d:\\jsf-1_1_01\\lib\\commons-beanutils.jar",
+            "d:\\jsf-1_1_01\\lib\\jsf-api.jar",
+            "d:\\jsf-1_1_01\\lib\\jsf-impl.jar"
+        ]
+    }
 }

@@ -14,14 +14,14 @@ public class Customer extends User {
     private int loyaltyPoints;
     private DataManager Data = new DataManager();
 
-    public Customer(String name, String password, String phone, String address) {
-        super(name, password);
+    public Customer(String name, String password, String email, String phone, String address) {
+        super(name, password , email);
         this.address = address;
         this.phone=phone;
         this.loyaltyPoints = 0;
     }
-    public Customer(String name, String password, String phone,  String address , int loyaltyPoints) {
-        super(name, password);
+    public Customer(String name, String password, String email, String phone,  String address , int loyaltyPoints) {
+        super(name, password ,email) ;
         this.address = address;
         this.phone=phone;
         this.loyaltyPoints = loyaltyPoints;

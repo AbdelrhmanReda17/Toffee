@@ -11,7 +11,7 @@ public class CreditPayment extends PaymentMethod {
     public String getMethod() {
         return methodName;
     }
-    public float processPayment(int CustomerLoyalty ,String phone, double total_price  , int loyaltyPoints) {
+    public float processPayment(int CustomerLoyalty ,String Email,String phone, double total_price  , int loyaltyPoints) {
         Scanner scanner = new Scanner(System.in);
         boolean validCardNumber = false;
         boolean validExpDate = false;

@@ -13,5 +13,5 @@ public abstract class PaymentMethod {
         this.amount = amount;
     }
 
-    public abstract float processPayment(int CustomerLoyalty ,String phone,double total_price , int loyaltyPoints);
+    public abstract float processPayment(int CustomerLoyalty ,String Email,String phone,double total_price , int loyaltyPoints);
 }

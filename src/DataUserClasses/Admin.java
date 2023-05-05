@@ -9,11 +9,8 @@ import SystemClasses.*;
 public class Admin extends User {
     private DataManager Data = new DataManager();
     private Catalog catalog = new Catalog();
-
-    private String email;
-    public Admin(String name, String password, String email) {
-        super(name, password);
-        this.email = email;
+    public Admin(String name, String password,String email) {
+        super(name, password , email);
         Data.loadItems();
         Data.loadCustomers();
         Data.loadOrders();
@@ -344,13 +341,5 @@ public class Admin extends User {
             System.out.println("Total cost: " + order.getUser().getShoppingCart().getTotalCost());
             System.out.println("Payment method: " + order.getPayment().toString());
         }
-    }
-
-
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

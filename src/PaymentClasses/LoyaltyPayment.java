@@ -16,7 +16,7 @@ public class LoyaltyPayment extends PaymentMethod {
         return methodName;
     }
 
-    public float processPayment(int CustomerLoyalty ,String phone, double total_price  , int loyaltyPoints) {
+    public float processPayment(int CustomerLoyalty ,String Email,String phone, double total_price  , int loyaltyPoints) {
         if (CustomerLoyalty >= loyaltyPoints) {
             Scanner input = new Scanner(System.in);
             System.out.println("Your Loyalty Points: " + CustomerLoyalty +" Loyalty point" + "and your Order Price is " + loyaltyPoints +" Loyalty Point");

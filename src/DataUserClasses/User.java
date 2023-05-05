@@ -1,13 +1,13 @@
 package DataUserClasses;
 
 public class User{
-    private String name,password;
+    private String name,password , email;
 
      //Constructor
-     public User(String name  , String password) {
+     public User(String name  , String password , String email) {
          this.name = name;
          this.password = password;
-
+         this.email = email;
      }
     
     // Getters and setters
@@ -26,5 +26,10 @@ public class User{
     public void setPassword(String password) {
         this.password = password;
     }
-
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

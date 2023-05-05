@@ -19,7 +19,7 @@ public class GiftPayment extends PaymentMethod {
     public String getMethod() {
         return methodName;
     }
-    public float processPayment(int CustomerLoyalty ,String phone,double total_price  , int loyaltyPoints) {
+    public float processPayment(int CustomerLoyalty ,String Email,String phone,double total_price  , int loyaltyPoints) {
         int choice; 
         DATA.loadVouchers();
         vouchers = DATA.getVouchers();

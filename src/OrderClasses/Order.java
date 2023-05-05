@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
+
 public class Order {
     private static int ORDERCount = 0;
     private int orderId = 0;
@@ -48,6 +49,16 @@ public class Order {
         float paymentSuccess;
         System.out.println("The Total Price of you items : " + user.getShoppingCart().getTotalCost());
         Scanner input = new Scanner(System.in);
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        String email;
+        do {
+            System.out.print("Enter Email : ");
+            email =  new Scanner(System.in).nextLine();
+            if (!email.matches(emailRegex)) {
+                System.out.println("Invalid Email! It must be in the correct format.");
+            }
+        } while (!email.matches(emailRegex));
+
         String addressRegex = "^[a-zA-Z0-9\\s,-]*$";
         do {
             System.out.print("Enter address: ");
@@ -83,7 +94,7 @@ public class Order {
             }else if(paymentMethodChoice == 4){
                 payment = new GiftPayment();
             }
-            paymentSuccess = payment.processPayment(user.getLoyaltyPoints(),phone,user.getShoppingCart().getTotalCost() , user.getShoppingCart().getLoyaltyPoints());
+            paymentSuccess = payment.processPayment(user.getLoyaltyPoints(),email,phone,user.getShoppingCart().getTotalCost() , user.getShoppingCart().getLoyaltyPoints());
             if (paymentSuccess == -1 ) {
                 System.out.println("Failed to process payment , please Select anthor payment");
             }else{

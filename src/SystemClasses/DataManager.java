@@ -1,8 +1,6 @@
 package SystemClasses;
 import java.util.Vector;
 
-import javax.print.DocFlavor.STRING;
-
 import java.util.Date;
 import java.util.Scanner;
 import DataUserClasses.*;
@@ -81,10 +79,11 @@ public class DataManager {
         String[] data = customerData.split(",");
         String name = data[0];
         String password = data[1];
-        String phone = data[2];
-        String address = data[3];
-        int LoyaltyPoints = Integer.parseInt(data[4]);
-        return new Customer( name, password, phone, address ,LoyaltyPoints );
+        String email = data[2];
+        String phone = data[3];
+        String address = data[4];
+        int LoyaltyPoints = Integer.parseInt(data[5]);
+        return new Customer( name, password , email, phone, address ,LoyaltyPoints );
     }
     
     public void updateCustomers() {
@@ -92,7 +91,7 @@ public class DataManager {
         try {
             FileWriter writer = new FileWriter(filePath);
             for (Customer customer : customers) {
-                writer.write(customer.getName() + "," + customer.getPassword() + "," + customer.getPhone() + "," + customer.getAddress() + "," + customer.getLoyaltyPoints()+ "\n");
+                writer.write(customer.getName() + "," + customer.getPassword() + "," + customer.getEmail() + "," + customer.getPhone() + "," + customer.getAddress() + "," + customer.getLoyaltyPoints()+ "\n");
             }
             writer.close();
         }catch (IOException e) {
@@ -564,6 +563,17 @@ public class DataManager {
             }
         } while (!phone.matches(phoneRegex));
 
+        // Enter Email and check if it follows the rules or not
+
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        String email;
+        do {
+            System.out.print("Enter Email : ");
+            email =  new Scanner(System.in).nextLine();
+            if (!email.matches(emailRegex)) {
+                System.out.println("Invalid Email! It must be in the correct format.");
+            }
+        } while (!email.matches(emailRegex));
 
         // Enter address and check if it follows the rules or not
         String addressRegex = "^[a-zA-Z0-9\\s,-]*$";
@@ -588,10 +598,9 @@ public class DataManager {
         } while (!password.matches(passwordRegex));
 
         // add new customer to the vector
-        Customer newCustomer = new Customer(name, password, address, address);
+        Customer newCustomer = new Customer(name, password , email, phone, address);
         customers.add(newCustomer);
         updateCustomers();
-
     }
 
 
