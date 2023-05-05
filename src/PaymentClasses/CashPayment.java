@@ -13,10 +13,6 @@ public class CashPayment extends PaymentMethod {
     public float processPayment(int CustomerLoyalty ,String phone,double total_price  , int loyaltyPoints) {
         Scanner scanner = new Scanner(System.in);
         this.phoneNumber = phone;
-        // System.out.print("Enter your phone number: ");
-        // this.phoneNumber = scanner.nextLine();
-        // scanner.close();
-        //System.out.println(phoneNumber);
         sendVerificationCode();
         if  (!isPhoneVerified) {
             System.out.println("Payment could not be processed.");
@@ -32,14 +28,23 @@ public class CashPayment extends PaymentMethod {
         int code = (int) (Math.random() * 900000) + 100000;
         System.out.println("Your verification code is: " + code);
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter the verification code:");
+        System.out.println("Please enter the verification code - 0 to cancel order:");
         int inputCode = scanner.nextInt();
-        if (inputCode == code) {
-            isPhoneVerified = true;
-            System.out.println("Phone number verified successfully.");
-        } else {
-            System.out.println("Invalid verification code.");
+        while(true){
+            if (inputCode == code) {
+                isPhoneVerified = true;
+                System.out.println("Phone number verified successfully.");
+                break;
+            }else if (inputCode == 0){
+                break;
+            }
+            else {
+                System.out.println("Invalid verification code.");
+                inputCode = scanner.nextInt();
+            }
+
         }
+
 
     }
 }

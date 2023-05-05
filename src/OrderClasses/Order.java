@@ -67,45 +67,47 @@ public class Order {
             }
         } while (!phone.matches(phoneRegex));
 
-        System.out.println("Select a payment method:");
-        System.out.println("1. Credit Card");
-        System.out.println("2. Cash on Delivery");
-        System.out.println("3. Using Loyalty Points");
-        System.out.println("4. Using Gift voucher");
-        int paymentMethodChoice = input.nextInt();
-        if (paymentMethodChoice == 1) {
-            payment = new CreditPayment();
-        } else if (paymentMethodChoice == 2) {
-            payment = new CashPayment();
-        } else if(paymentMethodChoice == 3){
-            payment = new LoyaltyPayment();
-        }else if(paymentMethodChoice == 4){
-            payment = new GiftPayment();
-        }
-        paymentSuccess = payment.processPayment(user.getLoyaltyPoints(),phone,user.getShoppingCart().getTotalCost() , user.getShoppingCart().getLoyaltyPoints());
-        if (paymentSuccess == -1 ) {
-            System.out.println("Failed to process payment.");
-            return false;
-        }else{
-            if(payment.getMethod() == "Loyalty Payment"){
-                int loyaltyPoints = (int) Math.round(paymentSuccess);
-                user.setLoyaltyPoints(loyaltyPoints);
-                Data.setCurrentCustomer(user);
-                Data.updateCustomers();
-                CreateOrder(user, Order_state.IN_PROGRESS, user.getShoppingCart(),shippingAddress, payment);
-                return true;
+        while(true){
+            System.out.println("Select a payment method:");
+            System.out.println("1. Credit Card");
+            System.out.println("2. Cash on Delivery");
+            System.out.println("3. Using Loyalty Points");
+            System.out.println("4. Using Gift voucher");
+            int paymentMethodChoice = input.nextInt();
+            if (paymentMethodChoice == 1) {
+                payment = new CreditPayment();
+            } else if (paymentMethodChoice == 2) {
+                payment = new CashPayment();
+            } else if(paymentMethodChoice == 3){
+                payment = new LoyaltyPayment();
+            }else if(paymentMethodChoice == 4){
+                payment = new GiftPayment();
             }
-            else{
-                if(paymentSuccess == 0){
+            paymentSuccess = payment.processPayment(user.getLoyaltyPoints(),phone,user.getShoppingCart().getTotalCost() , user.getShoppingCart().getLoyaltyPoints());
+            if (paymentSuccess == -1 ) {
+                System.out.println("Failed to process payment , please Select anthor payment");
+            }else{
+                if(payment.getMethod() == "Loyalty Payment"){
+                    int loyaltyPoints = (int) Math.round(paymentSuccess);
+                    user.setLoyaltyPoints(loyaltyPoints);
+                    Data.setCurrentCustomer(user);
+                    Data.updateCustomers();
                     CreateOrder(user, Order_state.IN_PROGRESS, user.getShoppingCart(),shippingAddress, payment);
                     return true;
-                }else
-                {
-                    user.getShoppingCart().setTotalCost(paymentSuccess);
-                    return placeOrder(user);
+                }
+                else{
+                    if(paymentSuccess == 0){
+                        CreateOrder(user, Order_state.IN_PROGRESS, user.getShoppingCart(),shippingAddress, payment);
+                        return true;
+                    }else
+                    {
+                        user.getShoppingCart().setTotalCost(paymentSuccess);
+                        return placeOrder(user);
+                    }
                 }
             }
         }
+        
     }
     private void CreateOrder(Customer user , Order_state status , ShoppingCart shoppingCart , String address , PaymentMethod payment){
         ordertime = getOrderTime();

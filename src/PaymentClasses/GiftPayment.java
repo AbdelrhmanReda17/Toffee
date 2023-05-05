@@ -48,7 +48,7 @@ public class GiftPayment extends PaymentMethod {
                     choice = scanner.nextInt();
                     if(choice == 1){
                         System.out.println("Sucessfully Added");
-                        return vouchers.get(i).getValue();
+                        return (float)(total_price - vouchers.get(i).getValue());
                     }else if(choice == 2){
                         System.out.println("Voucher Didn't Applied");
                         return -1;
@@ -71,7 +71,8 @@ public class GiftPayment extends PaymentMethod {
                 }
             }
         }
-        return 0;
+        System.out.println("Voucher Did not found");
+        return -1;
     }
     private void remove_voucher(){
         for (int i = 0; i < vouchers.size(); i++) {
