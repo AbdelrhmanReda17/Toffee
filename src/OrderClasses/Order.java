@@ -79,21 +79,32 @@ public class Order {
         } while (!phone.matches(phoneRegex));
 
         while(true){
-            System.out.println("Select a payment method:");
-            System.out.println("1. Credit Card");
-            System.out.println("2. Cash on Delivery");
-            System.out.println("3. Using Loyalty Points");
-            System.out.println("4. Using Gift voucher");
-            int paymentMethodChoice = input.nextInt();
-            if (paymentMethodChoice == 1) {
-                payment = new CreditPayment();
-            } else if (paymentMethodChoice == 2) {
-                payment = new CashPayment();
-            } else if(paymentMethodChoice == 3){
-                payment = new LoyaltyPayment();
-            }else if(paymentMethodChoice == 4){
-                payment = new GiftPayment();
-            }
+            boolean isValid = false;
+            int paymentMethodChoice = 0;
+            do{
+                System.out.println("Select a payment method:");
+                System.out.println("1. Credit Card");
+                System.out.println("2. Cash on Delivery");
+                System.out.println("3. Using Loyalty Points");
+                System.out.println("4. Using Gift voucher");
+                paymentMethodChoice = input.nextInt();
+                if (paymentMethodChoice == 1) {
+                    isValid = true;
+                    payment = new CreditPayment();
+                } else if (paymentMethodChoice == 2) {
+                    isValid = true;
+                    payment = new CashPayment();
+                } else if (paymentMethodChoice == 3) {
+                    isValid = true;
+                    payment = new LoyaltyPayment();
+                } else if (paymentMethodChoice == 4) {
+                    isValid = true;
+                    payment = new GiftPayment();
+                }else{
+                    System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
+                    isValid = false;
+                }
+            }while (!isValid);
             paymentSuccess = payment.processPayment(user.getLoyaltyPoints(),email,phone,user.getShoppingCart().getTotalCost() , user.getShoppingCart().getLoyaltyPoints());
             if (paymentSuccess == -1 ) {
                 System.out.println("Failed to process payment , please Select another payment");
@@ -125,7 +136,7 @@ public class Order {
         Order order = new Order(user, status, shoppingCart,ordertime,address, payment);
         Data.setOrders(order);
         Data.updateOrders();
-        System.out.println("Delivery expected time: " + formatOrderTime() + " \uD83D\uDE9A");
+        System.out.println("Delivery expected time: " + formatOrderTime() );
 
     }
 

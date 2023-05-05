@@ -26,7 +26,7 @@ public class ApplicationController {
         int option;
         boolean isLoggedIn = false;
         while (true) {
-            System.out.println("WELCOME TO TOFFEE SHOP! \uD83C\uDF6C");
+            System.out.println("WELCOME TO TOFFEE SHOP!");
             System.out.println("Please choose an option:");
             System.out.println(" 1 : View Catalogs.");
             System.out.println(" 2 : Register.");
@@ -46,11 +46,11 @@ public class ApplicationController {
                     isLoggedIn = LoginPage();
                     break;
                 case 4:
-                    System.out.println("Thank you for choosing Toffee Shop! We hope to see you again soon! \uD83E\uDD17\uD83C\uDF6C");
+                    System.out.println("Thank you for choosing Toffee Shop! We hope to see you again soon!");
 
                     return;
                 default:
-                    System.out.println("\u26A0\uFE0F Opps! your Choice Is Wrong , Please re-Enter it");
+                    System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
             }
             if(isLoggedIn)
                 break;
@@ -58,7 +58,7 @@ public class ApplicationController {
         if (isLoggedIn) {
             Options(CAOption);
         }else {
-            System.out.println("\u26A0\uFE0F Oops! Something went wrong while logging in. Please try again!");
+            System.out.println("Oops! Something went wrong while logging in. Please try again!");
 
         }
     }
@@ -69,7 +69,7 @@ public class ApplicationController {
         for (Catalog ct : catalogs) {
             ct.displayCatalog();
         }
-        System.out.println("Please take note of the following information: \uD83D\uDCDD");
+        System.out.println("Please take note of the following information:");
         System.out.println("If you want to buy something, you must sign in or register first.");
         System.out.println("Please choose an option : ");
         System.out.println(" 1 : Register.");
@@ -81,7 +81,7 @@ public class ApplicationController {
             if (SRChoice == 1 || SRChoice == 2) {
                 break;
             }
-            System.out.println("\u26A0\uFE0F Opps! your Choice Is Wrong , Please re-Enter it");
+            System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
         }
         if (SRChoice == 1) {
             System.out.println("REGISTER");
@@ -112,13 +112,13 @@ public class ApplicationController {
     private boolean LoginPage(){
         Scanner input = new Scanner(System.in);
         while(true) {
-            System.out.println("SIGN IN AS \uD83E\uDD14 : ");
+            System.out.println("SIGN IN AS: ");
             System.out.println(" 1 : Customer.");
             System.out.println(" 2 : Admin.");
             CAOption = input.nextInt();
             input.nextLine();
             if(CAOption!=1&&CAOption!=2){
-                System.out.println("\u26A0\uFE0F Opps! your Choice Is Wrong , Please re-Enter it");
+                System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
             }
             else {
                 System.out.print("Enter Username: ");
@@ -245,7 +245,7 @@ public class ApplicationController {
                     }
             }
             else if(choose == 0){
-                System.out.println("Thank you for choosing Toffee Shop! We hope to see you again soon! \uD83E\uDD17\uD83C\uDF6C");
+                System.out.println("Thank you for choosing Toffee Shop! We hope to see you again soon!");
                 break;
             }
         }
@@ -260,7 +260,7 @@ public class ApplicationController {
             System.out.println("Please enter the number of the item you want to buy or enter 0 to choose a different catalog:");
             itemChoice = input.nextInt();
             while(itemChoice > catalog.getItems().size()){
-                System.out.println("\u26A0\uFE0F Opps! your Choice Is Wrong , Please re-Enter it");
+                System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
                 itemChoice = input.nextInt();
             }
             if (itemChoice == 0) {
@@ -270,9 +270,9 @@ public class ApplicationController {
                 CartItem cartItem = new CartItem();
                 cartItem = cartItem.convertToCartItem(catalogItems.get(itemChoice - 1), 1);
                 customer.getShoppingCart().addCartItem(cartItem);
-                System.out.println("Item added to cart! \uD83D\uDE0A");
+                System.out.println("Item added to cart!");
                 numItems+=1;
-                System.out.println("You have " + numItems + " items in your cart. \uD83D\uDECD");
+                System.out.println("You have " + numItems + " items in your cart.");
             }
         }
     }
@@ -287,7 +287,7 @@ public class ApplicationController {
             System.out.println("Please enter the number of the catalog you want to view or enter 0 to exit:");
             int choose = input.nextInt();
             while(choose > catalogs.size()){
-                System.out.println("\u26A0\uFE0F Opps! your Choice Is Wrong , Please re-Enter it");
+                System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
                 choose = input.nextInt();
             }
             if (choose == 0) {
@@ -315,13 +315,13 @@ public class ApplicationController {
             switch (ch) {
                 case 1:
                     customer.getShoppingCart().updateCartItem();
-                    System.out.println("Cart updated! \uD83D\uDE0A");
+                    System.out.println("Cart updated!");
                     order.placeOrder(customer);
                     break;
                 case 2:
                     if (order.placeOrder(customer)) {
                         isOrderProccess = true;
-                        System.out.println("Order Place Successful! \uD83D\uDE0A");
+                        System.out.println("Order Place Successful!");
                         if (order.getPayment().getMethod() != "Loyalty Payment") {
                             customer.setLoyaltyPoints(customer.getLoyaltyPoints() + customer.getShoppingCart().getPointsEarned());
                             Data.setCurrentCustomer(customer);
@@ -329,27 +329,27 @@ public class ApplicationController {
                             System.out.println("You Gained " + customer.getShoppingCart().getPointsEarned() + " Loyalty Points Your Loyalty Points Balance updated to be " + (customer.getLoyaltyPoints()));
                         }
                     } else
-                        System.out.println("Order didn't place! \uD83D\uDE14");
+                        System.out.println("Order didn't place!");
                     break;
                 case 3:
                     customer.getShoppingCart().clearCart();
-                    System.out.println("Cart cleared! \uD83D\uDE0A");
+                    System.out.println("Cart cleared! ");
                     return true;
                 default:
-                    System.out.println("\u26A0\uFE0F Opps! your Choice Is Wrong , Please re-Enter it");
+                    System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
                     isValid = false;
                     break;
             }
             if(isOrderProccess){
                 while (true) {
-                    System.out.println("Do You Want To Create Another Order? \uD83E\uDD14");
+                    System.out.println("Do You Want To Create Another Order?");
                     System.out.println("1 : Yes");
                     System.out.println("2 : No");
                     int continueOption = input.nextInt();
                     if (continueOption == 1) {
                         return true;
                     } else {
-                        System.out.println("Thank you for choosing Toffee! We can't wait to serve you again! \uD83E\uDD17\uD83C\uDF6C");
+                        System.out.println("Thank you for choosing Toffee! We can't wait to serve you again!");
                         return false;
                     }
                 }
@@ -366,7 +366,7 @@ public class ApplicationController {
             Scanner input = new Scanner(System.in);
             System.out.println("Here is your the Past Ordered");
             customer.DisplayPrevOrderHistory();
-            System.out.println("Would you like to reorder? (Please enter 1 for yes, 2 for no) \uD83E\uDD14");
+            System.out.println("Would you like to reorder? (Please enter 1 for yes, 2 for no)");
             int ch2 = input.nextInt();
             if (ch2 == 1) {
                 order = customer.reorder();
