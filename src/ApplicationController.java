@@ -7,6 +7,8 @@ import OrderClasses.Order;
 import PaymentClasses.CashPayment;
 import PaymentClasses.PaymentMethod;
 import SystemClasses.DataManager;
+
+import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -78,7 +80,7 @@ public class ApplicationController {
         while (true) {
             SRChoice = input.nextInt();
             input.nextLine();
-            if (SRChoice == 1 || SRChoice == 2) {
+            if (SRChoice == 1 || SRChoice == 2 || SRChoice == 3 || SRChoice == 4) {
                 break;
             }
             System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
@@ -92,7 +94,7 @@ public class ApplicationController {
             System.out.print("Enter Password: ");
             this.passwordD = input.nextLine();
             return Data.login(1, nameE, passwordD);
-        }else {
+        }else  {
             System.out.println("SIGN IN");
             System.out.print("Enter Username: ");
             this.nameE = input.nextLine();
@@ -100,11 +102,12 @@ public class ApplicationController {
             this.passwordD = input.nextLine();
             return Data.login(1, nameE, passwordD);
         }
+
     }
 
 
     private void RegisterPage(){
-        System.out.println("---------------------------Registeration Page--------------------------");
+        System.out.println("---------------------------Registration Page--------------------------");
         Data.register();
         System.out.println("-----------------------------------------------------------------------");
     }
@@ -196,7 +199,7 @@ public class ApplicationController {
                     admin.removeCatalog();
                     break;
                 default:
-                    System.out.println("\u26A0\uFE0F Opps! your Choice Is Wrong , Please re-Enter it");
+                    System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
             }
         }
     }
@@ -208,8 +211,10 @@ public class ApplicationController {
         System.out.println("You have " + customer.getLoyaltyPoints() + " Loyalty Points");
         while(true){
             System.out.println("Please select an option:");
-            System.out.println("1. View Catalogs");
-            System.out.println("2. View Past Orders");
+            System.out.println("1 : View Catalogs");
+            System.out.println("2 : View Past Orders");
+            System.out.println("3 : search by item by name");
+            System.out.println("4 : search by item by Brand");
             System.out.println("0. Exit");
             int choose = input.nextInt();
             if(choose == 1){
@@ -248,6 +253,37 @@ public class ApplicationController {
                 System.out.println("Thank you for choosing Toffee Shop! We hope to see you again soon!");
                 break;
             }
+
+            else if (choose == 3){
+                Catalog c = new Catalog();
+
+                System.out.print("Enter item name: ");
+                String name = new Scanner(System.in).nextLine();
+                List<Item> foundItems = c.searchItemsByName(name);
+                if (foundItems.isEmpty()) {
+                    System.out.println("No items found.");
+                } else {
+                    System.out.println("Found items: ");
+                    for (Item item : foundItems) {
+                        System.out.println(item.getName() + " - " + item.getDescription());
+                    }
+                }
+            }
+            else if (choose==4) {
+                Catalog c = new Catalog();
+                System.out.print("Enter item Brand: ");
+                String name = new Scanner(System.in).nextLine();
+                List<Item> foundItems = c.searchItemsByBrand(name);
+                if (foundItems.isEmpty()) {
+                    System.out.println("No items found.");
+                } else {
+                    System.out.println("Found items: ");
+                    for (Item item : foundItems) {
+                        System.out.println(item.getName() + " - " + item.getDescription());
+                    }
+                }
+            }
+
         }
     }
 

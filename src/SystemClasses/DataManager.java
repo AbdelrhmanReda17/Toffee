@@ -10,6 +10,8 @@ import PaymentClasses.CreditPayment;
 import PaymentClasses.GiftPayment;
 import PaymentClasses.LoyaltyPayment;
 import PaymentClasses.PaymentMethod;
+import PaymentClasses.sendOtp;
+
 
 import java.io.*;
 import java.text.ParseException;
@@ -98,10 +100,10 @@ public class DataManager {
             e.printStackTrace();
         }
     } 
-    /** 
-     * @param loadAdmins()
-     * @return Vector<Customer>
-     */
+//    /**
+//     * @param loadAdmins()
+//     * @return Vector<Customer>
+//     */
     // GET / SET ALL USERS
     public Vector<Customer> getCustomers(){return customers;}
     public void setCustomers(Vector<Customer> customers) {this.customers = customers;}
@@ -531,21 +533,21 @@ public class DataManager {
 
 
     public void register() {
-        // Enter username and check if it follows the rules or not + check is it unique or not
+        // Enter username and check if it follows the rules or not + check if it is unique or not
         boolean found;
         String usernameRegex = "^[a-zA-Z0-9_-]+$";
         String name;
         do {
             found = false; // reset found to false
             System.out.print("Enter username: ");
-            name =  new Scanner(System.in).nextLine();
+            name = new Scanner(System.in).nextLine();
             if (!name.matches(usernameRegex)) {
-                System.out.println("Invalid username!! , Username can consist of [ letters, numbers , _ , - ]");
+                System.out.println("Invalid username! Username can consist of [letters, numbers, _, -]");
             }
             for (Customer customer : customers) {
                 if (customer.getName().equals(name)) {
                     found = true;
-                    System.out.println("Username is already exist !! Enter new One");
+                    System.out.println("Username already exists! Enter a new one.");
                     break;
                 }
             }
@@ -557,19 +559,18 @@ public class DataManager {
         String phone;
         do {
             System.out.print("Enter phone number: ");
-            phone =  new Scanner(System.in).nextLine();
+            phone = new Scanner(System.in).nextLine();
             if (!phone.matches(phoneRegex)) {
-                System.out.println("Invalid phone number !! it must only numbers and 11 digit");
+                System.out.println("Invalid phone number! It must only contain numbers and be 11 digits long.");
             }
         } while (!phone.matches(phoneRegex));
 
         // Enter Email and check if it follows the rules or not
-
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         String email;
         do {
-            System.out.print("Enter Email : ");
-            email =  new Scanner(System.in).nextLine();
+            System.out.print("Enter Email: ");
+            email = new Scanner(System.in).nextLine();
             if (!email.matches(emailRegex)) {
                 System.out.println("Invalid Email! It must be in the correct format.");
             }
@@ -580,28 +581,42 @@ public class DataManager {
         String address;
         do {
             System.out.print("Enter address: ");
-            address =  new Scanner(System.in).nextLine();
+            address = new Scanner(System.in).nextLine();
             if (!address.matches(addressRegex)) {
-                System.out.println("Invalid address!! Addresses can consist of letters, numbers, [  ,_ ,- ]");
+                System.out.println("Invalid address! Addresses can consist of letters, numbers, [, _, -]");
             }
         } while (!address.matches(addressRegex));
 
-        // Enter password  and check if it follows the rules or not
+        // Enter password and check if it follows the rules or not
         String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$#&*%^])[A-Za-z\\d$#&*%^]{8,}$";
         String password;
         do {
             System.out.print("Enter password: ");
-            password =  new Scanner(System.in).nextLine();
+            password = new Scanner(System.in).nextLine();
             if (!password.matches(passwordRegex)) {
-                System.out.println("Invalid password!! it must consist of letters, numbers and one of [$ # & * % ^ ] and be at least 8 characters long");
+                System.out.println("Invalid password! It must consist of letters, numbers, and one of [$ # & * % ^ ] and be at least 8 characters long.");
             }
         } while (!password.matches(passwordRegex));
 
-        // add new customer to the vector
-        Customer newCustomer = new Customer(name, password , email, phone, address);
-        customers.add(newCustomer);
-        updateCustomers();
+        System.out.println("Please wait While Sending The verification code to your email.... ");
+        int otpCode = (int) (Math.random() * 900000) + 100000;
+        if (sendOtp.SendOTP(email, otpCode)) {
+            System.out.println("OTP sent to your email. Please enter the verification code:");
+
+            Scanner scanner = new Scanner(System.in);
+            int inputCode = scanner.nextInt();
+            if (inputCode == otpCode) {
+                System.out.println("Email verification successful. Registration completed!");
+                customers.add(new Customer(name, password, email, phone, address));
+                updateCustomers();
+            } else {
+                System.out.println("Invalid verification code. Registration rejected.");
+            }
+        } else {
+            System.out.println("Failed to send OTP to your email. Registration rejected.");
+        }
     }
+
 
 
     public boolean addItemToVector(Item newItem) {

@@ -178,13 +178,16 @@ public class Admin extends User {
                 if (choice == 1) {
                     boolean isRemoved = Data.removeCustomerFromVector(c);
                     if (isRemoved) {
-                        for (Order order : or){
-                            if(order.getUser() == c){
-                                or.remove(order);
+                        Iterator<Order> iterator = or.iterator();
+                        while (iterator.hasNext()) {
+                            Order order = iterator.next();
+                            if (order.getUser() == c) {
+                                iterator.remove();
                                 Data.setOrderVector(or);
                                 Data.updateOrders();
                             }
                         }
+
                         Data.setCustomers(ct);
                         Data.updateCustomers();
                         System.out.println("User Suspended Successful");

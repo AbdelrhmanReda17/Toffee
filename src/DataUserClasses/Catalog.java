@@ -57,6 +57,7 @@ public class Catalog {
     public void setItems(Vector<Item> items) {
         this.items = items;
     }
+
     public void updateIteminCatalog(Item item) {
         DATA.loadCatalogs();
         Vector<Catalog> catalogs = DATA.getCatalogs();
@@ -78,19 +79,21 @@ public class Catalog {
     }
 
     public void displayCatalog() {
-            System.out.println("----------------------------------------------------------------------------------------------- "+ getName() + " -----------------------------------------------------------------------------------------------");
-            int counter = 1;
-            for (Item item : items) {
-                System.out.print(counter++ + " - ");
-                item.printItem(true , false);
-                System.out.println("");
-            }
-            System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------------------------------------- " + getName() + " -----------------------------------------------------------------------------------------------");
+        int counter = 1;
+        for (Item item : items) {
+            System.out.print(counter++ + " - ");
+            item.printItem(true, false);
+            System.out.println("");
+        }
+        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
     public List<Item> searchItemsByName(String name) {
+        DATA.loadItems();
+        Vector<Item> itemss = DATA.getItems();
         List<Item> foundItems = new ArrayList<>();
-        for (Item item : items) {
+        for (Item item : itemss) {
             if (item.getName().equalsIgnoreCase(name)) {
                 foundItems.add(item);
             }
@@ -98,13 +101,16 @@ public class Catalog {
         return foundItems;
     }
 
-    public List<Item> searchItemsByCategory(String category) {
+    public List<Item> searchItemsByBrand(String Brand) {
+        DATA.loadItems();
+        Vector<Item> itemss = DATA.getItems();
         List<Item> foundItems = new ArrayList<>();
-        for (Item item : items) {
-            if (item.getCategory().equalsIgnoreCase(category)) {
+        for (Item item : itemss) {
+            if (item.getBrand().equalsIgnoreCase(Brand)) {
                 foundItems.add(item);
             }
         }
         return foundItems;
+
     }
 }

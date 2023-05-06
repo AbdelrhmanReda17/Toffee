@@ -9,7 +9,7 @@ public class User{
          this.password = password;
          this.email = email;
      }
-    
+    public User() {}
     // Getters and setters
      public String getName() {
         return name;

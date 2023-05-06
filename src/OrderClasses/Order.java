@@ -61,8 +61,20 @@ public class Order {
 
         String addressRegex = "^[a-zA-Z0-9\\s,-]*$";
         do {
-            System.out.print("Enter address: ");
-            shippingAddress =  new Scanner(System.in).nextLine();
+            int choice=0;
+            System.out.println("Select the Address:");
+            System.out.println("1. Same Address");
+            System.out.println("2. Another Address");
+            choice = input.nextInt();
+            if (choice==1){
+                //Customer C = new Customer();
+                shippingAddress = user.getAddress();
+                System.out.println("Your order will be delivered to " + shippingAddress);
+            }
+            if(choice==2){
+                System.out.println("Enter the address");
+                shippingAddress =  new Scanner(System.in).nextLine();
+            }
             if (!shippingAddress.matches(addressRegex)) {
                 System.out.println("Invalid address!! Addresses can consist of letters, numbers, [  ,_ ,- ]");
             }

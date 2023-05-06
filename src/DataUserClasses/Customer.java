@@ -26,6 +26,7 @@ public class Customer extends User {
         this.phone=phone;
         this.loyaltyPoints = loyaltyPoints;
     }
+    public Customer(){}
     // public Order getCurrentOrder() {
     //     Data.loadOrders();
     //     for (Order order : Data.getOrders()) {
