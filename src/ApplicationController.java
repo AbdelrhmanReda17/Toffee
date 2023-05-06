@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
+import javax.lang.model.util.ElementScanner14;
+
 public class ApplicationController {
     public DataManager Data;
     private Order order = new Order();
@@ -213,8 +215,8 @@ public class ApplicationController {
             System.out.println("Please select an option:");
             System.out.println("1 : View Catalogs");
             System.out.println("2 : View Past Orders");
-            System.out.println("3 : search by item by name");
-            System.out.println("4 : search by item by Brand");
+            System.out.println("3 : Search by item by name");
+            System.out.println("4 : Search by item by Brand");
             System.out.println("0. Exit");
             int choose = input.nextInt();
             if(choose == 1){
@@ -241,13 +243,19 @@ public class ApplicationController {
                     }
                 }
             }else if (choose == 2){
-                PaymentProccess = PastOrders(customer);
-                if(PaymentProccess)
-                    if(checkoutProcess(customer)){
-                        break;
+                while(true){
+                    PaymentProccess = PastOrders(customer);
+                    if(PaymentProccess)
+                    {
+                        if(checkoutProcess(customer)){
+                            break;
+                        }else{
+                            return;
+                        }
                     }else{
-                        return;
+                        break;
                     }
+                }
             }
             else if(choose == 0){
                 System.out.println("Thank you for choosing Toffee Shop! We hope to see you again soon!");
@@ -271,6 +279,7 @@ public class ApplicationController {
             }
             else if (choose==4) {
                 Catalog c = new Catalog();
+
                 System.out.print("Enter item Brand: ");
                 String name = new Scanner(System.in).nextLine();
                 List<Item> foundItems = c.searchItemsByBrand(name);
@@ -346,14 +355,14 @@ public class ApplicationController {
             System.out.println("Please choose an option:");
             System.out.println(" 1 : Update Cart Items Quantity");
             System.out.println(" 2 : Place The Order");
-            System.out.println(" 3 : Clear Cart");
+            System.out.println(" 3 : Clear Cart and back");
             int ch = input.nextInt();
             input.nextLine();
             switch (ch) {
                 case 1:
                     customer.getShoppingCart().updateCartItem();
                     System.out.println("Cart updated!");
-                    order.placeOrder(customer);
+                    isValid = false;
                     break;
                 case 2:
                     if (order.placeOrder(customer)) {
@@ -365,12 +374,14 @@ public class ApplicationController {
                             Data.updateCustomers();
                             System.out.println("You Gained " + customer.getShoppingCart().getPointsEarned() + " Loyalty Points Your Loyalty Points Balance updated to be " + (customer.getLoyaltyPoints()));
                         }
-                    } else
+                    }else{
                         System.out.println("Order didn't place!");
+                        isValid = false;
+                    }
                     break;
                 case 3:
                     customer.getShoppingCart().clearCart();
-                    System.out.println("Cart cleared! ");
+                    System.out.println("Cart cleared!");
                     return true;
                 default:
                     System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");

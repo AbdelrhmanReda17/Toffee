@@ -27,15 +27,6 @@ public class Customer extends User {
         this.loyaltyPoints = loyaltyPoints;
     }
     public Customer(){}
-    // public Order getCurrentOrder() {
-    //     Data.loadOrders();
-    //     for (Order order : Data.getOrders()) {
-    //         if (order.getStatus().equals(Order_state.IN_PROGRESS) && order.getUser().equals(this)) {
-    //             return order;
-    //         }
-    //     }
-    //     return null;
-    // }
 
     public Order reorder() {
             Vector<Order> PrevOrders = LoadPrevOrderHistory();

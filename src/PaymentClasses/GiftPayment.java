@@ -45,7 +45,6 @@ public class GiftPayment extends PaymentMethod {
                 }else if (vouchers.get(i).getValue()<total_price){
                     System.out.print("Total Price Will be Updated to be  :" + (total_price - vouchers.get(i).getValue()) + "L.E");
                     System.out.println("Confirm that you want to add the voucher. (y->1 / n->2) \uD83E\uDD14 : ");
-
                     choice = scanner.nextInt();
                     if(choice == 1){
                         System.out.println("Successfully added! \uD83D\uDE0A");

@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
+import javax.lang.model.util.ElementScanner14;
+
 
 public class Order {
     private static int ORDERCount = 0;
@@ -99,6 +101,7 @@ public class Order {
                 System.out.println("2. Cash on Delivery");
                 System.out.println("3. Using Loyalty Points");
                 System.out.println("4. Using Gift voucher");
+                System.out.println("0. Back");
                 paymentMethodChoice = input.nextInt();
                 if (paymentMethodChoice == 1) {
                     isValid = true;
@@ -112,7 +115,10 @@ public class Order {
                 } else if (paymentMethodChoice == 4) {
                     isValid = true;
                     payment = new GiftPayment();
-                }else{
+                }else if (paymentMethodChoice ==0){
+                    return false;
+                }
+                else{
                     System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
                     isValid = false;
                 }

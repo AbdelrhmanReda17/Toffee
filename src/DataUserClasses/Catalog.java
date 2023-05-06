@@ -100,7 +100,6 @@ public class Catalog {
         }
         return foundItems;
     }
-
     public List<Item> searchItemsByBrand(String Brand) {
         DATA.loadItems();
         Vector<Item> itemss = DATA.getItems();

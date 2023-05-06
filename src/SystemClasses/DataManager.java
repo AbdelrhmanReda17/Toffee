@@ -597,7 +597,6 @@ public class DataManager {
                 System.out.println("Invalid password! It must consist of letters, numbers, and one of [$ # & * % ^ ] and be at least 8 characters long.");
             }
         } while (!password.matches(passwordRegex));
-
         System.out.println("Please wait While Sending The verification code to your email.... ");
         int otpCode = (int) (Math.random() * 900000) + 100000;
         if (sendOtp.SendOTP(email, otpCode)) {
