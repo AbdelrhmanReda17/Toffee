@@ -303,8 +303,9 @@ public class ApplicationController {
     private boolean checkoutProcess(Customer customer){
         boolean isValid = true , isOrderProccess = false;
         Scanner input = new Scanner(System.in);
+        System.out.println("---------------------------------------------------------------------- Shopping Cart -----------------------------------------------------------------------------------");
         customer.getShoppingCart().displayShoppingCart();
-
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         do{
             System.out.println("Please choose an option:");
             System.out.println(" 1 : Update Cart Items Quantity");

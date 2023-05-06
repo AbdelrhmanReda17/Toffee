@@ -23,6 +23,7 @@ public class CashPayment extends PaymentMethod {
         Scanner scanner = new Scanner(System.in);
         this.phoneNumber = phone;
         this.email = Email;
+        System.out.println("Please wait While Sending The verification code to your email.... ");
         sendVerificationCode();
         if  (!isEmailSend) {
             System.out.println("Payment could not be processed.");

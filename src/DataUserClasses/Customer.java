@@ -54,11 +54,10 @@ public class Customer extends User {
                 System.out.print("Customer Didn't have any orders");
             }
             for(int i = 0 ; i < prevOrders.size() ; i++){
-                System.out.println("--------------------------------------------------------Order - " + (i+1) + "--------------------------------------------------------");
-                System.out.print( "OrderID: " + prevOrders.get(i).getOrderId() + "  ||  ");
+                System.out.println("--------------------------------------------------------------------------- Order " + (i+1) + "-----------------------------------------------------------------------------");
                 prevOrders.get(i).getShopcart().displayShoppingCart();
-                System.out.println("--------------------------------------------------------------------------------------------------------------------------");
             }
+        System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
     public Vector<Order> LoadPrevOrderHistory() {
         Vector<Order> prevOrders = new Vector<Order>();
