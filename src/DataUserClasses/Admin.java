@@ -5,6 +5,7 @@ import java.util.*;
 import OrderClasses.CartItem;
 import OrderClasses.Item;
 import OrderClasses.Order;
+import OrderClasses.Order_state;
 import SystemClasses.*;
 public class Admin extends User {
     private DataManager Data = new DataManager();
@@ -345,4 +346,51 @@ public class Admin extends User {
             System.out.println("Payment method: " + order.getPayment().toString());
         }
     }
+
+    public void ChangeOrderStatus() {
+        Vector<Order> orders = Data.getOrders();
+        System.out.print("Enter the ID of the order you want to change status for: ");
+        int orderId = new Scanner(System.in).nextInt();
+        Order_state status = null;
+        System.out.println("Choose a new order status:");
+        System.out.println("1. IN_PROGRESS");
+        System.out.println("2. Ordered");
+        System.out.println("3. InDelivery");
+        System.out.println("4. Canceled");
+        System.out.println("5. Delivered");
+        int choice = new Scanner(System.in).nextInt();
+
+        switch (choice) {
+            case 1:
+                status = Order_state.IN_PROGRESS;
+                break;
+            case 2:
+                status = Order_state.Ordered;
+                break;
+            case 3:
+                status = Order_state.InDelivery;
+                break;
+            case 4:
+                status = Order_state.Canceled;
+                break;
+            case 5:
+                status = Order_state.Delivered;
+                break;
+            default:
+                System.out.println("Invalid choice. Please choose again.");
+                break;
+        }
+
+        for (Order order : orders) {
+            if (order.getOrderId() == orderId) {
+                order.setStatus(status);
+                System.out.println("Order " + orderId + " status updated to " + status);
+                break;
+            }
+        }
+        Data.setOrderVector(orders);
+        Data.updateOrders();
+
+    }
+
 }
