@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
-import javax.lang.model.util.ElementScanner14;
+
 
 public class ApplicationController {
     public DataManager Data;
@@ -45,7 +45,7 @@ public class ApplicationController {
                     break;
                 case 2:
                     RegisterPage();
-                    break; 
+                    break;
                 case 3:
                     isLoggedIn = LoginPage();
                     break;
@@ -152,6 +152,8 @@ public class ApplicationController {
         }
     }
 
+
+
     private void adminInterface(String nameE , String PasswordD){
         Admin admin = Data.getCurrentAdmin(nameE, passwordD);
         while (true) {
@@ -167,7 +169,7 @@ public class ApplicationController {
             System.out.println("8. Suspend User");
             System.out.println("9. Add Catalog");
             System.out.println("10. Delete Catalog");
-            System.out.println("11 . Change Order Status");
+            System.out.println("11. Change Order Status");
             System.out.println("0. Log Out");
             Scanner scanner = new Scanner(System.in);
             int cho;
@@ -216,6 +218,9 @@ public class ApplicationController {
             }
         }
     }
+
+
+
 
     private void customerInterface(String nameE , String PasswordD){
         boolean PaymentProccess = false;

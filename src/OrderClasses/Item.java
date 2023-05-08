@@ -106,7 +106,6 @@ public class Item {
         System.out.print("Enter item quantity: ");
         int quantity = scanner.nextInt();
         this.quantity = quantity;
-        scanner.close();
     }
     public void printItem(boolean IsCustomer , boolean isCartItem){
         System.out.print("ID: " + getID()+ " || ");
