@@ -139,19 +139,20 @@ public class Admin extends User {
         Data.setItems(items);
     }
 
+public void setLoyaltyPointsSystem(LoyaltyPoints loyalityPoints) {
+    System.out.print("Enter the points per EGP: ");
+    int pointsEarned = new Scanner(System.in).nextInt();
+    System.out.print("Enter the maximum points Via one Order: ");
+    int maximumPoint = new Scanner(System.in).nextInt();
 
-    public void setLoyaltyPointsSystem() {
-        System.out.print("Enter the points per EGP : ");
-        int pointsEarned = new Scanner(System.in).nextInt();
-        System.out.print("Enter the maximum points Via one Order : ");
-        int maximumPoint = new Scanner(System.in).nextInt();
-        LoyaltyPoints loyaltyPoints = new LoyaltyPoints(pointsEarned,maximumPoint);
-        if(loyaltyPoints.checkLoyaltyPoints()){
-            System.out.println("Loyalty Schema Added Successful");
-        }
-        Data.setLoyaltyScheme(loyaltyPoints);
+    loyalityPoints.setPointsEarnedperEgp(pointsEarned);
+    loyalityPoints.setMaximumpoint(maximumPoint);
+
+    if (loyalityPoints.checkLoyaltyPoints()) {
+        System.out.println("Loyalty Schema Added Successfully");
     }
-
+    Data.setLoyaltyScheme(loyalityPoints);
+}
     public void suspendUser(Vector<Customer> ct, Vector<Order> or) {
         System.out.print("Enter the username of the customer you want to suspend: ");
         String username = new Scanner(System.in).nextLine();
@@ -245,12 +246,16 @@ public class Admin extends User {
                 }
             }
         }
+        System.out.println("------------------------------------------------------------------------------------------------------------");
         System.out.println("We Made " + NumberOfOrders + " Orders With Total Price " + TotalOrdersPrice);
+        System.out.println("--------------------------------------------------------------------------------------------------------------");
+
         Iterator<Map.Entry<String, Integer>> it = map.entrySet().iterator();
         if (it.hasNext()) {
             Map.Entry<String, Integer> entry = it.next();
             System.out.println("The Best Selling  Item is ( "  + entry.getKey() + " ) with " + entry.getValue() + " sales");
         }
+        System.out.println("--------------------------------------------------------------------------------------------------------------");
     }
 
     public void addNewCatalog(Vector<Catalog>ct,Vector<Item>itemM) {
@@ -306,26 +311,34 @@ public class Admin extends User {
             catalogs.remove(ToRemove);
             System.out.println("Catalog Deleted Successfully");
         }
-        scanner.close();
+
         Data.setCatalogs(catalogs);
     }
 
 
     public void viewAllOrders(Vector<Order>orders) {
+        int i = 0;
+        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------");
         for(Order order : orders){
-            System.out.println("Order id : " + order.getOrderId());
-            System.out.println("User: " + order.getUser().getName());
-            System.out.println("Order status: " + order.getStatus().toString());
+            if(i != 0){
+                System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------");
+            }
+            i++;
+            System.out.print("Order id : " + order.getOrderId() + " || ");
+            System.out.print("User: " + order.getUser().getName() + " || ");
+            System.out.print("Order status: " + order.getStatus().toString() + " || ");
+            System.out.print("Loyalty points: " + order.getUser().getShoppingCart().getLoyaltyPoints() + " || ");
+            System.out.println("Total cost: " + order.getUser().getShoppingCart().getTotalCost() );
             System.out.println("Shopping cart: ");
             for (CartItem item : order.getShopcart().getCartItems()) {
                 System.out.println(" - " + item.getName() + " (" + item.getID() + ")");
             }
-            System.out.println("Shipping address: " + order.getShippingAddress());
-            System.out.println("Order time: " + order.getOrdertime().toString());
-            System.out.println("Loyalty points: " + order.getUser().getShoppingCart().getLoyaltyPoints());
-            System.out.println("Total cost: " + order.getUser().getShoppingCart().getTotalCost());
-            System.out.println("Payment method: " + order.getPayment().toString());
+            System.out.print("Shipping address: " + order.getShippingAddress() + " || ");
+            System.out.print("Order time: " + order.getOrdertime().toString() + " || ");
+            System.out.println("Payment method: " + order.getPayment().getMethod() );
+
         }
+        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
     public void ChangeOrderStatus(Vector<Order> orders) {

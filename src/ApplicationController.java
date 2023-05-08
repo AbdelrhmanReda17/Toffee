@@ -196,7 +196,7 @@ public class ApplicationController {
                     admin.viewStatistics(Data.getOrders());
                     break;
                 case 6:
-                    admin.setLoyaltyPointsSystem();
+                    admin.setLoyaltyPointsSystem(Data.getLoyaltyScheme());
                     break;
                 case 7:
                     admin.createAGiftVoucher(Data.getVouchers());
