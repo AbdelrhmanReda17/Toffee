@@ -164,47 +164,56 @@ public class ApplicationController {
             System.out.println("8. Suspend User");
             System.out.println("9. Add Catalog");
             System.out.println("10. Delete Catalog");
+            System.out.println("11 . Change Order Status");
             System.out.println("0. Log Out");
-            int cho =  new Scanner(System.in).nextInt();
+            Scanner scanner = new Scanner(System.in);
+            int cho;
+            cho = scanner.nextInt();
+            scanner.nextLine();
             switch (cho) {
                 case 0:
+                    Data.updateData();
                     System.out.println("Logging Out");
                     return;
                 case 1:
-                    admin.addItem();
+                    admin.addItem(Data.getItems(),Data.getCatalogs());
                     break;
                 case 2:
-                    admin.editItem();
+                    admin.editItem(Data.getItems());
                     break;
                 case 3:
-                    admin.deleteItem();
+                    admin.deleteItem(Data.getItems());
                     break;
                 case 4:
-                    admin.viewAllOrders();
+                    admin.viewAllOrders(Data.getOrders());
                     break;
                 case 5:
-                    admin.viewStatistics();
+                    admin.viewStatistics(Data.getOrders());
                     break;
                 case 6:
                     admin.setLoyaltyPointsSystem();
                     break;
                 case 7:
-                    admin.createAGiftVoucher();
+                    admin.createAGiftVoucher(Data.getVouchers());
                     break;
                 case 8:
-                    admin.suspendUser();
+                    admin.suspendUser(Data.getCustomers());
                     break;
                 case 9:
-                    admin.addNewCatalog();
+                    admin.addNewCatalog(Data.getCatalogs(),Data.getItems());
                     break;
                 case 10:
-                    admin.removeCatalog();
+                    admin.removeCatalog(Data.getCatalogs());
+                    break;
+                case 11:
+                    admin.ChangeOrderStatus(Data.getOrders());
                     break;
                 default:
                     System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
             }
         }
     }
+
     private void customerInterface(String nameE , String PasswordD){
         boolean PaymentProccess = false;
         Scanner input = new Scanner(System.in);

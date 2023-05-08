@@ -1,5 +1,4 @@
 package DataUserClasses;
-import java.lang.invoke.VarHandle;
 import java.util.*;
 
 import OrderClasses.CartItem;
@@ -12,45 +11,38 @@ public class Admin extends User {
     private Catalog catalog = new Catalog();
     public Admin(String name, String password,String email) {
         super(name, password , email);
-        Data.loadItems();
-        Data.loadCustomers();
-        Data.loadOrders();
-        Data.loadCatalogs();
-        Data.loadVouchers();
+
     }
 
-    public void addItem() {
+    public void addItem(Vector<Item> items,Vector<Catalog> ct) {
         Item item = new Item();
         item.getItem();
-        if (Data.addItemToVector(item)) {
-            Data.updateItems();
-            Vector<Catalog> ct = Data.getCatalogs();
-            boolean foundCategory = false;
-            for (Catalog x : ct) {
-                if (item.getCategory().equals(x.getName())) {
-                    x.addItem(item);
-                    foundCategory = true;
-                    break;
-                }
+        items.add(item);
+        boolean foundCategory = false;
+        for (Catalog x : ct) {
+            if (item.getCategory().equals(x.getName())) {
+                x.addItem(item);
+                foundCategory = true;
+                break;
             }
-            if (!foundCategory) {
-                Catalog newCatalog = new Catalog(item.getCategory());
-                newCatalog.addItem(item);
-                ct.add(newCatalog);
-                Data.setCatalogs(ct);
-                Data.updateCatalogs();
-            }
-            Data.setCatalogs(ct);
-            Data.updateCatalogs();
-            System.out.println("Item added successfully");
         }
+
+        if (!foundCategory) {
+            Catalog newCatalog = new Catalog(item.getCategory());
+            newCatalog.addItem(item);
+            ct.add(newCatalog);
+            Data.setCatalogs(ct);
+        }
+        Data.setCatalogs(ct);
+        System.out.println("Item added successfully");
+        Data.setItems(items);
+
     }
 
 
-    public void editItem() {
+    public void editItem(Vector<Item> items) {
         System.out.print("Enter The id of The item you want to Edit: ");
         int id = new Scanner(System.in).nextInt();
-        Vector<Item> items = Data.getItems();
         for (Item item : items) {
             if (item.getID() == id) {
                item.printItem(false , false);
@@ -105,22 +97,21 @@ public class Admin extends User {
                             break;
                     }
                 }
-                Data.setItems(items);
-                Data.updateItems();
                 catalog.updateIteminCatalog(item);
                 System.out.println("Item Edited Successful");
+                Data.setItems(items);
                 return;
             }
         }
         System.out.println("Item not found");
     }
 
-    public void deleteItem() {
+    public void deleteItem(Vector<Item> items) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the ID of the item you want to delete: ");
         int id = scanner.nextInt();
-        Vector<Item> items = Data.getItems();
         Item itemToRemove = null;
+        boolean FoundItem = false;
         for (Item item : items) {
             if (item.getID() == id) {
                 item.printItem(false , false);
@@ -129,6 +120,7 @@ public class Admin extends User {
                 int choice = scanner.nextInt();
                 if (choice == 1) {
                     itemToRemove = item;
+                    FoundItem = true;
                 } else {
                     System.out.println("Operation Cancelled.");
                     return;
@@ -136,38 +128,33 @@ public class Admin extends User {
             }
         }
         if (itemToRemove != null) {
-            boolean isRemoved = Data.removeItemFromVector(itemToRemove);
-            if (isRemoved) {
+            if (FoundItem) {
                 items.remove(itemToRemove);
-                Data.setItems(items);
-                Data.updateItems();
                 catalog.removeItem(itemToRemove);
                 System.out.println("Item Delete Successfully");
             }
-        } else {
+        }else{
             System.out.println("Item not found.");
         }
+        Data.setItems(items);
     }
 
 
     public void setLoyaltyPointsSystem() {
         System.out.print("Enter the points per EGP : ");
         int pointsEarned = new Scanner(System.in).nextInt();
-
         System.out.print("Enter the maximum points Via one Order : ");
         int maximumPoint = new Scanner(System.in).nextInt();
         LoyaltyPoints loyaltyPoints = new LoyaltyPoints(pointsEarned,maximumPoint);
         if(loyaltyPoints.checkLoyaltyPoints()){
-            Data.setLoyaltyScheme(loyaltyPoints);
-            Data.UpdateVouchers_Loyalty();
             System.out.println("Loyalty Schema Added Successful");
         }
+        Data.setLoyaltyScheme(loyaltyPoints);
     }
 
-    public boolean suspendUser() {
+    public void suspendUser(Vector<Customer> ct) {
         System.out.print("Enter the username of the customer you want to suspend: ");
         String username = new Scanner(System.in).nextLine();
-        Vector<Customer>ct = Data.getCustomers();
         Vector<Order> or = Data.getOrders();
         for (Customer c : ct) {
             if (Objects.equals(c.getName(), username)){
@@ -185,14 +172,12 @@ public class Admin extends User {
                             if (order.getUser() == c) {
                                 iterator.remove();
                                 Data.setOrderVector(or);
-                                Data.updateOrders();
                             }
                         }
 
-                        Data.setCustomers(ct);
-                        Data.updateCustomers();
                         System.out.println("User Suspended Successful");
-                        return true;
+                        Data.setCustomers(ct);
+                        return ;
                     }
                 } else {
                     System.out.println("Operation cancelled.");
@@ -200,11 +185,10 @@ public class Admin extends User {
             }
         }
         System.out.println("customer not found.");
-        return false;
     }
 
 
-    public void createAGiftVoucher() {
+    public void createAGiftVoucher(Vector<GiftVoucher> vouchers) {
         Scanner X = new Scanner(System.in);
         //voucher code
         String codeRegex = "^[A-Za-z0-9]{16}$";
@@ -231,20 +215,17 @@ public class Admin extends User {
         float VoucherValue = Float.parseFloat(value);
         GiftVoucher newVoucher = new GiftVoucher(vouchercode,VoucherValue);
         if (newVoucher != null) {
-            Vector<GiftVoucher> vouchersS = Data.getVouchers();
-            vouchersS.add(newVoucher);
-            Data.setVouchers(vouchersS);
-            Data.UpdateVouchers_Loyalty();
-            System.out.println("Voucher Created Successful");
 
+            vouchers.add(newVoucher);
+            System.out.println("Voucher Created Successful");
         }
+        Data.setVouchers(vouchers);
     }
 
-    public void viewStatistics() {
+    public void viewStatistics(Vector<Order> order) {
         Map<String, Integer> map = new HashMap<>();
         double TotalOrdersPrice = 0;
         int NumberOfOrders =0;
-        Vector<Order> order = Data.getOrders();
         for(Order x : order){
             List<CartItem> orderItems = x.getShopcart().getCartItems();
             NumberOfOrders++;
@@ -265,9 +246,7 @@ public class Admin extends User {
         }
     }
 
-    public void addNewCatalog() {
-        Data.loadCatalogs();
-        Vector<Catalog> ct = Data.getCatalogs();
+    public void addNewCatalog(Vector<Catalog>ct,Vector<Item>itemM) {
         System.out.print("Enter The Catalog Name : ");
         String name = new Scanner(System.in).nextLine();
         for (Catalog x : ct) {
@@ -277,7 +256,6 @@ public class Admin extends User {
         }
         Catalog NewCatalog = new Catalog(name);
         ct.add(NewCatalog);
-        Data.updateCatalogs();
 
         System.out.print("Press 1.Add New Item , 2.Add Existing Item, 3.No Need To Add Item  : ");
         int choice = new Scanner(System.in).nextInt();
@@ -285,10 +263,9 @@ public class Admin extends User {
             System.out.println("You Must Add The Item First ! ");
             Item item = new Item();
             item.getItem();
-            Data.addItemToVector(item);
-            Data.updateItems();
+            itemM.add(item);
+            Data.setItems(itemM);
             NewCatalog.addItem(item);
-            Data.updateCatalogs();
         }else if(choice == 2){
             System.out.print("Enter Item ID : ");
             int id = new Scanner(System.in).nextInt();
@@ -300,17 +277,16 @@ public class Admin extends User {
                 }
             }
         }
-        Data.updateCatalogs();
         System.out.println("Catalog added successfully!!");
+        Data.setCatalogs(ct);
 
     }
 
-    public void removeCatalog() {
+    public void removeCatalog(Vector<Catalog> catalogs) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter the Name of the catalog you want to remove: ");
         String catalogName = scanner.nextLine();
-        Vector<Catalog> catalogs = Data.getCatalogs();
         Catalog ToRemove = null;
         for (Catalog catalog : catalogs) {
             if (catalog.getName().equals(catalogName)) {
@@ -321,16 +297,14 @@ public class Admin extends User {
 
         if (ToRemove != null) {
             catalogs.remove(ToRemove);
-            Data.setCatalogs(catalogs);
-            Data.updateCatalogs();
             System.out.println("Catalog Deleted Successfully");
         }
         scanner.close();
+        Data.setCatalogs(catalogs);
     }
 
 
-    public void viewAllOrders() {
-        Vector<Order> orders = Data.getOrders();
+    public void viewAllOrders(Vector<Order>orders) {
         for(Order order : orders){
             System.out.println("Order id : " + order.getOrderId());
             System.out.println("User: " + order.getUser().getName());
@@ -347,8 +321,7 @@ public class Admin extends User {
         }
     }
 
-    public void ChangeOrderStatus() {
-        Vector<Order> orders = Data.getOrders();
+    public void ChangeOrderStatus(Vector<Order> orders) {
         System.out.print("Enter the ID of the order you want to change status for: ");
         int orderId = new Scanner(System.in).nextInt();
         Order_state status = null;
@@ -389,7 +362,6 @@ public class Admin extends User {
             }
         }
         Data.setOrderVector(orders);
-        Data.updateOrders();
 
     }
 
