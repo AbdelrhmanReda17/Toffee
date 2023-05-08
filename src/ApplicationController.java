@@ -128,11 +128,11 @@ public class ApplicationController {
             }
             else {
                 System.out.print("Enter Username: ");
-                //nameE = input.nextLine();
-                nameE = "omar";
-                passwordD = "omar2002#";
+                nameE = input.nextLine();
+//                nameE = "omar";
+//                passwordD = "omar2002#";
                 System.out.print("Enter Password: ");
-                //passwordD = input.nextLine();
+                passwordD = input.nextLine();
                 return Data.login(CAOption, nameE, passwordD);
             }
         }
@@ -200,7 +200,7 @@ public class ApplicationController {
                     admin.createAGiftVoucher(Data.getVouchers());
                     break;
                 case 8:
-                    admin.suspendUser(Data.getCustomers());
+                    admin.suspendUser(Data.getCustomers(),Data.getOrders());
                     break;
                 case 9:
                     admin.addNewCatalog(Data.getCatalogs(),Data.getItems());

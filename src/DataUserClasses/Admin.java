@@ -152,39 +152,46 @@ public class Admin extends User {
         Data.setLoyaltyScheme(loyaltyPoints);
     }
 
-    public void suspendUser(Vector<Customer> ct) {
+    public void suspendUser(Vector<Customer> ct, Vector<Order> or) {
         System.out.print("Enter the username of the customer you want to suspend: ");
         String username = new Scanner(System.in).nextLine();
-        Vector<Order> or = Data.getOrders();
+        Customer customerToSuspend = null;
+
         for (Customer c : ct) {
             if (Objects.equals(c.getName(), username)){
-                System.out.println("Name: " + c.getName());
-                System.out.println("Phone: " + c.getPhone());
-                System.out.println("Address: " + c.getAddress());
-                System.out.println("Do you want to suspend this customer? Press 1 to confirm, 2 to cancel.");
-                int choice = new Scanner(System.in).nextInt();
-                if (choice == 1) {
-                    boolean isRemoved = Data.removeCustomerFromVector(c);
-                    if (isRemoved) {
-                        Iterator<Order> iterator = or.iterator();
-                        while (iterator.hasNext()) {
-                            Order order = iterator.next();
-                            if (order.getUser() == c) {
-                                iterator.remove();
-                                Data.setOrderVector(or);
-                            }
-                        }
-
-                        System.out.println("User Suspended Successful");
-                        Data.setCustomers(ct);
-                        return ;
-                    }
-                } else {
-                    System.out.println("Operation cancelled.");
-                }
+                customerToSuspend = c;
+                break;
             }
         }
-        System.out.println("customer not found.");
+
+        if (customerToSuspend == null) {
+            System.out.println("customer not found.");
+            return;
+        }
+
+        System.out.println("Name: " + customerToSuspend.getName());
+        System.out.println("Phone: " + customerToSuspend.getPhone());
+        System.out.println("Address: " + customerToSuspend.getAddress());
+        System.out.println("Do you want to suspend this customer? Press 1 to confirm, 2 to cancel.");
+        int choice = new Scanner(System.in).nextInt();
+
+        if (choice == 1) {
+            ct.remove(customerToSuspend);
+
+            for (Iterator<Order> iter = or.iterator(); iter.hasNext();) {
+                Order order = iter.next();
+
+                if (order.getUser() == customerToSuspend) {
+                    iter.remove();
+                }
+            }
+
+            Data.setOrderVector(or);
+            Data.setCustomers(ct);
+            System.out.println("User Suspended Successful");
+        } else {
+            System.out.println("Operation cancelled.");
+        }
     }
 
 
