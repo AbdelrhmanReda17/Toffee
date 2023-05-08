@@ -1,7 +1,8 @@
 package PaymentClasses;
 
 import java.util.Scanner;
-
+import DataUserClasses.Customer;
+import SystemClasses.DataManager;
 public class CreditPayment extends PaymentMethod {
     private String methodName = "Credit Payment";
     private String cardNumber;
@@ -11,7 +12,7 @@ public class CreditPayment extends PaymentMethod {
     public String getMethod() {
         return methodName;
     }
-    public float processPayment(int CustomerLoyalty ,String Email,String phone, double total_price  , int loyaltyPoints) {
+    public float processPayment(DataManager Data,Customer user,String Email,String phone, double total_price) {
         Scanner scanner = new Scanner(System.in);
         boolean validCardNumber = false;
         boolean validExpDate = false;

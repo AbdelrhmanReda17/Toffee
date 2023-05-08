@@ -1,7 +1,7 @@
 package PaymentClasses;
 
 import DataUserClasses.Customer;
-
+import SystemClasses.DataManager;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -16,7 +16,9 @@ public class LoyaltyPayment extends PaymentMethod {
         return methodName;
     }
 
-    public float processPayment(int CustomerLoyalty ,String Email,String phone, double total_price  , int loyaltyPoints) {
+    public float processPayment(DataManager Data,Customer user , String Email,String phone, double total_price ) {
+        int CustomerLoyalty = user.getLoyaltyPoints();
+        int loyaltyPoints = user.getShoppingCart().getLoyaltyPoints();
         if (CustomerLoyalty >= loyaltyPoints) {
             Scanner input = new Scanner(System.in);
             System.out.println("Your Loyalty Points: " + CustomerLoyalty +" Loyalty point" + "and your Order Price is " + loyaltyPoints +" Loyalty Point");
@@ -24,7 +26,8 @@ public class LoyaltyPayment extends PaymentMethod {
             int continueOption = input.nextInt();
             if(continueOption == 1){
                 System.out.println("Your new Loyalty Points " + (CustomerLoyalty -loyaltyPoints) +" Loyalty Point");
-                return (CustomerLoyalty-loyaltyPoints);
+                user.setLoyaltyPoints((CustomerLoyalty - loyaltyPoints));
+                return 0;
             }else{
                 return -1;
             }

@@ -47,6 +47,7 @@ public class DataManager {
         updateAdmins();
         updateCatalogs();
         updateCustomers();
+        updateOrders();
         UpdateVouchers_Loyalty();
         updateItems();
     }

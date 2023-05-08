@@ -1,23 +1,5 @@
-28,omar,IN_PROGRESS,111.14999999999999/42/3|1,a,Fri May 05 19:34:56 EET 2023,Loyalty Payment
-29,omar,IN_PROGRESS,111.14999999999999/42/3|1,1,Fri May 05 19:36:34 EET 2023,Loyalty Payment
-30,omar,IN_PROGRESS,148.2/56/4|1,a,Fri May 05 19:54:41 EET 2023,Loyalty Payment
-31,omar,IN_PROGRESS,148.2/56/4|1,aa,Fri May 05 19:57:07 EET 2023,Loyalty Payment
-32,omar,IN_PROGRESS,148.2/56/4|1,aa,Fri May 05 20:00:19 EET 2023,Credit Payment
-33,omar,IN_PROGRESS,102.0/48/1|1/1|2/1|3,a,Fri May 05 20:02:16 EET 2023,Cash On Payment
-34,omar,IN_PROGRESS,102.0/48/1|1/1|2/1|3,ar,Fri May 05 20:03:55 EET 2023,Cash On Payment
-35,omar,IN_PROGRESS,37.05/14/1|1,ar,Sat May 06 01:51:48 EET 2023,Loyalty Payment
-36,omar,IN_PROGRESS,111.14999999999999/42/3|1,ar,Sat May 06 02:00:16 EET 2023,Loyalty Payment
-37,omar,IN_PROGRESS,102.0/48/1|1/1|2/1|3,ar,Sat May 06 02:05:54 EET 2023,Loyalty Payment
-38,omar,IN_PROGRESS,37.05/14/1|1,ar,Sat May 06 02:07:32 EET 2023,Loyalty Payment
-39,omar,IN_PROGRESS,37.05/14/1|1,ar,Sat May 06 02:09:44 EET 2023,Loyalty Payment
-40,omar,IN_PROGRESS,81.6/32/1|1/3|4,ar,Sat May 06 02:10:05 EET 2023,Loyalty Payment
-41,omar,IN_PROGRESS,111.14999999999999/42/3|1,r,Sat May 06 02:10:54 EET 2023,Loyalty Payment
-42,omar,IN_PROGRESS,14.85/6/1|4,ar,Sat May 06 02:20:15 EET 2023,Credit Payment
-43,omar,IN_PROGRESS,102.0/48/1|1/1|2/1|3,ar,Sat May 06 02:27:27 EET 2023,Gift Voucher Payment
-44,omar,IN_PROGRESS,14.85/6/1|4,AR,Sat May 06 02:33:24 EET 2023,Cash On Payment
-45,omar,IN_PROGRESS,1852.4999999999998/700/50|1,aa,Sat May 06 02:35:56 EET 2023,Cash On Payment
-46,omar,IN_PROGRESS,64.94999999999999/34/1|3/1|2,ar,Sat May 06 02:44:03 EET 2023,Cash On Payment
-47,omar,IN_PROGRESS,14.85/6/1|4,ar,Sat May 06 02:44:57 EET 2023,Gift Voucher Payment
-48,omar,IN_PROGRESS,58.20000076293945/56/4|1,ar,Sat May 06 02:51:58 EET 2023,Cash On Payment
-49,omar,IN_PROGRESS,37.05/14/1|1,ar,Sat May 06 02:53:13 EET 2023,Cash On Payment
-50,omar,IN_PROGRESS,102.0/48/1|1/1|2/1|3,adadad,Sat May 06 18:10:14 EET 2023,Cash On Payment
+1,omar,IN_PROGRESS,148.2/56/4|1,EL-Hossary Street October,Tue May 09 18:56:32 EET 2023,Loyalty Payment
+2,omar,IN_PROGRESS,59.4/24/4|4,EL-Hossary Street October,Tue May 09 19:11:16 EET 2023,Loyalty Payment
+3,omar,IN_PROGRESS,148.2/56/4|2,EL-Hossary Street October,Tue May 09 19:21:42 EET 2023,Loyalty Payment
+4,omar,IN_PROGRESS,148.2/56/4|2,EL-Hossary Street October,Tue May 09 19:22:21 EET 2023,Loyalty Payment
+5,omar,IN_PROGRESS,148.2/56/4|2,EL-Hossary Street October,Tue May 09 19:22:21 EET 2023,Loyalty Payment

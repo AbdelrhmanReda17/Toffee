@@ -1,12 +1,8 @@
 package PaymentClasses;
 import java.util.Scanner;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.management.RuntimeErrorException;
 
-import java.util.Properties;
-
+import DataUserClasses.Customer;
+import SystemClasses.DataManager;
 public class CashPayment extends PaymentMethod {
     private String methodName;
     private String phoneNumber;
@@ -19,7 +15,7 @@ public class CashPayment extends PaymentMethod {
     public String getMethod() {
         return methodName;
     }
-    public float processPayment(int CustomerLoyalty ,String Email , String phone,double total_price  , int loyaltyPoints) {
+    public float processPayment(DataManager Data,Customer user , String Email , String phone,double total_price ) {
         Scanner scanner = new Scanner(System.in);
         this.phoneNumber = phone;
         this.email = Email;

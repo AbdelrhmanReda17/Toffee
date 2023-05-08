@@ -1,5 +1,6 @@
 package PaymentClasses;
 import DataUserClasses.Customer;
+import SystemClasses.DataManager;
 public abstract class PaymentMethod {
     protected double amount;
 
@@ -13,5 +14,5 @@ public abstract class PaymentMethod {
         this.amount = amount;
     }
 
-    public abstract float processPayment(int CustomerLoyalty ,String Email,String phone,double total_price , int loyaltyPoints);
+    public abstract float processPayment(DataManager Data,Customer user , String Email , String phone , double total_price );
 }

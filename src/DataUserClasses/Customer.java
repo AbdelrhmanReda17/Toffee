@@ -2,7 +2,6 @@ package DataUserClasses;
 
 import OrderClasses.Order;
 import OrderClasses.ShoppingCart;
-import OrderClasses.Order_state;
 import java.util.Scanner;
 import java.util.Vector;
 import SystemClasses.*;
@@ -12,7 +11,6 @@ public class Customer extends User {
     private String phone;
     private ShoppingCart shoppingCart = new ShoppingCart();
     private int loyaltyPoints;
-    private DataManager Data = new DataManager();
 
     public Customer(String name, String password, String email, String phone, String address) {
         super(name, password , email);
@@ -28,8 +26,8 @@ public class Customer extends User {
     }
     public Customer(){}
 
-    public Order reorder() {
-            Vector<Order> PrevOrders = LoadPrevOrderHistory();
+    public Order reorder(DataManager Data) {
+            Vector<Order> PrevOrders = LoadPrevOrderHistory(Data);
             System.out.println("Please select one of you past orders them and enter it's number : ");
             Scanner input = new Scanner(System.in);
             int OrderCho = input.nextInt();
@@ -40,8 +38,8 @@ public class Customer extends User {
             OrderCho = OrderCho-1;
             return PrevOrders.get(OrderCho);
     }
-    public void DisplayPrevOrderHistory(){
-            Vector<Order> prevOrders = this.LoadPrevOrderHistory();
+    public void DisplayPrevOrderHistory(DataManager Data){
+            Vector<Order> prevOrders = this.LoadPrevOrderHistory(Data);
             if(prevOrders.isEmpty()){
                 System.out.print("Customer Didn't have any orders");
             }
@@ -51,9 +49,8 @@ public class Customer extends User {
             }
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
-    public Vector<Order> LoadPrevOrderHistory() {
+    public Vector<Order> LoadPrevOrderHistory(DataManager Data) {
         Vector<Order> prevOrders = new Vector<Order>();
-        Data.loadOrders();
         for(Order order : Data.getOrders()){
             if(order.getUser().getName().equals(this.getName())){
                 prevOrders.add(order);

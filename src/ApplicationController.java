@@ -50,6 +50,7 @@ public class ApplicationController {
                     isLoggedIn = LoginPage();
                     break;
                 case 4:
+                    Data.updateData();
                     System.out.println("Thank you for choosing Toffee Shop! We hope to see you again soon!");
 
                     return;
@@ -127,9 +128,11 @@ public class ApplicationController {
             }
             else {
                 System.out.print("Enter Username: ");
-                nameE = input.nextLine();
+                //nameE = input.nextLine();
+                nameE = "omar";
+                passwordD = "omar2002#";
                 System.out.print("Enter Password: ");
-                passwordD = input.nextLine();
+                //passwordD = input.nextLine();
                 return Data.login(CAOption, nameE, passwordD);
             }
         }
@@ -267,6 +270,7 @@ public class ApplicationController {
                 }
             }
             else if(choose == 0){
+                Data.updateData();
                 System.out.println("Thank you for choosing Toffee Shop! We hope to see you again soon!");
                 break;
             }
@@ -374,15 +378,9 @@ public class ApplicationController {
                     isValid = false;
                     break;
                 case 2:
-                    if (order.placeOrder(customer)) {
+                    if (order.placeOrder(Data , customer)) {
                         isOrderProccess = true;
                         System.out.println("Order Place Successful!");
-                        if (order.getPayment().getMethod() != "Loyalty Payment") {
-                            customer.setLoyaltyPoints(customer.getLoyaltyPoints() + customer.getShoppingCart().getPointsEarned());
-                            Data.setCurrentCustomer(customer);
-                            Data.updateCustomers();
-                            System.out.println("You Gained " + customer.getShoppingCart().getPointsEarned() + " Loyalty Points Your Loyalty Points Balance updated to be " + (customer.getLoyaltyPoints()));
-                        }
                     }else{
                         System.out.println("Order didn't place!");
                         isValid = false;
@@ -406,6 +404,7 @@ public class ApplicationController {
                     if (continueOption == 1) {
                         return true;
                     } else {
+                        Data.updateData();
                         System.out.println("Thank you for choosing Toffee! We can't wait to serve you again!");
                         return false;
                     }
@@ -422,11 +421,11 @@ public class ApplicationController {
         do{
             Scanner input = new Scanner(System.in);
             System.out.println("Here is your the Past Ordered");
-            customer.DisplayPrevOrderHistory();
+            customer.DisplayPrevOrderHistory(Data);
             System.out.println("Would you like to reorder? (Please enter 1 for yes, 2 for no)");
             int ch2 = input.nextInt();
             if (ch2 == 1) {
-                order = customer.reorder();
+                order = customer.reorder(Data);
                 customer.setShoppingCart(order.getShopcart());
                 return true;
             }

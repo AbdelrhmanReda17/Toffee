@@ -2,6 +2,7 @@ package PaymentClasses;
 
 import SystemClasses.DataManager;
 import SystemClasses.GiftVoucher;
+import DataUserClasses.Customer;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.Vector;
@@ -11,7 +12,6 @@ import java.util.Random;
 public class GiftPayment extends PaymentMethod {
     private String methodName;
     private String voucherCode;
-    private DataManager DATA = new DataManager();
     Vector<GiftVoucher> vouchers;
     public GiftPayment() {
         this.methodName = "Gift Voucher Payment";
@@ -19,10 +19,9 @@ public class GiftPayment extends PaymentMethod {
     public String getMethod() {
         return methodName;
     }
-    public float processPayment(int CustomerLoyalty ,String Email,String phone,double total_price  , int loyaltyPoints) {
+    public float processPayment(DataManager Data, Customer user , String Email , String phone , double total_price  ) {
         int choice; 
-        DATA.loadVouchers();
-        vouchers = DATA.getVouchers();
+        vouchers = Data.getVouchers();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter your voucher code: ");
         voucherCode = scanner.nextLine();
@@ -36,6 +35,7 @@ public class GiftPayment extends PaymentMethod {
                     if(choice == 1){
                         System.out.println("Successfully added! \uD83D\uDE0A");
                         remove_voucher();
+                        Data.setVouchers(vouchers);
                         return 0;
                     }else if(choice == 2){
                         System.out.println("Voucher didn't apply. \uD83D\uDE22");
@@ -63,6 +63,7 @@ public class GiftPayment extends PaymentMethod {
                         System.out.println("Successfully added! \uD83D\uDE0A");
                         System.out.println("Here's your New Voucher, Code: " + voucher.getCode() + " - Value : " + voucher.getValue());
                         remove_voucher();
+                        Data.setVouchers(vouchers);
                         return 0;
                     }else if(choice == 2){
                         System.out.println("Voucher didn't apply. \uD83D\uDE22");
@@ -82,9 +83,6 @@ public class GiftPayment extends PaymentMethod {
                 }
             }
         }
-        DATA.loadLoyaltyScheme();
-        DATA.setVouchers(vouchers);
-        DATA.UpdateVouchers_Loyalty();
     }
     private String generateCode(){
         String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -107,9 +105,6 @@ public class GiftPayment extends PaymentMethod {
             }
         }
         vouchers.add(voucher);
-        DATA.loadLoyaltyScheme();
-        DATA.setVouchers(vouchers);
-        DATA.UpdateVouchers_Loyalty();
         return voucher;
     }
 }

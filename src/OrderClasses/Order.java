@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 import javax.lang.model.util.ElementScanner14;
+import javax.xml.crypto.Data;
 
 
 public class Order {
@@ -21,12 +22,10 @@ public class Order {
     private String shippingAddress;
     private Date ordertime;
     private PaymentMethod payment;
-    private DataManager Data = new DataManager();
 
     public Order() {
     }
 
-    public void Order(){};
     public Order(int OrderID ,Customer user, Order_state status, ShoppingCart shopcart ,Date ordertime, String shippingAddress, PaymentMethod payment) {
         this.orderId = OrderID;
         this.user = user;
@@ -46,8 +45,7 @@ public class Order {
         this.payment = payment;
         this.ordertime = ordertime;
     }
-    public boolean placeOrder( Customer user) {
-        Data.loadOrders();
+    public boolean placeOrder(DataManager Data, Customer user) {
         float paymentSuccess;
         System.out.println("The Total Price of you items : " + user.getShoppingCart().getTotalCost() + "L.E");
         Scanner input = new Scanner(System.in);
@@ -123,39 +121,32 @@ public class Order {
                     isValid = false;
                 }
             }while (!isValid);
-            paymentSuccess = payment.processPayment(user.getLoyaltyPoints(),email,phone,user.getShoppingCart().getTotalCost() , user.getShoppingCart().getLoyaltyPoints());
+            paymentSuccess = payment.processPayment(Data,user , email,phone,user.getShoppingCart().getTotalCost());
+            
             if (paymentSuccess == -1 ) {
                 System.out.println("Failed to process payment , please Select another payment");
             }else{
-                if(payment.getMethod() == "Loyalty Payment"){
-                    int loyaltyPoints = (int) Math.round(paymentSuccess);
-                    user.setLoyaltyPoints(loyaltyPoints);
-                    Data.setCurrentCustomer(user);
-                    Data.updateCustomers();
-                    CreateOrder(user, Order_state.IN_PROGRESS, user.getShoppingCart(),shippingAddress, payment);
-                    return true;
-                }
-                else{
-                    if(paymentSuccess == 0){
-                        CreateOrder(user, Order_state.IN_PROGRESS, user.getShoppingCart(),shippingAddress, payment);
-                        return true;
-                    }else
-                    {
-                        user.getShoppingCart().setTotalCost(paymentSuccess);
-                        return placeOrder(user);
+                if(paymentSuccess == 0){
+                    if(!(payment instanceof LoyaltyPayment)){
+                        user.setLoyaltyPoints(user.getLoyaltyPoints() + user.getShoppingCart().getPointsEarned());
+                        System.out.println("You Gained " + user.getShoppingCart().getPointsEarned() + " Loyalty Points Your Loyalty Points Balance updated to be " + (user.getLoyaltyPoints()));
                     }
+                    Data.setCurrentCustomer(user);
+                    CreateOrder(Data , user, Order_state.IN_PROGRESS, user.getShoppingCart(),shippingAddress, payment);
+                    return true;
+                }else
+                {
+                    user.getShoppingCart().setTotalCost(paymentSuccess);
+                    return placeOrder(Data , user);
                 }
             }
         }
-        
     }
-    private void CreateOrder(Customer user , Order_state status , ShoppingCart shoppingCart , String address , PaymentMethod payment){
+    private void CreateOrder(DataManager Data , Customer user , Order_state status , ShoppingCart shoppingCart , String address , PaymentMethod payment){
         ordertime = getOrderTime();
         Order order = new Order(user, status, shoppingCart,ordertime,address, payment);
         Data.setOrders(order);
-        Data.updateOrders();
         System.out.println("Delivery expected time: " + formatOrderTime() );
-
     }
 
     public Date getOrderTime() {
