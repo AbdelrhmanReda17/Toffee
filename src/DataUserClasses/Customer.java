@@ -4,6 +4,8 @@ import OrderClasses.Order;
 import OrderClasses.ShoppingCart;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.jar.Attributes.Name;
+
 import SystemClasses.*;
 
 public class Customer extends User {
@@ -11,18 +13,20 @@ public class Customer extends User {
     private String phone;
     private ShoppingCart shoppingCart = new ShoppingCart();
     private int loyaltyPoints;
-
+    private boolean isSuspened = false;
     public Customer(String name, String password, String email, String phone, String address) {
         super(name, password , email);
         this.address = address;
         this.phone=phone;
         this.loyaltyPoints = 0;
+        isSuspened = false;
     }
-    public Customer(String name, String password, String email, String phone,  String address , int loyaltyPoints) {
+    public Customer(String name, String password, String email, String phone,  String address , int loyaltyPoints , boolean isSuspened) {
         super(name, password ,email) ;
         this.address = address;
         this.phone=phone;
         this.loyaltyPoints = loyaltyPoints;
+        this.isSuspened = isSuspened;
     }
     public Customer(){}
 
@@ -58,7 +62,9 @@ public class Customer extends User {
         }
         return prevOrders;
     }
-
+    public void displayCustomer(){
+        System.out.println("Name: " + getName() + " || Email" + getEmail() + " || phone : "  + getPhone() +  " || Status : " + (getStatus() ? "Suspended" : "Not Suspended") );
+    }
     public int getLoyaltyPoints() {
         return loyaltyPoints;
     }
@@ -78,6 +84,13 @@ public class Customer extends User {
     public void setLoyaltyPoints(int loyaltyPoints) {
         this.loyaltyPoints= loyaltyPoints;
     }
+    public boolean getStatus(){
+        return isSuspened;
+    }
+    public void setStatus(boolean isSuspened){
+        this.isSuspened = isSuspened ;
+    }
     public ShoppingCart getShoppingCart(){ return shoppingCart;}
     public void setShoppingCart(ShoppingCart shoppingCart) {this.shoppingCart = shoppingCart;}
+    
 }

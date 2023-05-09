@@ -86,7 +86,9 @@ public class DataManager {
         String phone = data[3];
         String address = data[4];
         int LoyaltyPoints = Integer.parseInt(data[5]);
-        return new Customer( name, password , email, phone, address ,LoyaltyPoints );
+        Boolean Status = Boolean.parseBoolean(data[6]);
+
+        return new Customer( name, password , email, phone, address ,LoyaltyPoints , Status);
     }
     
     public void updateCustomers() {
@@ -94,7 +96,7 @@ public class DataManager {
         try {
             FileWriter writer = new FileWriter(filePath);
             for (Customer customer : customers) {
-                writer.write(customer.getName() + "," + customer.getPassword() + "," + customer.getEmail() + "," + customer.getPhone() + "," + customer.getAddress() + "," + customer.getLoyaltyPoints()+ "\n");
+                writer.write(customer.getName() + "," + customer.getPassword() + "," + customer.getEmail() + "," + customer.getPhone() + "," + customer.getAddress() + "," + customer.getLoyaltyPoints() + "," + customer.getStatus() + "\n");
             }
             writer.close();
         }catch (IOException e) {
@@ -513,12 +515,21 @@ public class DataManager {
     //---------------------------------------------------------------------------------------------
 
     public boolean login(int choice,String nameE , String passwordD) {
-        boolean found = false;
+        boolean found = false , isnotValidpass = false;
         if (choice == 1) {
             for (Customer customer : customers) {
-                if (customer.getName().equals(nameE) && customer.getPassword().equals(passwordD)) {
-                    found = true;
-                    break;
+                if (customer.getName().equals(nameE)) {
+                    if(customer.getPassword().equals(passwordD))
+                    {
+                        if(customer.getStatus() == true){
+                            System.out.println("Sorry , User Suspended");
+                            return false;
+                        }
+                        found = true;
+                        break;
+                    }else{
+                        isnotValidpass = true;
+                    }
                 }
             }
         } else {
@@ -528,6 +539,11 @@ public class DataManager {
                     break;
                 }
             }
+        }
+        if(isnotValidpass && found == true){
+            System.out.println("Sorry , Wrong password ");
+        }else if(!found){
+            System.out.println("Sorry , Account not founded");
         }
         return found;
     }

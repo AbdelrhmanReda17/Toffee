@@ -129,8 +129,6 @@ public class ApplicationController {
             else {
                 System.out.print("Enter Username: ");
                 nameE = input.nextLine();
-//                nameE = "omar";
-//                passwordD = "omar2002#";
                 System.out.print("Enter Password: ");
                 passwordD = input.nextLine();
                 return Data.login(CAOption, nameE, passwordD);
@@ -166,7 +164,7 @@ public class ApplicationController {
             System.out.println("5. View Statistics");
             System.out.println("6. Set Loyalty Points");
             System.out.println("7. Create Gift Voucher");
-            System.out.println("8. Suspend User");
+            System.out.println("8. Suspend/Unsuspend a User");
             System.out.println("9. Add Catalog");
             System.out.println("10. Delete Catalog");
             System.out.println("11. Change Order Status");
@@ -202,7 +200,7 @@ public class ApplicationController {
                     admin.createAGiftVoucher(Data.getVouchers());
                     break;
                 case 8:
-                    admin.suspendUser(Data.getCustomers(),Data.getOrders());
+                    admin.un_or_suspendUser(Data);
                     break;
                 case 9:
                     admin.addNewCatalog(Data.getCatalogs(),Data.getItems());

@@ -153,43 +153,41 @@ public void setLoyaltyPointsSystem(LoyaltyPoints loyalityPoints) {
     }
     Data.setLoyaltyScheme(loyalityPoints);
 }
-    public void suspendUser(Vector<Customer> ct, Vector<Order> or) {
-        System.out.print("Enter the username of the customer you want to suspend: ");
+    public void un_or_suspendUser(DataManager Data) {
+        System.out.println("------------------------------------------------------------------------------------------------");
+        Vector<Customer> ct = Data.getCustomers();
+        for(int i = 0 ; i < ct.size() ; i++)
+        {   
+            System.out.print(i + ". ");
+            ct.get(i).displayCustomer();
+        }
+        System.out.println("------------------------------------------------------------------------------------------------");
+
+        System.out.print("Enter the name of the customer you want to suspend: ");
         String username = new Scanner(System.in).nextLine();
-        Customer customerToSuspend = null;
+        Customer customer= null;
 
         for (Customer c : ct) {
             if (Objects.equals(c.getName(), username)){
-                customerToSuspend = c;
+                customer = c;
                 break;
             }
         }
 
-        if (customerToSuspend == null) {
+        if (customer == null) {
             System.out.println("customer not found.");
             return;
         }
+        System.out.println("------------------------------------------------------------------------------------------------");
+        customer.displayCustomer();
+        System.out.println("------------------------------------------------------------------------------------------------");
 
-        System.out.println("Name: " + customerToSuspend.getName());
-        System.out.println("Phone: " + customerToSuspend.getPhone());
-        System.out.println("Address: " + customerToSuspend.getAddress());
-        System.out.println("Do you want to suspend this customer? Press 1 to confirm, 2 to cancel.");
+        System.out.println("Do you want to " + (customer.getStatus() ? "unsuspend" : "suspend" ) +" this customer? Press 1 to confirm, 2 to cancel.");
         int choice = new Scanner(System.in).nextInt();
-
-        if (choice == 1) {
-            ct.remove(customerToSuspend);
-
-            for (Iterator<Order> iter = or.iterator(); iter.hasNext();) {
-                Order order = iter.next();
-
-                if (order.getUser() == customerToSuspend) {
-                    iter.remove();
-                }
-            }
-
-            Data.setOrderVector(or);
-            Data.setCustomers(ct);
-            System.out.println("User Suspended Successful");
+        if (choice == 1) {  
+            customer.setStatus( !customer.getStatus());
+            //Data.setCurrentCustomer(customer);
+            System.out.println("User "+ (customer.getStatus() ? "suspend" : "unsuspend" ) +" Successful");
         } else {
             System.out.println("Operation cancelled.");
         }
@@ -382,7 +380,6 @@ public void setLoyaltyPointsSystem(LoyaltyPoints loyalityPoints) {
             }
         }
         Data.setOrderVector(orders);
-
     }
 
 }
