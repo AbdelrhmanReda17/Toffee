@@ -81,6 +81,7 @@ public class Category {
         return true;
     }
 
+
     public void displayCatalog() {
         System.out.println("----------------------------------------------------------------------------------------------- " + getName() + " -----------------------------------------------------------------------------------------------");
         int counter = 1;
@@ -89,7 +90,6 @@ public class Category {
             item.printItem(true, false);
             System.out.println("");
         }
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
     public List<Item> searchItemsByName(String name) {

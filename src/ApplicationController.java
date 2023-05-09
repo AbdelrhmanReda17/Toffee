@@ -1,12 +1,11 @@
 import DataUserClasses.Admin;
+import DataUserClasses.Catalog;
 import DataUserClasses.Category;
 import DataUserClasses.Customer;
 import OrderClasses.CartItem;
 import OrderClasses.Item;
 import OrderClasses.Order;
 import OrderClasses.OrderManager;
-import PaymentClasses.CashPayment;
-import PaymentClasses.PaymentMethod;
 import SystemClasses.DataManager;
 
 import java.util.List;
@@ -19,6 +18,8 @@ public class ApplicationController {
     public DataManager Data;
     private Order order = new Order();
     private OrderManager orderManager = new OrderManager();
+    private Catalog catalog = new Catalog();
+    private Category category = new Category();
     String nameE, passwordD;
     int CAOption = 0;
     ApplicationController() {
@@ -42,7 +43,7 @@ public class ApplicationController {
             input.nextLine();
             switch (option) {
                 case 1:
-                   // isLoggedIn = displayCategories(Categories);
+                   isLoggedIn = displayCatalogs(Data.getCategories());
                     CAOption = 1;
                     break;
                 case 2:
@@ -70,12 +71,25 @@ public class ApplicationController {
         }
     }
 
+    private boolean displayCatalogs(Vector<Category> categories) {
+        int choice;
+        choice = catalog.displayCatalogs();
+        if (choice == 1) {
+            catalog.displaySealed();
+            return displayCategories(categories);
+        }
+        catalog.displayNSealed();
+        return displayCategories(categories);
 
+
+    }
     private boolean displayCategories(Vector<Category> Categories){
         Scanner input = new Scanner(System.in);
         for (Category ct : Categories) {
             ct.displayCatalog();
         }
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
         System.out.println("Please take note of the following information:");
         System.out.println("If you want to buy something, you must sign in or register first.");
         System.out.println("Please choose an option : ");
@@ -226,6 +240,7 @@ public class ApplicationController {
         Customer customer = Data.getCurrentCustomer(nameE, passwordD);
         System.out.println("Welcome to Toffee, " + customer.getName() + "! Get ready to satisfy your sweet tooth!");
         System.out.println("You have " + customer.getLoyaltyPoints() + " Loyalty Points");
+        int choice;
         while(true){
             System.out.println("Please select an option:");
             System.out.println("1 : View Catalogs");
@@ -235,28 +250,35 @@ public class ApplicationController {
             System.out.println("0. Exit");
             int choose = input.nextInt();
             if(choose == 1){
-                // int numberofItems = 0;
-                // while(true){
-                //     Category catalog = ChooseingCatalog();
-                //     if (catalog != null ){
-                //         numberofItems = AddingItems(numberofItems , catalog , customer);
-                //         if(numberofItems == 0){
-                //             PaymentProccess = false;
-                //         }else{
-                //             PaymentProccess = true;
-                //         }
-                //     }else{
-                //         if(PaymentProccess == true){
-                //             if(checkoutProcess(customer)){
-                //                 break;
-                //             }else{
-                //                 return;
-                //             }
-                //         }else{
-                //             break;
-                //         }
-                //     }
-                // }
+                 int numberofItems = 0;
+                Category categoryY = null;
+                 while(true){
+                     choice = catalog.displayCatalogs();
+                     if(choice == 1){
+                         categoryY = choosingCatalog(catalog.getSealedVector());
+                     }else if(choice == 2){
+                         categoryY = choosingCatalog(catalog.getNSealedVector());
+                     }
+
+                     if (categoryY != null ){
+                         numberofItems = AddingItems(numberofItems , categoryY, customer);
+                         if(numberofItems == 0){
+                             PaymentProccess = false;
+                         }else{
+                             PaymentProccess = true;
+                         }
+                     }else{
+                         if(PaymentProccess == true){
+                             if(checkoutProcess(customer)){
+                                 break;
+                             }else{
+                                 return;
+                             }
+                         }else{
+                             break;
+                         }
+                     }
+                 }
             }else if (choose == 2){
                 while(true){
                     PaymentProccess = PastOrders(customer);
@@ -311,9 +333,8 @@ public class ApplicationController {
 
         }
     }
-    private void Categories(){
-        
-    }
+
+
     private int AddingItems(int numberofItems , Category catalog , Customer customer){
         int numItems = numberofItems;
         Scanner input = new Scanner(System.in);
@@ -339,8 +360,14 @@ public class ApplicationController {
             }
         }
     }
-    private Category ChooseingCatalog(){
-        Vector<Category> catalogs = Data.getCategories();
+
+    private Category choosingCatalog(Vector<Category> catalogs){
+        Category category = ChooseingCategory(catalogs);
+        return category;
+    }
+
+
+    private Category ChooseingCategory(Vector<Category> catalogs){
         Scanner input = new Scanner(System.in);
         while (true) {
             System.out.println("Here Are The available Catalogs : ");
