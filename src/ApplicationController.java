@@ -4,6 +4,7 @@ import DataUserClasses.Customer;
 import OrderClasses.CartItem;
 import OrderClasses.Item;
 import OrderClasses.Order;
+import OrderClasses.OrderManager;
 import PaymentClasses.CashPayment;
 import PaymentClasses.PaymentMethod;
 import SystemClasses.DataManager;
@@ -17,6 +18,7 @@ import java.util.Vector;
 public class ApplicationController {
     public DataManager Data;
     private Order order = new Order();
+    private OrderManager orderManager = new OrderManager();
     String nameE, passwordD;
     int CAOption = 0;
     ApplicationController() {
@@ -186,7 +188,7 @@ public class ApplicationController {
                     admin.deleteItem(Data.getItems());
                     break;
                 case 4:
-                    admin.viewAllOrders(Data.getOrders());
+                    orderManager.viewAllOrders(Data.getOrders());
                     break;
                 case 5:
                     admin.viewStatistics(Data.getOrders());
@@ -381,7 +383,7 @@ public class ApplicationController {
                     isValid = false;
                     break;
                 case 2:
-                    if (order.placeOrder(Data , customer)) {
+                    if (orderManager.placeOrder(Data , customer)) {
                         isOrderProccess = true;
                         System.out.println("Order Place Successful!");
                     }else{

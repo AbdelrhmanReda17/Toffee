@@ -316,40 +316,6 @@ public void setLoyaltyPointsSystem(LoyaltyPoints loyalityPoints) {
 
         Data.setCategories(catalogs);
     }
-    public void viewAllOrders(Vector<Order>orders) {
-        if (orders.size() == 0) {
-            System.out.println("No orders to display.");
-            return;
-        }
-
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.format("%-12s %-16s %-20s %-20s %-20s %-20s %-40s %-34s %-50s%n", "Order ID", "User", "Order status", "Loyalty points", "Total cost", "Payment method", "Shipping address", "Order time", "Shopping cart items");
-        System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        for (Order order : orders) {
-            System.out.format("%-12s %-16s %-20s %-20s %-20s %-20s %-40s %-34s %-50s%n",
-                    order.getOrderId(),
-                    order.getUser().getName(),
-                    order.getStatus().toString(),
-                    order.getUser().getShoppingCart().getLoyaltyPoints(),
-                    order.getUser().getShoppingCart().getTotalCost(),
-                    order.getPayment().getMethod(),
-                    order.getShippingAddress(),
-                    order.getOrdertime().toString(),
-                    getCartItemsString(order.getShopcart()));
-        }
-        System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-    }
-    private String getCartItemsString(ShoppingCart cart) {
-        StringBuilder sb = new StringBuilder();
-        for (CartItem item : cart.getCartItems()) {
-            sb.append(item.getName()).append(", ");
-        }
-        if (sb.length() > 0) {
-            sb.setLength(sb.length() - 2);
-        }
-        return sb.toString();
-    }
-
     public void ChangeOrderStatus(Vector<Order> orders) {
         System.out.print("Enter the ID of the order you want to change status for: ");
         int orderId = new Scanner(System.in).nextInt();
