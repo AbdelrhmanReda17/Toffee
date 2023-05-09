@@ -30,7 +30,7 @@ public class DataManager {
         customers = new Vector<>();
         categories = new Vector<>();
         vouchers = new Vector<>();
-        loyaltyScheme = new LoyaltyPoints(0, 0);
+        loyaltyScheme = new LoyaltyPoints(0.0,0);
         admins = new Vector<>();
         orders = new Vector<>();
         items = new Vector<>();
@@ -292,7 +292,7 @@ public class DataManager {
         try {
             FileWriter writer = new FileWriter(filePath);
             for (Category Categories : categories) {
-                writer.write(Categories.getName() + ",");
+                writer.write(Categories.getName() + "," + Categories.getSealed()+",");
                 Vector<Item> items = Categories.getItems();
                 for (int i = 0; i < items.size(); i++) {
                     Item item = items.get(i);
@@ -376,7 +376,7 @@ public class DataManager {
             if(scanner.hasNextLine()) {
                 String LoyaltyData = scanner.nextLine();
                 String[] data = LoyaltyData.split(",");
-                int getPoints = Integer.parseInt(data[0]);
+                Double getPoints = Double.parseDouble(data[0]);
                 int getMaximumpoint = Integer.parseInt(data[1]);
                 loyaltyScheme.setPointsEarnedperEgp(getPoints);
                 loyaltyScheme.setMaximumpoint(getMaximumpoint);
@@ -449,19 +449,12 @@ public class DataManager {
     private ShoppingCart parseShoppingCartData(String cartData) {
         ShoppingCart shoppingCart = new ShoppingCart();
         String[] data = cartData.split("/");
-        double totalCost = Double.parseDouble(data[0].replaceAll("\"", "").trim());
-        int loyaltyPoints = Integer.parseInt(data[1].replaceAll("\"", "").trim());
-        for (int i = 2; i < data.length; i++) {
+        for (int i = 0; i < data.length; i++) {
             CartItem item = parseCartItem(data[i]);
             if (item != null) {
-                // CartItem cartItem = new CartItem();
-                // cartItem.setItem(item);
-                // cartItem.setQuantity(item.getQuantity());
                 shoppingCart.addCartItem(item);
             }
         }
-        shoppingCart.setTotalCost(totalCost);
-        shoppingCart.setLoyaltyPoints(loyaltyPoints);
         return shoppingCart;
     }
     private CartItem parseCartItem(String itemData) {
@@ -470,12 +463,15 @@ public class DataManager {
         int Qun = Integer.parseInt(data[0]);
         int ID = Integer.parseInt(data[1]);
         loadItems();
-        Item item = new Item();
+        Item item = null;
         for(Item it : items){
             if(it.getID()== ID)
             {
                 item = it;
             }
+        }
+        if(item == null){
+            return null;
         }
         cartItem.setItem(item);
         cartItem.setQuantity(Qun);
@@ -496,7 +492,18 @@ public class DataManager {
         try {
             FileWriter writer = new FileWriter(filePath);
             for (Order order : orders) {
-                writer.write(order.getOrderId() + "," + order.getUser().getName() + "," +order.getStatus() + "," + order.getShopcart().getTotalCost() +"/"+ order.getShopcart().getLoyaltyPoints() + "/");
+                Date orderDate = order.getOrdertime();
+                Date currentDate = order.getOrderTime(false);
+                if(currentDate.after(orderDate)) {
+                    long timeDifference = currentDate.getTime() - orderDate.getTime();
+                    long oneDay = 24 * 60 * 60 * 1000;
+                    if (timeDifference >= oneDay) {
+                        order.setStatus(Order_state.Delivered);
+                    }else{
+                        order.setStatus(Order_state.InDelivery);
+                    }
+                }
+                writer.write(order.getOrderId() + "," + order.getUser().getName() + "," +order.getStatus() + ",");
                 for (int i = 0; i < order.getShopcart().getCartItems().size() ; i++) {
                     CartItem item = order.getShopcart().getCartItems().get(i);
                     writer.write(item.getQuantity() + "|" + item.getID()) ;
@@ -511,7 +518,6 @@ public class DataManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     //---------------------------------------------------------------------------------------------
 
@@ -684,4 +690,7 @@ public class DataManager {
             orders.add(order);
     }
     public void setOrderVector(Vector<Order> or){this.orders = or;};
+    public Catalog getCatalogs() {
+        return catalogs;
+    }
 }

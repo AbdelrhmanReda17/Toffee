@@ -44,14 +44,16 @@ public class Order {
         this.payment = payment;
         this.ordertime = ordertime;
     }
-    public Date getOrderTime() {
+    public Date getOrderTime(boolean isOrder) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        if(isOrder){
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+        }
         Date ordertime = calendar.getTime();
         return ordertime;
     }
     public String formatOrderTime() {
-        Date orderTime = getOrderTime();
+        Date orderTime = getOrderTime(true);
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' h:mm a");
         String formattedDate = dateFormat.format(orderTime);
         return formattedDate;
@@ -69,9 +71,8 @@ public class Order {
         return status;
     }
 
-    public Order_state setStatus(Order_state status) {
+    public void setStatus(Order_state status) {
         this.status = status;
-        return status;
     }
 
     public ShoppingCart getShopcart() {

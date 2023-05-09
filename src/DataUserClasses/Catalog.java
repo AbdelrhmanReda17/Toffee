@@ -15,24 +15,35 @@ public class Catalog{
         System.out.println("----------------------------------------------------------------------------------- Catalogs -----------------------------------------------------------------------------------");
         System.out.println("1. Sealed Categories");
         System.out.println("2. Not Sealed Categories");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("Please enter the number of the catalog to view or enter 0 to exit:");
         Scanner scanner = new Scanner(System.in);
         int n  = scanner.nextInt();
+        if(n == 0)
+        return -1;
         while(n != 1 && n != 2){
-            System.out.println("Wrong Choose");
+            System.out.println("Wrong Choose , please enter only 1 or 2 or 0");
             n  = scanner.nextInt();
         }
-        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         return n;
     }
-
     public void displaySealed(){
-        for(Category cg : sealed){
-            cg.displayCatalog();
+        if(sealed.size() == 0 ){
+            System.out.println("Sealed Catalog is Empty");
+        }else
+        {
+            for(Category cg : sealed){
+                cg.displayCategory();
+            }
         }
     }
     public void displayNSealed(){
-        for(Category cg : notsealed){
-            cg.displayCatalog();
+        if(notsealed.isEmpty()){
+            System.out.println("Not Sealed Catalog is Empty");
+        }else{
+            for(Category cg : notsealed){
+                cg.displayCategory();
+            }
         }
     }
 

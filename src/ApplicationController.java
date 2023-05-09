@@ -19,7 +19,6 @@ public class ApplicationController {
     private Order order = new Order();
     private OrderManager orderManager = new OrderManager();
     private Catalog catalog = new Catalog();
-    private Category category = new Category();
     String nameE, passwordD;
     int CAOption = 0;
     ApplicationController() {
@@ -28,7 +27,7 @@ public class ApplicationController {
 
     public void StartApplication() {
         Data.LoadDATA();
-        Vector<Category> Categories = Data.getCategories();
+        catalog = Data.getCatalogs();
         Scanner input = new Scanner(System.in);
         int option;
         boolean isLoggedIn = false;
@@ -76,20 +75,18 @@ public class ApplicationController {
         choice = catalog.displayCatalogs();
         if (choice == 1) {
             catalog.displaySealed();
-            return displayCategories(categories);
+            return displayCategories(catalog.getSealedVector());
+        }else if (choice == 2){
+            catalog.displayNSealed();
+            return displayCategories(catalog.getNSealedVector());
+        }else{
+            return false;
         }
-        catalog.displayNSealed();
-        return displayCategories(categories);
-
-
     }
     private boolean displayCategories(Vector<Category> Categories){
+        if(Categories.isEmpty())  return false;
         Scanner input = new Scanner(System.in);
-        for (Category ct : Categories) {
-            ct.displayCatalog();
-        }
         System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-
         System.out.println("Please take note of the following information:");
         System.out.println("If you want to buy something, you must sign in or register first.");
         System.out.println("Please choose an option : ");
@@ -123,14 +120,11 @@ public class ApplicationController {
         }
 
     }
-
-
     private void RegisterPage(){
         System.out.println("---------------------------Registration Page--------------------------");
         Data.register();
         System.out.println("-----------------------------------------------------------------------");
     }
-
     private boolean LoginPage(){
         Scanner input = new Scanner(System.in);
         while(true) {
@@ -146,7 +140,7 @@ public class ApplicationController {
                 System.out.print("Enter Username: ");
                 nameE = input.nextLine();
                 System.out.print("Enter Password: ");
-                passwordD = input.nextLine();
+                passwordD =  input.nextLine();
                 return Data.login(CAOption, nameE, passwordD);
             }
         }
@@ -235,12 +229,12 @@ public class ApplicationController {
 
 
     private void customerInterface(String nameE , String PasswordD){
+        Category categoryY = null;
         boolean PaymentProccess = false;
         Scanner input = new Scanner(System.in);
         Customer customer = Data.getCurrentCustomer(nameE, passwordD);
         System.out.println("Welcome to Toffee, " + customer.getName() + "! Get ready to satisfy your sweet tooth!");
         System.out.println("You have " + customer.getLoyaltyPoints() + " Loyalty Points");
-        int choice;
         while(true){
             System.out.println("Please select an option:");
             System.out.println("1 : View Catalogs");
@@ -251,31 +245,29 @@ public class ApplicationController {
             int choose = input.nextInt();
             if(choose == 1){
                  int numberofItems = 0;
-                Category categoryY = null;
                  while(true){
-                     choice = catalog.displayCatalogs();
+                     int choice = catalog.displayCatalogs();
                      if(choice == 1){
-                         categoryY = choosingCatalog(catalog.getSealedVector());
+                         categoryY = ChooseingCategory(catalog.getSealedVector());
                      }else if(choice == 2){
-                         categoryY = choosingCatalog(catalog.getNSealedVector());
+                         categoryY = ChooseingCategory(catalog.getNSealedVector());
+                     }else{
+                        if(PaymentProccess == true){
+                            if(checkoutProcess(customer)){
+                                break;
+                            }else{
+                                return;
+                            }
+                        }else{
+                            break;
+                        }
                      }
-
                      if (categoryY != null ){
                          numberofItems = AddingItems(numberofItems , categoryY, customer);
                          if(numberofItems == 0){
                              PaymentProccess = false;
                          }else{
                              PaymentProccess = true;
-                         }
-                     }else{
-                         if(PaymentProccess == true){
-                             if(checkoutProcess(customer)){
-                                 break;
-                             }else{
-                                 return;
-                             }
-                         }else{
-                             break;
                          }
                      }
                  }
@@ -338,7 +330,7 @@ public class ApplicationController {
     private int AddingItems(int numberofItems , Category catalog , Customer customer){
         int numItems = numberofItems;
         Scanner input = new Scanner(System.in);
-        catalog.displayCatalog();
+        catalog.displayCategory();
         int itemChoice = 0;
         while(true){
             System.out.println("Please enter the number of the item you want to buy or enter 0 to choose a different catalog:");
@@ -361,13 +353,12 @@ public class ApplicationController {
         }
     }
 
-    private Category choosingCatalog(Vector<Category> catalogs){
-        Category category = ChooseingCategory(catalogs);
-        return category;
-    }
-
 
     private Category ChooseingCategory(Vector<Category> catalogs){
+        if(catalogs.isEmpty()) {
+            System.out.println("Catalog is Empty !");
+            return null;
+        }
         Scanner input = new Scanner(System.in);
         while (true) {
             System.out.println("Here Are The available Catalogs : ");

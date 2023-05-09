@@ -113,7 +113,7 @@ public class OrderManager {
     }
 
     private void CreateOrder(DataManager Data , Customer user , Order_state status , ShoppingCart shoppingCart , String address , PaymentMethod payment){
-        Date ordertime = order.getOrderTime();
+        Date ordertime = order.getOrderTime(false);
         Order order = new Order(user, status, shoppingCart,ordertime,address, payment);
         Data.setOrders(order);
         order.setOrderTime(ordertime);

@@ -147,7 +147,7 @@ public class Admin extends User {
 
 public void setLoyaltyPointsSystem(LoyaltyPoints loyalityPoints) {
     System.out.print("Enter the points per EGP: ");
-    int pointsEarned = new Scanner(System.in).nextInt();
+    Double pointsEarned = new Scanner(System.in).nextDouble();
     System.out.print("Enter the maximum points Via one Order: ");
     int maximumPoint = new Scanner(System.in).nextInt();
 

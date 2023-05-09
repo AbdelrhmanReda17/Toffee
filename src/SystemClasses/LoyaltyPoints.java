@@ -1,10 +1,10 @@
 package SystemClasses;
 
 public class LoyaltyPoints {
-    private int pointsEarnedperEgp;
+    private Double pointsEarnedperEgp;
     private int maximumpoint;
 
-    public LoyaltyPoints(int pointsEarnedperEgp, int maximumpoint) {
+    public LoyaltyPoints(Double pointsEarnedperEgp, int maximumpoint) {
         this.pointsEarnedperEgp = pointsEarnedperEgp;
         this.maximumpoint = maximumpoint;
     }
@@ -17,11 +17,11 @@ public class LoyaltyPoints {
         this.maximumpoint = maximumpoint;
     }
 
-    public int getPointsEarnedperEgp() {
+    public Double getPointsEarnedperEgp() {
         return pointsEarnedperEgp;
     }
 
-    public void setPointsEarnedperEgp(int pointsEarnedperEgp) {
+    public void setPointsEarnedperEgp(Double pointsEarnedperEgp) {
         this.pointsEarnedperEgp = pointsEarnedperEgp;
     }
 

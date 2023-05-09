@@ -82,7 +82,7 @@ public class Category {
     }
 
 
-    public void displayCatalog() {
+    public void displayCategory() {
         System.out.println("----------------------------------------------------------------------------------------------- " + getName() + " -----------------------------------------------------------------------------------------------");
         int counter = 1;
         for (Item item : items) {

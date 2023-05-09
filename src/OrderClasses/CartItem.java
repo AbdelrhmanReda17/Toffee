@@ -13,6 +13,7 @@ public class CartItem extends Item{
         this.quantity = quantity;
     }
     public void displayCartItem(){
+       // if(getName() == null) return;
         printItem(true , true);
         System.out.println(" || Quantity: " + quantity);
     }
