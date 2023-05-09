@@ -1,10 +1,7 @@
 package DataUserClasses;
 import java.util.*;
 
-import OrderClasses.CartItem;
-import OrderClasses.Item;
-import OrderClasses.Order;
-import OrderClasses.Order_state;
+import OrderClasses.*;
 import SystemClasses.*;
 public class Admin extends User {
     private DataManager Data = new DataManager();
@@ -315,28 +312,39 @@ public void setLoyaltyPointsSystem(LoyaltyPoints loyalityPoints) {
 
 
     public void viewAllOrders(Vector<Order>orders) {
-        int i = 0;
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------");
-        for(Order order : orders){
-            if(i != 0){
-                System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------");
-            }
-            i++;
-            System.out.print("Order id : " + order.getOrderId() + " || ");
-            System.out.print("User: " + order.getUser().getName() + " || ");
-            System.out.print("Order status: " + order.getStatus().toString() + " || ");
-            System.out.print("Loyalty points: " + order.getUser().getShoppingCart().getLoyaltyPoints() + " || ");
-            System.out.println("Total cost: " + order.getUser().getShoppingCart().getTotalCost() );
-            System.out.println("Shopping cart: ");
-            for (CartItem item : order.getShopcart().getCartItems()) {
-                System.out.println(" - " + item.getName() + " (" + item.getID() + ")");
-            }
-            System.out.print("Shipping address: " + order.getShippingAddress() + " || ");
-            System.out.print("Order time: " + order.getOrdertime().toString() + " || ");
-            System.out.println("Payment method: " + order.getPayment().getMethod() );
+        if (orders.size() == 0) {
+            System.out.println("No orders to display.");
+            return;
+        }
+
+        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.format("%-12s %-16s %-20s %-20s %-20s %-20s %-40s %-34s %-50s%n", "Order ID", "User", "Order status", "Loyalty points", "Total cost", "Payment method", "Shipping address", "Order time", "Shopping cart items");
+        System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        for (Order order : orders) {
+            System.out.format("%-12s %-16s %-20s %-20s %-20s %-20s %-40s %-34s %-50s%n",
+                    order.getOrderId(),
+                    order.getUser().getName(),
+                    order.getStatus().toString(),
+                    order.getUser().getShoppingCart().getLoyaltyPoints(),
+                    order.getUser().getShoppingCart().getTotalCost(),
+                    order.getPayment().getMethod(),
+                    order.getShippingAddress(),
+                    order.getOrdertime().toString(),
+                    getCartItemsString(order.getShopcart()));
 
         }
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        
+    }
+    private String getCartItemsString(ShoppingCart cart) {
+        StringBuilder sb = new StringBuilder();
+        for (CartItem item : cart.getCartItems()) {
+            sb.append(item.getName()).append(", ");
+        }
+        if (sb.length() > 0) {
+            sb.setLength(sb.length() - 2);
+        }
+        return sb.toString();
     }
 
     public void ChangeOrderStatus(Vector<Order> orders) {
