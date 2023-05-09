@@ -24,7 +24,7 @@ public class DataManager {
     private Vector<Admin> admins;
     private Vector<Order> orders;
     private Vector<Item> items;
-    private Catalog catalogs;
+    private Catalog catalogs = new Catalog();
 
     public DataManager() {
         customers = new Vector<>();

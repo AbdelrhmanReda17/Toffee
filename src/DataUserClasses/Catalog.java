@@ -3,8 +3,8 @@ package DataUserClasses;
 import java.util.Vector;
 import java.util.Scanner;
 public class Catalog{
-    private Vector<Category> sealed;
-    private Vector<Category> notsealed;
+    private Vector<Category> sealed = new Vector<>();
+    private Vector<Category> notsealed = new Vector<>();
     public void addSealedCategory(Category category){
         sealed.add(category);
     }
