@@ -1,5 +1,5 @@
 import DataUserClasses.Admin;
-import DataUserClasses.Catalog;
+import DataUserClasses.Category;
 import DataUserClasses.Customer;
 import OrderClasses.CartItem;
 import OrderClasses.Item;
@@ -25,7 +25,7 @@ public class ApplicationController {
 
     public void StartApplication() {
         Data.LoadDATA();
-        Vector<Catalog> catalogs = Data.getCatalogs();
+        Vector<Category> Categories = Data.getCategories();
         Scanner input = new Scanner(System.in);
         int option;
         boolean isLoggedIn = false;
@@ -40,7 +40,7 @@ public class ApplicationController {
             input.nextLine();
             switch (option) {
                 case 1:
-                    isLoggedIn = displayCatalogs(catalogs);
+                   // isLoggedIn = displayCategories(Categories);
                     CAOption = 1;
                     break;
                 case 2:
@@ -69,9 +69,9 @@ public class ApplicationController {
     }
 
 
-    private boolean displayCatalogs(Vector<Catalog> catalogs){
+    private boolean displayCategories(Vector<Category> Categories){
         Scanner input = new Scanner(System.in);
-        for (Catalog ct : catalogs) {
+        for (Category ct : Categories) {
             ct.displayCatalog();
         }
         System.out.println("Please take note of the following information:");
@@ -135,8 +135,6 @@ public class ApplicationController {
             }
         }
     }
-
-
     private void Options(int CAOption){
         while (true) {
             if (CAOption == 1) {
@@ -179,7 +177,7 @@ public class ApplicationController {
                     System.out.println("Logging Out");
                     return;
                 case 1:
-                    admin.addItem(Data.getItems(),Data.getCatalogs());
+                    admin.addItem(Data.getItems(),Data.getCategories());
                     break;
                 case 2:
                     admin.editItem(Data.getItems());
@@ -203,10 +201,10 @@ public class ApplicationController {
                     admin.un_or_suspendUser(Data);
                     break;
                 case 9:
-                    admin.addNewCatalog(Data.getCatalogs(),Data.getItems());
+                    //admin.addNewCatalog(Data.getCategories(),Data.getItems());
                     break;
                 case 10:
-                    admin.removeCatalog(Data.getCatalogs());
+                    admin.removeCatalog(Data.getCategories());
                     break;
                 case 11:
                     admin.ChangeOrderStatus(Data.getOrders());
@@ -235,28 +233,28 @@ public class ApplicationController {
             System.out.println("0. Exit");
             int choose = input.nextInt();
             if(choose == 1){
-                int numberofItems = 0;
-                while(true){
-                    Catalog catalog = ChooseingCatalog();
-                    if (catalog != null ){
-                        numberofItems = AddingItems(numberofItems , catalog , customer);
-                        if(numberofItems == 0){
-                            PaymentProccess = false;
-                        }else{
-                            PaymentProccess = true;
-                        }
-                    }else{
-                        if(PaymentProccess == true){
-                            if(checkoutProcess(customer)){
-                                break;
-                            }else{
-                                return;
-                            }
-                        }else{
-                            break;
-                        }
-                    }
-                }
+                // int numberofItems = 0;
+                // while(true){
+                //     Category catalog = ChooseingCatalog();
+                //     if (catalog != null ){
+                //         numberofItems = AddingItems(numberofItems , catalog , customer);
+                //         if(numberofItems == 0){
+                //             PaymentProccess = false;
+                //         }else{
+                //             PaymentProccess = true;
+                //         }
+                //     }else{
+                //         if(PaymentProccess == true){
+                //             if(checkoutProcess(customer)){
+                //                 break;
+                //             }else{
+                //                 return;
+                //             }
+                //         }else{
+                //             break;
+                //         }
+                //     }
+                // }
             }else if (choose == 2){
                 while(true){
                     PaymentProccess = PastOrders(customer);
@@ -279,7 +277,7 @@ public class ApplicationController {
             }
 
             else if (choose == 3){
-                Catalog c = new Catalog();
+                Category c = new Category();
 
                 System.out.print("Enter item name: ");
                 String name = new Scanner(System.in).nextLine();
@@ -294,7 +292,7 @@ public class ApplicationController {
                 }
             }
             else if (choose==4) {
-                Catalog c = new Catalog();
+                Category c = new Category();
 
                 System.out.print("Enter item Brand: ");
                 String name = new Scanner(System.in).nextLine();
@@ -311,8 +309,10 @@ public class ApplicationController {
 
         }
     }
-
-    private int AddingItems(int numberofItems , Catalog catalog , Customer customer){
+    private void Categories(){
+        
+    }
+    private int AddingItems(int numberofItems , Category catalog , Customer customer){
         int numItems = numberofItems;
         Scanner input = new Scanner(System.in);
         catalog.displayCatalog();
@@ -337,8 +337,8 @@ public class ApplicationController {
             }
         }
     }
-    private Catalog ChooseingCatalog(){
-        Vector<Catalog> catalogs = Data.getCatalogs();
+    private Category ChooseingCatalog(){
+        Vector<Category> catalogs = Data.getCategories();
         Scanner input = new Scanner(System.in);
         while (true) {
             System.out.println("Here Are The available Catalogs : ");

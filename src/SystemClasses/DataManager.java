@@ -1,6 +1,6 @@
 package SystemClasses;
 import java.util.Vector;
-
+import java.util.function.BiConsumer;
 import java.util.Date;
 import java.util.Scanner;
 import DataUserClasses.*;
@@ -18,16 +18,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 public class DataManager {
     private Vector<Customer> customers;
-    private Vector<Catalog> catalogs;
+    private Vector<Category> categories;
     private Vector<GiftVoucher> vouchers;
     private LoyaltyPoints loyaltyScheme;
     private Vector<Admin> admins;
     private Vector<Order> orders;
     private Vector<Item> items;
+    private Catalog catalogs;
 
     public DataManager() {
         customers = new Vector<>();
-        catalogs = new Vector<>();
+        categories = new Vector<>();
         vouchers = new Vector<>();
         loyaltyScheme = new LoyaltyPoints(0, 0);
         admins = new Vector<>();
@@ -36,7 +37,7 @@ public class DataManager {
     }
     public void LoadDATA(){
         loadItems();
-        loadCatalogs();
+        loadCategories();
         loadLoyaltyScheme();
         loadCustomers();
         loadVouchers();
@@ -45,7 +46,7 @@ public class DataManager {
     }
     public void updateData(){
         updateAdmins();
-        updateCatalogs();
+        updateCategories();
         updateCustomers();
         updateOrders();
         UpdateVouchers_Loyalty();
@@ -215,25 +216,25 @@ public class DataManager {
     public Vector<Item> getItems(){return items;}
     public void setItems(Vector<Item> items) {this.items = items;}
     // -------------------------------------------------------
-    //                 Catalog CLASSES
+    //                 Categories CLASSES
     // -------------------------------------------------------
-    // LOAD CATALOG VECTOR 
-    public void loadCatalogs() {
-        catalogs = new Vector<>();
+    // LOAD Categories VECTOR 
+    public void loadCategories() {
+        categories = new Vector<>();
 
-        String filePath = "src/ApplicationData/CatalogsData.csv";
+        String filePath = "src/ApplicationData/CategoriesData.csv";
         File file = new File(filePath);
     
         try {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
-                String catalogData = scanner.nextLine().trim();
-                if (!catalogData.isEmpty()) {
-                    Catalog catalog = parseCatalogData(catalogData);
-                    if (catalog != null) {
-                        catalogs.add(catalog);
+                String CategoriesData = scanner.nextLine().trim();
+                if (!CategoriesData.isEmpty()) {
+                    Category Categories = parseCategoryData(CategoriesData);
+                    if (Categories != null) {
+                        categories.add(Categories);
                     } else {
-                        System.out.println("Invalid catalog data: " + catalogData);
+                        System.out.println("Invalid Categories data: " + CategoriesData);
                     }
                 }
             }
@@ -243,28 +244,31 @@ public class DataManager {
         }
     }
     
-    private Catalog parseCatalogData(String catalogData) {
-        String[] data = catalogData.split(",");
+    private Category parseCategoryData(String CategoriesData) {
+        String[] data = CategoriesData.split(",");
         if (data.length < 2) {
-            return null; // Invalid catalog data
+            return null; // Invalid Categories data
         }
-        String catalogName = data[0];
-        Catalog catalog = new Catalog(catalogName);
-        catalog.getItems().clear();
-    
-        for (int i = 1; i < data.length; i++) {
+        String CategoryName = data[0];
+        Boolean CategoryType = Boolean.parseBoolean(data[1]);
+        Category category = new Category(CategoryName , CategoryType);
+        category.getItems().clear();
+        for (int i = 2; i < data.length; i++) {
             String itemData = data[i].replaceAll("\"", "").trim();
             Item item = parseItemsData(itemData);
             if (item != null) {
-                catalog.addItem(item);
+                category.addItem(item);
             } else {
                 System.out.println("Invalid item data: " + itemData);
             }
         }
-    
-        return catalog;
+        if(CategoryType == true){
+            catalogs.addSealedCategory(category);
+        }else{
+            catalogs.addNSealedCategory(category);
+        }
+        return category;
     }
-    
     private Item parseItemsData(String itemData) {
         String[] data = itemData.split("\\|");
         if (data.length != 10) {
@@ -280,19 +284,16 @@ public class DataManager {
         int points = Integer.parseInt(data[7]);
         String image = data[8];
         int quantity = Integer.parseInt(data[9]);
-
-    
         return new Item(ID, name, category, description, brand, price, discountPercentage, points, image, quantity);
     }
     
-    public void updateCatalogs() {
-        String filePath = "src/ApplicationData/CatalogsData.csv";
-    
+    public void updateCategories() {
+        String filePath = "src/ApplicationData/CategoriesData.csv";
         try {
             FileWriter writer = new FileWriter(filePath);
-            for (Catalog catalog : catalogs) {
-                writer.write(catalog.getName() + ",");
-                Vector<Item> items = catalog.getItems();
+            for (Category Categories : categories) {
+                writer.write(Categories.getName() + ",");
+                Vector<Item> items = Categories.getItems();
                 for (int i = 0; i < items.size(); i++) {
                     Item item = items.get(i);
                     writer.write("\"" + item.getID() + "|" + item.getName() + "|" + item.getCategory() + "|" + item.getDescription() + "|" +
@@ -312,9 +313,9 @@ public class DataManager {
     public Vector<Order> getOrders() {
         return orders;
     }
-    // GET / SET CATALOGS
-    public Vector<Catalog> getCatalogs() {return catalogs;}
-    public void setCatalogs(Vector<Catalog> catalogs) {this.catalogs = catalogs;}
+    // GET / SET categories
+    public Vector<Category> getCategories() {return categories;}
+    public void setCategories(Vector<Category> categories) {this.categories = categories;}
 
     // -------------------------------------------------------
     //                 VOUCHER/LOYALTY-SCHEME CLASSES
@@ -649,8 +650,8 @@ public class DataManager {
         boolean isremoved = customers.remove(toDelete);
         return isremoved;
     }
-    public boolean addCatalogToVector(Catalog newItem) {
-        boolean isAdded = catalogs.add(newItem);
+    public boolean addCategoriesToVector(Category newItem) {
+        boolean isAdded = categories.add(newItem);
         return isAdded;
     }
 
