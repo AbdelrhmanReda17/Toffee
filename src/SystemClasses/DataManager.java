@@ -23,7 +23,15 @@ public class DataManager {
     private Vector<Admin> admins;
     private Vector<Order> orders;
     private Vector<Item> items;
-    private Catalog catalogs = new Catalog();
+    private Catalog catalogs ;
+    public DataManager(Catalog catalogs) {
+        this.catalogs=catalogs;
+    }
+    public DataManager(LoyaltyPoints loyaltyScheme) {
+        this.loyaltyScheme=loyaltyScheme;
+    }
+
+
 
     public DataManager() {
         customers = new Vector<>();
@@ -33,6 +41,7 @@ public class DataManager {
         admins = new Vector<>();
         orders = new Vector<>();
         items = new Vector<>();
+        this.catalogs=new Catalog();
     }
     public void LoadDATA(){
         loadItems();

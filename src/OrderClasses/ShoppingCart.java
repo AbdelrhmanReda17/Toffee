@@ -61,12 +61,14 @@ public class ShoppingCart {
     }
     public void updateCartItem() {
         Scanner scanner = new Scanner(System.in);
+
         int choice =0;
         while (true) {
             System.out.println("What Do You Want To Update ?");
             System.out.println("1 : Discard item");
             System.out.println("2 : Update item quantity");
             choice = scanner.nextInt();
+            scanner.nextLine();
             if (choice == 1 || choice == 2) {
                 break;
             }

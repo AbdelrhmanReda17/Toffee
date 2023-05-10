@@ -1,10 +1,26 @@
 package DataUserClasses;
 
+import ControllerClasses.OrderController;
+import ControllerClasses.UserController;
+import OrderClasses.Item;
+
 import java.util.Vector;
 import java.util.Scanner;
+import SystemClasses.DataManager;
+
 public class Catalog{
     private Vector<Category> sealed = new Vector<>();
     private Vector<Category> notsealed = new Vector<>();
+
+    private DataManager Data ;
+    public Catalog(DataManager data) {
+        this.Data=data;
+
+    }
+
+    public Catalog(){
+
+    };
     public void addSealedCategory(Category category){
         sealed.add(category);
     }
@@ -45,7 +61,62 @@ public class Catalog{
             }
         }
     }
+    public void addNewCategory(Vector<Category>ct,Vector<Item>itemM) {
+        System.out.print("Enter The Category Name : ");
+        String name = new Scanner(System.in).nextLine();
+        for (Category x : ct) {
+            if (x.getName() == name) {
+                System.out.println("The Catalog Name is Already Exist !");
+            }
+        }
+        Category NewCatalog = new Category(name);
+        ct.add(NewCatalog);
+        System.out.print("Press 1.Add New Item , 2.Add Existing Item, 3.No Need To Add Item : ");
+        int choice = new Scanner(System.in).nextInt();
+        if(choice == 1){
+            System.out.println("You Must Add The Item First ! ");
+            Item item = new Item();
+            item.getItem();
+            itemM.add(item);
+            Data.setItems(itemM);
+            NewCatalog.addItem(item);
+        }else if(choice == 2){
+            System.out.print("Enter Item ID : ");
+            int id = new Scanner(System.in).nextInt();
+            Vector<Item> it = Data.getItems();
+            for (Item item : it) {
+                if (id == item.getID()) {
+                    item.setCategory(name);
+                    NewCatalog.addItem(item);
+                }
+            }
+        }
+        System.out.println("Category added successfully!!");
+        Data.setCategories(ct);
+
+    }
+    public void removeCategory(Vector<Category> catalogs) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the Name of the category you want to remove: ");
+        String catalogName = scanner.nextLine();
+        Category ToRemove = null;
+        for (Category catalog : catalogs) {
+            if (catalog.getName().equals(catalogName)) {
+                ToRemove = catalog;
+                break;
+            }
+        }
+
+        if (ToRemove != null) {
+            catalogs.remove(ToRemove);
+            System.out.println("Category Deleted Successfully");
+        }
+
+        Data.setCategories(catalogs);
+    }
 
     public Vector<Category> getSealedVector(){return sealed;}
     public Vector<Category> getNSealedVector(){return notsealed;}
+
 }

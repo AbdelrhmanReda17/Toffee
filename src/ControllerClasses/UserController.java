@@ -8,6 +8,8 @@ import OrderClasses.Item;
 import OrderClasses.OrderManager;
 import SystemClasses.DataManager;
 import SystemClasses.GiftVoucher;
+import SystemClasses.LoyaltyPoints;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,6 +21,8 @@ public class UserController {
     private Catalog catalog = new Catalog();
     private Category category = new Category();
     private GiftVoucher Gift = new GiftVoucher();
+
+    private LoyaltyPoints loyalityPoints = new LoyaltyPoints(0.0,0);
     private ApplicationController applicationController = new ApplicationController();
     private OrderController orderController = new OrderController(applicationController);
     int CAOption=0;
@@ -73,7 +77,8 @@ public class UserController {
                     orderManager.viewStatistics(Data.getOrders());
                     break;
                 case 6:
-                    admin.setLoyaltyPointsSystem(Data.getLoyaltyScheme());
+                    LoyaltyPoints loyaltyPoints = new LoyaltyPoints(Data);
+                    loyaltyPoints.setLoyaltyPointsSystem(loyaltyPoints);
                     break;
                 case 7:
                     Gift.createAGiftVoucher(Data.getVouchers());
@@ -82,10 +87,10 @@ public class UserController {
                     admin.un_or_suspendUser(Data);
                     break;
                 case 9:
-                    //admin.addNewCatalog(Data.getCategories(),Data.getItems());
+                    //catalog.addNewCategory(Data.getCategories(),Data.getItems());
                     break;
                 case 10:
-                    admin.removeCatalog(Data.getCategories());
+                    //catalog.removeCategory(Data.getCategories());
                     break;
                 default:
                     System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");

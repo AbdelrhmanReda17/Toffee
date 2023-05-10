@@ -24,6 +24,10 @@ public class Category {
         this.items = new Vector<>();
     }
 
+    public Category(String name) {
+        this.name=name;
+    }
+
     public String getName() {
         return name;
     }
@@ -135,7 +139,7 @@ public class Category {
             System.out.println("Due to no category for this item we will create one for you");
             System.out.println("Please let us now the catalog is it Sealed or no (1 for Sealed , 2 for not Sealed)");
             int type = new Scanner(System.in).nextInt();
-            while(type != 1 || type != 2){
+            while(type != 1 && type != 2){
                 System.out.println("You entered a wrong value please one 1 or 2 [ 1 -> Sealed , 2->Not sealed ]");
                 type = new Scanner(System.in).nextInt();
             }

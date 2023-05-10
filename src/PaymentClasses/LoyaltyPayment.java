@@ -21,7 +21,7 @@ public class LoyaltyPayment extends PaymentMethod {
         if (CustomerLoyalty >= loyaltyPoints) {
             Scanner input = new Scanner(System.in);
             System.out.println("Your Loyalty Points: " + CustomerLoyalty +" Loyalty point" + "and your Order Price is " + loyaltyPoints +" Loyalty Point");
-            System.out.println("Do you want to Confirm paid ? (y->1 , n->2 ) \uD83E\uDD14");
+            System.out.println("Do you want to Confirm paid ? (y->1 , n->2 ) ");
             int continueOption = input.nextInt();
             if(continueOption == 1){
                 System.out.println("Your new Loyalty Points " + (CustomerLoyalty -loyaltyPoints) +" Loyalty Point");
