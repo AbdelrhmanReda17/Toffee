@@ -1,149 +1,15 @@
 package DataUserClasses;
 import java.util.*;
 
-import OrderClasses.*;
 import SystemClasses.*;
 public class Admin extends User {
     private DataManager Data = new DataManager();
-    private Category catalog = new Category();
+
     public Admin(String name, String password,String email) {
         super(name, password , email);
 
     }
 
-    public void addItem(Vector<Item> items,Vector<Category> ct) {
-        Item item = new Item();
-        item.getItem();
-        items.add(item);
-        boolean foundCategory = false;
-        for (Category x : ct) {
-            if (item.getCategory().equals(x.getName())) {
-                x.addItem(item);
-                foundCategory = true;
-                break;
-            }
-        }
-
-        if (!foundCategory) {
-            Boolean isSealed = false;
-            System.out.println("Due to no category for this item we will create one for you");
-            System.out.println("Please let us now the catalog is it Sealed or no (1 for Sealed , 2 for not Sealed)");
-            int type = new Scanner(System.in).nextInt();
-            while(type != 1 || type != 2){
-                System.out.println("You entered a wrong value please one 1 or 2 [ 1 -> Sealed , 2->Not sealed ]");
-                type = new Scanner(System.in).nextInt();
-            }
-            if(type == 1)   isSealed = true;
-            Category newCatalog = new Category(item.getCategory() , isSealed);
-            newCatalog.addItem(item);
-            ct.add(newCatalog);
-            Data.setCategories(ct);
-        }
-        Data.setCategories(ct);
-        System.out.println("Item added successfully");
-        Data.setItems(items);
-
-    }
-
-
-    public void editItem(Vector<Item> items) {
-        System.out.print("Enter The id of The item you want to Edit: ");
-        int id = new Scanner(System.in).nextInt();
-        for (Item item : items) {
-            if (item.getID() == id) {
-               item.printItem(false , false);
-                int choice = 0;
-                while (choice != 10) {
-                    System.out.println("\nWhich field do you want to edit? Choose from the following options:\n" +
-                            "1. Name   2. Category   3. Description   4. Brand   5. Price\n" +
-                            "6. Discount percentage  7. Points        8. Image   9. Quantity\n"
-                            +"10. Save");
-                    choice = new Scanner(System.in).nextInt();
-                    switch (choice) {
-                        case 1:
-                            System.out.print("Enter the new name: ");
-                            item.setName(new Scanner(System.in).nextLine());
-                            break;
-                        case 2:
-                            System.out.print("Enter the new category: ");
-                            item.setCategory(new Scanner(System.in).nextLine());
-                            break;
-                        case 3:
-                            System.out.print("Enter the new description: ");
-                            item.setDescription(new Scanner(System.in).nextLine());
-                            break;
-                        case 4:
-                            System.out.print("Enter the new brand: ");
-                            item.setBrand(new Scanner(System.in).nextLine());
-                            break;
-                        case 5:
-                            System.out.print("Enter the new price: ");
-                            item.setPrice(new Scanner(System.in).nextDouble());
-                            break;
-                        case 6:
-                            System.out.print("Enter the new discount percentage: ");
-                            item.setDiscountPercentage(new Scanner(System.in).nextDouble());
-                            break;
-                        case 7:
-                            System.out.print("Enter the new points: ");
-                            item.setPoints(new Scanner(System.in).nextInt());
-                            break;
-                        case 8:
-                            System.out.print("Enter the new image: ");
-                            item.setImage(new Scanner(System.in).nextLine());
-                            break;
-                        case 9:
-                            System.out.print("Enter the new quantity: ");
-                            item.setQuantity(new Scanner(System.in).nextInt());
-                            break;
-                        case 10:
-                            break;
-                        default:
-                            System.out.println("Invalid choice");
-                            break;
-                    }
-                }
-                catalog.updateIteminCatalog(item , Data);
-                System.out.println("Item Edited Successful");
-                Data.setItems(items);
-                return;
-            }
-        }
-        System.out.println("Item not found");
-    }
-
-    public void deleteItem(Vector<Item> items) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the ID of the item you want to delete: ");
-        int id = scanner.nextInt();
-        Item itemToRemove = null;
-        boolean FoundItem = false;
-        for (Item item : items) {
-            if (item.getID() == id) {
-                item.printItem(false , false);
-                System.out.println();
-                System.out.println("Do you want to delete this item? Press 1 to confirm, 2 to cancel.");
-                int choice = scanner.nextInt();
-                if (choice == 1) {
-                    itemToRemove = item;
-                    FoundItem = true;
-                } else {
-                    System.out.println("Operation Cancelled.");
-                    return;
-                }
-            }
-        }
-        if (itemToRemove != null) {
-            if (FoundItem) {
-                items.remove(itemToRemove);
-                catalog.removeItem(itemToRemove , Data);
-                System.out.println("Item Delete Successfully");
-            }
-        }else{
-            System.out.println("Item not found.");
-        }
-        Data.setItems(items);
-    }
 
 public void setLoyaltyPointsSystem(LoyaltyPoints loyalityPoints) {
     System.out.print("Enter the points per EGP: ");

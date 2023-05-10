@@ -2,7 +2,6 @@ package PaymentClasses;
 
 import DataUserClasses.Customer;
 import SystemClasses.DataManager;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class LoyaltyPayment extends PaymentMethod {

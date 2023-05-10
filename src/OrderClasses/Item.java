@@ -1,12 +1,8 @@
 package OrderClasses;
 import java.util.Scanner;
 
-//import javax.lang.model.util.ElementScanner14;
-
-import SystemClasses.DataManager;
 
 public class Item {
-    private DataManager data;
     public int counter = 0;
     private int ID ;
     private String name;
@@ -43,10 +39,7 @@ public class Item {
         setImage(item.getImage());
         setQuantity(item.getQuantity());
     }
-    
-    public void setCounter(int counter) {
-        this.counter = counter;
-    }
+
     public String getName() {
         return name;
     }

@@ -9,6 +9,7 @@ import java.util.*;
 public class OrderManager {
     private Order order = new Order();
 
+
     public boolean placeOrder(DataManager Data, Customer user) {
         float paymentSuccess;
         String shippingAddress = null;
@@ -157,6 +158,31 @@ public class OrderManager {
         return sb.toString();
     }
 
+    public boolean PastOrders(Customer customer,Vector<Order>orders){
+        boolean isValid = true,HaveOrders=false;
+        do {
+            Scanner input = new Scanner(System.in);
+            System.out.println("-----------------------------------------------------------------  Past Ordered Page ----------------------------------------------------------------");
+            System.out.println();
+            HaveOrders = customer.DisplayPrevOrderHistory(orders);
+            if (HaveOrders) {
+                System.out.println("Would you like to reorder? (Please enter 1 for yes, 2 for no)");
+                int ch2 = input.nextInt();
+                if (ch2 == 1) {
+                    order = customer.reorder(orders);
+                    customer.setShoppingCart(order.getShopcart());
+                    return true;
+                } else if (ch2 == 2) {
+                    return false;
+                } else {
+                    isValid = false;
+                }
+            }
+            }while (!isValid) ;
+
+
+        return false;
+    }
 
     public void viewStatistics(Vector<Order> order) {
         Map<String, Integer> map = new HashMap<>();

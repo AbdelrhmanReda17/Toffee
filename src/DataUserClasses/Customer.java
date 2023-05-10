@@ -4,9 +4,7 @@ import OrderClasses.Order;
 import OrderClasses.ShoppingCart;
 import java.util.Scanner;
 import java.util.Vector;
-import java.util.jar.Attributes.Name;
 
-import SystemClasses.*;
 
 public class Customer extends User {
     private String address;
@@ -30,8 +28,8 @@ public class Customer extends User {
     }
     public Customer(){}
 
-    public Order reorder(DataManager Data) {
-            Vector<Order> PrevOrders = LoadPrevOrderHistory(Data);
+    public Order reorder(Vector<Order>orders) {
+            Vector<Order> PrevOrders = LoadPrevOrderHistory(orders);
             System.out.println("Please select one of you past orders them and enter it's number : ");
             Scanner input = new Scanner(System.in);
             int OrderCho = input.nextInt();
@@ -42,20 +40,22 @@ public class Customer extends User {
             OrderCho = OrderCho-1;
             return PrevOrders.get(OrderCho);
     }
-    public void DisplayPrevOrderHistory(DataManager Data){
-            Vector<Order> prevOrders = this.LoadPrevOrderHistory(Data);
-            if(prevOrders.isEmpty()){
-                System.out.print("Customer Didn't have any orders");
-            }
-            for(int i = 0 ; i < prevOrders.size() ; i++){
-                System.out.println("--------------------------------------------------------------------------- Order " + (i+1) + "-----------------------------------------------------------------------------");
-                prevOrders.get(i).getShopcart().displayShoppingCart();
-            }
+    public boolean DisplayPrevOrderHistory(Vector<Order>orders){
+        Vector<Order> prevOrders = this.LoadPrevOrderHistory(orders);
+        if(prevOrders.isEmpty()){
+            System.out.println("Customer Didn't have any orders");
+                 return false;
+        }
+        for(int i = 0 ; i < prevOrders.size() ; i++){
+            System.out.println("--------------------------------------------------------------------------- Order " + (i+1) + "-----------------------------------------------------------------------------");
+            prevOrders.get(i).getShopcart().displayShoppingCart();
+        }
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------");
+    return true;
     }
-    public Vector<Order> LoadPrevOrderHistory(DataManager Data) {
+    public Vector<Order> LoadPrevOrderHistory(Vector<Order> orders) {
         Vector<Order> prevOrders = new Vector<Order>();
-        for(Order order : Data.getOrders()){
+        for(Order order : orders){
             if(order.getUser().getName().equals(this.getName())){
                 prevOrders.add(order);
             }

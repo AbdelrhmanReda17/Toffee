@@ -2,14 +2,10 @@ package OrderClasses;
 
 import DataUserClasses.Customer;
 import PaymentClasses.*;
-import SystemClasses.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Scanner;
-
-import javax.xml.crypto.Data;
 
 
 public class Order {
