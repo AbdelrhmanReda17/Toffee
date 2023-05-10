@@ -200,68 +200,6 @@ public void setLoyaltyPointsSystem(LoyaltyPoints loyalityPoints) {
     }
 
 
-    public void createAGiftVoucher(Vector<GiftVoucher> vouchers) {
-        Scanner X = new Scanner(System.in);
-        //voucher code
-        String codeRegex = "^[A-Za-z0-9]{16}$";
-        String vouchercode;
-        do {
-            System.out.print("Enter Voucher code: ");
-            vouchercode = X.nextLine();
-            if (!vouchercode.matches(codeRegex)) {
-                System.out.println("Invalid code! The code must be  16 characters  and consist of letters or digits.");
-            }
-        } while (!vouchercode.matches(codeRegex));
-
-
-        String valueRegex = "^[0-9]+(\\.[0-9]+)?$";
-        String value;
-        do {
-            System.out.print("Enter Voucher Value : ");
-            value = X.nextLine();
-            if (!value.matches(valueRegex)) {
-                System.out.println("Invalid voucher value, please enter a valid int or float values.");
-            }
-        } while (!value.matches(valueRegex));
-
-        float VoucherValue = Float.parseFloat(value);
-        GiftVoucher newVoucher = new GiftVoucher(vouchercode,VoucherValue);
-        if (newVoucher != null) {
-
-            vouchers.add(newVoucher);
-            System.out.println("Voucher Created Successful");
-        }
-        Data.setVouchers(vouchers);
-    }
-
-    public void viewStatistics(Vector<Order> order) {
-        Map<String, Integer> map = new HashMap<>();
-        double TotalOrdersPrice = 0;
-        int NumberOfOrders =0;
-        for(Order x : order){
-            List<CartItem> orderItems = x.getShopcart().getCartItems();
-            NumberOfOrders++;
-            for(CartItem l : orderItems){
-                TotalOrdersPrice += (l.getPrice()*l.getQuantity());
-                if (map.containsKey(l.getName())){
-                    map.put(l.getName(), map.get(l.getName()) + 1);
-                } else {
-                    map.put(l.getName(), 1);
-                }
-            }
-        }
-        System.out.println("------------------------------------------------------------------------------------------------------------");
-        System.out.println("We Made " + NumberOfOrders + " Orders With Total Price " + TotalOrdersPrice);
-        System.out.println("--------------------------------------------------------------------------------------------------------------");
-
-        Iterator<Map.Entry<String, Integer>> it = map.entrySet().iterator();
-        if (it.hasNext()) {
-            Map.Entry<String, Integer> entry = it.next();
-            System.out.println("The Best Selling  Item is ( "  + entry.getKey() + " ) with " + entry.getValue() + " sales");
-        }
-        System.out.println("--------------------------------------------------------------------------------------------------------------");
-    }
-
     // public void addNewCatalog(Vector<Category>ct,Vector<Item>itemM) {
     //     System.out.print("Enter The Catalog Name : ");
     //     String name = new Scanner(System.in).nextLine();
@@ -315,48 +253,6 @@ public void setLoyaltyPointsSystem(LoyaltyPoints loyalityPoints) {
         }
 
         Data.setCategories(catalogs);
-    }
-    public void ChangeOrderStatus(Vector<Order> orders) {
-        System.out.print("Enter the ID of the order you want to change status for: ");
-        int orderId = new Scanner(System.in).nextInt();
-        Order_state status = null;
-        System.out.println("Choose a new order status:");
-        System.out.println("1. IN_PROGRESS");
-        System.out.println("2. Ordered");
-        System.out.println("3. InDelivery");
-        System.out.println("4. Canceled");
-        System.out.println("5. Delivered");
-        int choice = new Scanner(System.in).nextInt();
-
-        switch (choice) {
-            case 1:
-                status = Order_state.IN_PROGRESS;
-                break;
-            case 2:
-                status = Order_state.Ordered;
-                break;
-            case 3:
-                status = Order_state.InDelivery;
-                break;
-            case 4:
-                status = Order_state.Canceled;
-                break;
-            case 5:
-                status = Order_state.Delivered;
-                break;
-            default:
-                System.out.println("Invalid choice. Please choose again.");
-                break;
-        }
-
-        for (Order order : orders) {
-            if (order.getOrderId() == orderId) {
-                order.setStatus(status);
-                System.out.println("Order " + orderId + " status updated to " + status);
-                break;
-            }
-        }
-        Data.setOrderVector(orders);
     }
 
 }

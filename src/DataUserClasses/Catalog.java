@@ -15,7 +15,6 @@ public class Catalog{
         System.out.println("----------------------------------------------------------------------------------- Catalogs -----------------------------------------------------------------------------------");
         System.out.println("1. Sealed Categories");
         System.out.println("2. Not Sealed Categories");
-        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.println("Please enter the number of the catalog to view or enter 0 to exit:");
         Scanner scanner = new Scanner(System.in);
         int n  = scanner.nextInt();

@@ -7,6 +7,8 @@ import OrderClasses.Item;
 import OrderClasses.Order;
 import OrderClasses.OrderManager;
 import SystemClasses.DataManager;
+import SystemClasses.GiftVoucher;
+import SystemClasses.LoyaltyPoints;
 
 import java.util.List;
 import java.util.Scanner;
@@ -19,6 +21,8 @@ public class ApplicationController {
     private Order order = new Order();
     private OrderManager orderManager = new OrderManager();
     private Catalog catalog = new Catalog();
+    private GiftVoucher Gift = new GiftVoucher();
+    private LoyaltyPoints loyaltyPoints = new LoyaltyPoints(0.0,0);
     String nameE, passwordD;
     int CAOption = 0;
     ApplicationController() {
@@ -33,11 +37,11 @@ public class ApplicationController {
         boolean isLoggedIn = false;
         while (true) {
             System.out.println("WELCOME TO TOFFEE SHOP!");
-            System.out.println("Please choose an option:");
             System.out.println(" 1 : View Catalogs.");
             System.out.println(" 2 : Register.");
             System.out.println(" 3 : Sign In.");
             System.out.println(" 4 : Exit.");
+            System.out.println("Please choose an option:");
             option = input.nextInt();
             input.nextLine();
             switch (option) {
@@ -89,9 +93,10 @@ public class ApplicationController {
         System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.println("Please take note of the following information:");
         System.out.println("If you want to buy something, you must sign in or register first.");
-        System.out.println("Please choose an option : ");
         System.out.println(" 1 : Register.");
         System.out.println(" 2 : Sign In.");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("Please choose an option : ");
         int SRChoice;
         while (true) {
             SRChoice = input.nextInt();
@@ -121,16 +126,16 @@ public class ApplicationController {
 
     }
     private void RegisterPage(){
-        System.out.println("---------------------------Registration Page--------------------------");
+        System.out.println("----------------------------------------------------------Registration Page-------------------------------------------------------------------");
         Data.register();
-        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------");
     }
     private boolean LoginPage(){
         Scanner input = new Scanner(System.in);
         while(true) {
-            System.out.println("SIGN IN AS: ");
-            System.out.println(" 1 : Customer.");
-            System.out.println(" 2 : Admin.");
+            System.out.println("Do You Want To sign in As?....");
+            System.out.println("1 : Customer.");
+            System.out.println("2 : Admin.");
             CAOption = input.nextInt();
             input.nextLine();
             if(CAOption!=1&&CAOption!=2){
@@ -162,9 +167,10 @@ public class ApplicationController {
 
     private void adminInterface(String nameE , String PasswordD){
         Admin admin = Data.getCurrentAdmin(nameE, passwordD);
+        System.out.println("-------------------------------------------------------------------------------------Home Page----------------------------------------------------------------------------------------");
+        System.out.println("Greetings, administrator " + admin.getName() + " ! You have arrived at the command center for all things Toffee. Let's get to work!");
         while (true) {
-            System.out.println("Greetings, administrator " + admin.getName() + " ! You have arrived at the command center for all things Toffee. Let's get to work!");
-            System.out.println("Please select an option:");
+            System.out.println("What Do You Want To do?");
             System.out.println("1. Add Item");
             System.out.println("2. Edit Item");
             System.out.println("3. Delete Item");
@@ -175,8 +181,8 @@ public class ApplicationController {
             System.out.println("8. Suspend/Unsuspend a User");
             System.out.println("9. Add Catalog");
             System.out.println("10. Delete Catalog");
-            System.out.println("11. Change Order Status");
             System.out.println("0. Log Out");
+            System.out.println("Please select an option:");
             Scanner scanner = new Scanner(System.in);
             int cho;
             cho = scanner.nextInt();
@@ -199,13 +205,13 @@ public class ApplicationController {
                     orderManager.viewAllOrders(Data.getOrders());
                     break;
                 case 5:
-                    admin.viewStatistics(Data.getOrders());
+                    orderManager.viewStatistics(Data.getOrders());
                     break;
                 case 6:
                     admin.setLoyaltyPointsSystem(Data.getLoyaltyScheme());
                     break;
                 case 7:
-                    admin.createAGiftVoucher(Data.getVouchers());
+                    Gift.createAGiftVoucher(Data.getVouchers());
                     break;
                 case 8:
                     admin.un_or_suspendUser(Data);
@@ -215,9 +221,6 @@ public class ApplicationController {
                     break;
                 case 10:
                     admin.removeCatalog(Data.getCategories());
-                    break;
-                case 11:
-                    admin.ChangeOrderStatus(Data.getOrders());
                     break;
                 default:
                     System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
@@ -233,15 +236,17 @@ public class ApplicationController {
         boolean PaymentProccess = false;
         Scanner input = new Scanner(System.in);
         Customer customer = Data.getCurrentCustomer(nameE, passwordD);
+        System.out.println("--------------------------------------------------------------------------------------Home Page------------------------------------------------------------------------------");
         System.out.println("Welcome to Toffee, " + customer.getName() + "! Get ready to satisfy your sweet tooth!");
         System.out.println("You have " + customer.getLoyaltyPoints() + " Loyalty Points");
         while(true){
-            System.out.println("Please select an option:");
+            System.out.println("What Do You Want To do?");
             System.out.println("1 : View Catalogs");
             System.out.println("2 : View Past Orders");
             System.out.println("3 : Search by item by name");
             System.out.println("4 : Search by item by Brand");
             System.out.println("0. Exit");
+            System.out.println("Please choose an option : ");
             int choose = input.nextInt();
             if(choose == 1){
                  int numberofItems = 0;
@@ -361,11 +366,11 @@ public class ApplicationController {
         }
         Scanner input = new Scanner(System.in);
         while (true) {
-            System.out.println("Here Are The available Catalogs : ");
+            System.out.println("----------------------------------------------------------------------------------- Available Categories -----------------------------------------------------------------------------------");
             for (int i = 0; i < catalogs.size(); i++) {
                 System.out.println(i + 1 + " " + catalogs.get(i).getName());
             }
-            System.out.println("Please enter the number of the catalog you want to view or enter 0 to exit:");
+            System.out.println("Please enter the number of the category you want to view or enter 0 to exit:");
             int choose = input.nextInt();
             while(choose > catalogs.size()){
                 System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
@@ -384,9 +389,9 @@ public class ApplicationController {
     private boolean checkoutProcess(Customer customer){
         boolean isValid = true , isOrderProccess = false;
         Scanner input = new Scanner(System.in);
-        System.out.println("---------------------------------------------------------------------- Shopping Cart -----------------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------------- Shopping Cart -----------------------------------------------------------------------------------");
         customer.getShoppingCart().displayShoppingCart();
-        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         do{
             System.out.println("Please choose an option:");
             System.out.println(" 1 : Update Cart Items Quantity");
@@ -443,7 +448,8 @@ public class ApplicationController {
         boolean isValid = true;
         do{
             Scanner input = new Scanner(System.in);
-            System.out.println("Here is your the Past Ordered");
+            System.out.println("-----------------------------------------------------------------  Here is your the Past Ordered  ----------------------------------------------------------------");
+            System.out.println();
             customer.DisplayPrevOrderHistory(Data);
             System.out.println("Would you like to reorder? (Please enter 1 for yes, 2 for no)");
             int ch2 = input.nextInt();
