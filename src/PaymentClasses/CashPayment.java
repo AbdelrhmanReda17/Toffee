@@ -43,7 +43,14 @@ public class CashPayment extends PaymentMethod {
                     System.out.println("Email verified successfully.");
                     System.out.println("Delivery man will call you on " + phoneNumber);
                     break;
-                } else if (inputCode == 0) {
+                }
+               else  if (inputCode != code) {
+                    isEmailSend = false;
+                    System.out.println("Wrong OTP");
+
+                    break;
+                }
+                else if (inputCode == 0) {
                     break;
 
                 } else {
@@ -53,5 +60,4 @@ public class CashPayment extends PaymentMethod {
             }
         }
     }
-
 }
