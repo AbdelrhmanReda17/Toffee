@@ -27,8 +27,6 @@ public class CreditPayment extends PaymentMethod {
                     System.out.println("Invalid card number. Please enter a 16-digit number.");
                 }
             } while (!validCardNumber);
-
-
             do {
                 System.out.print("Enter expiration date (MM/YY): ");
                 expDate = scanner.nextLine();
