@@ -1,5 +1,4 @@
 package ControllerClasses;
-
 import DataUserClasses.Admin;
 import DataUserClasses.Catalog;
 import DataUserClasses.Category;
@@ -9,11 +8,8 @@ import OrderClasses.OrderManager;
 import SystemClasses.DataManager;
 import SystemClasses.GiftVoucher;
 import SystemClasses.LoyaltyPoints;
-
 import java.util.List;
 import java.util.Scanner;
-
-
 
 public class UserController {
     public DataManager Data;

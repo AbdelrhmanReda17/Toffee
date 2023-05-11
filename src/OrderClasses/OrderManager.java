@@ -3,13 +3,9 @@ package OrderClasses;
 import DataUserClasses.Customer;
 import PaymentClasses.*;
 import SystemClasses.DataManager;
-
 import java.util.*;
-
 public class OrderManager {
     private Order order = new Order();
-
-
     public boolean placeOrder(DataManager Data, Customer user) {
         float paymentSuccess;
         String shippingAddress = null;
@@ -135,7 +131,7 @@ public class OrderManager {
                     order.getUser().getName(),
                     order.getStatus().toString(),
                     order.getUser().getShoppingCart().getLoyaltyPoints(),
-                    order.getUser().getShoppingCart().getTotalCost(),
+                    order.getUser(). getShoppingCart().getTotalCost(),
                     order.getPayment().getMethod(),
                     order.getShippingAddress(),
                     order.getOrdertime().toString(),

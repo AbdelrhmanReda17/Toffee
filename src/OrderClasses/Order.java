@@ -72,6 +72,7 @@ public class Order {
     }
 
     public ShoppingCart getShopcart() {
+        user.setShoppingCart(shopcart);
         return shopcart;
     }
     public void setShopcart(ShoppingCart shopcart) {

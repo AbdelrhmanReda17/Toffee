@@ -25,6 +25,7 @@ public class ApplicationController {
         this.orderController = new OrderController(this);
         this.userController = new UserController(this);
     }
+
     public void StartApplication() {
         Scanner input = new Scanner(System.in);
         int option;

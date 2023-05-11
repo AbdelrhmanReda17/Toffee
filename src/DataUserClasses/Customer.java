@@ -90,7 +90,9 @@ public class Customer extends User {
     public void setStatus(boolean isSuspened){
         this.isSuspened = isSuspened ;
     }
-    public ShoppingCart getShoppingCart(){ return shoppingCart;}
+    public ShoppingCart getShoppingCart(){
+        return shoppingCart;
+    }
     public void setShoppingCart(ShoppingCart shoppingCart) {this.shoppingCart = shoppingCart;}
     
 }
