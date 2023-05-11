@@ -12,39 +12,83 @@ public class Category {
     private boolean isSealed;
     private Vector<Item> items;
     private DataManager DATA = new DataManager();
+
+    /**
+     * Constructs a new Category object with the given name, sealed status, and item list.
+     * @param name the name of the category
+     * @param isSealed the sealed status of the category
+     * @param items the list of items in the category
+     */
     public Category(String name, boolean isSealed, Vector<Item> items) {
         this.name = name;
         this.isSealed = isSealed;
         this.items = items;
     }
 
+    /**
+     * Creates a new Category object with the given name and sealed status.
+     * @param name the name of the category
+     * @param isSealed whether the category is sealed or not
+     */
     public Category(String name ,boolean isSealed ) {
         this.name = name;
         this.isSealed = isSealed;
         this.items = new Vector<>();
     }
 
+    /**
+     * Constructor for an unsealed category with a given name.
+     * @param name the name of the category
+     */
     public Category(String name) {
         this.name=name;
     }
 
+    /**
+     * Getter method for the name of the category.
+     * @return the name of the category
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Setter method for the name of the category.
+     * @param name the new name for the category
+     */
     public void setName(String name) {
         this.name = name;
     }
+
+    /**
+     * Setter method for the seal status of the category.
+     * @param isSealed the new seal status for the category (true for sealed, false for unsealed)
+     */
+
     public void setSealed(boolean isSealed) {
         this.isSealed = isSealed;
     }
+
+    /**
+     * Getter method for the seal status of the category.
+     * @return the seal status of the category (true for sealed, false for unsealed)
+     */
+
     public boolean getSealed(){
         return isSealed;
     }
+
+    /**
+     * Constructor for a category with an empty list of items.
+     */
     public Category() {
         this.items = new Vector<>();
     }
-
+    /**
+     * Method for removing an item from the category's list of items.
+     * @param item the item to be removed
+     * @param Data the DataManager object used to load and update the list of categories
+     */
     public void removeItem(Item item , DataManager Data) {
         DATA.loadCategories();
         Vector<Category> catalogs = DATA.getCategories();
@@ -59,15 +103,27 @@ public class Category {
         DATA.setCategories(catalogs);
         DATA.updateCategories();
     }
-
+    /**
+     * Getter method for the list of items in the category.
+     * @return the list of items in the category
+     */
     public Vector<Item> getItems() {
         return items;
     }
 
+    /**
+     * Setter method for the list of items in the category.
+     * @param items the new list of items for the category
+     */
     public void setItems(Vector<Item> items) {
         this.items = items;
     }
 
+    /**
+     * Method for updating an item in the category's list of items.
+     * @param item the item to be updated
+     * @param Data the DataManager object used to load and update the list of categories
+     */
     public void updateIteminCatalog(Item item , DataManager Data) {
         Vector<Category> catalogs = DATA.getCategories();
         for (Category catalog : catalogs) {
@@ -80,13 +136,20 @@ public class Category {
         }
         DATA.setCategories(catalogs);
     }
+    /**
+     * Adds an item to the category.
+     * @param item the item to add
+     * @return true if the item was added successfully, false otherwise
+     */
 
     public boolean addItem(Item item) {
         items.add(item);
         return true;
     }
 
-
+    /**
+     * Displays the category and its items in a formatted manner.
+     */
     public void displayCategory() {
         System.out.println("----------------------------------------------------------------------------------------------- " + getName() + " -----------------------------------------------------------------------------------------------");
         int counter = 1;
@@ -96,7 +159,11 @@ public class Category {
             System.out.println("");
         }
     }
-
+    /**
+     * Searches the category's items by name.
+     * @param name the name of the items to search for
+     * @return a list of items matching the name
+     */
     public List<Item> searchItemsByName(String name) {
         DATA.loadItems();
         Vector<Item> itemss = DATA.getItems();
@@ -108,6 +175,12 @@ public class Category {
         }
         return foundItems;
     }
+
+    /**
+     * Searches the category's items by brand.
+     * @param Brand the brand of the items to search for
+     * @return a list of items matching the brand
+     */
     public List<Item> searchItemsByBrand(String Brand) {
         DATA.loadItems();
         Vector<Item> itemss = DATA.getItems();
@@ -120,6 +193,12 @@ public class Category {
         return foundItems;
 
     }
+    /**
+     * Adds an item to the category and the item vector.
+     * If the item's category does not exist, a new category is created.
+     * @param items the item vector to add to
+     * @param ct the category vector to add to
+     */
 
     public void addItem(Vector<Item> items,Vector<Category> ct) {
         Item item = new Item();
@@ -155,7 +234,10 @@ public class Category {
 
     }
 
-
+    /**
+     * Edits an item's fields.
+     * @param items the item vector containing the item to edit
+     */
     public void editItem(Vector<Item> items) {
         System.out.print("Enter The id of The item you want to Edit: ");
         int id = new Scanner(System.in).nextInt();
@@ -222,6 +304,14 @@ public class Category {
         System.out.println("Item not found");
     }
 
+    /**
+     * Removes an item from the inventory by its ID.
+     * Prompts the user to enter the ID of the item they want to delete,
+     * displays the item information, and asks for confirmation before removing it.
+     * If the user confirms the deletion, the item is removed from the Vector of items,
+     * the item is removed from the inventory file, and the inventory is updated.
+     * @param items a Vector of Item objects representing the inventory
+     */
     public void deleteItem(Vector<Item> items) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the ID of the item you want to delete: ");
@@ -254,16 +344,4 @@ public class Category {
         }
         DATA.setItems(items);
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

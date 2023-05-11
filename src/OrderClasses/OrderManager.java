@@ -4,8 +4,17 @@ import DataUserClasses.Customer;
 import PaymentClasses.*;
 import SystemClasses.DataManager;
 import java.util.*;
+/**
+ * Represents the order manager responsible for placing orders.
+ */
 public class OrderManager {
     private Order order = new Order();
+    /**
+     * Places an order for a customer.
+     * @param Data The data manager.
+     * @param user The customer placing the order.
+     * @return True if the order was successfully placed, false otherwise.
+     */
     public boolean placeOrder(DataManager Data, Customer user) {
         float paymentSuccess;
         String shippingAddress = null;
@@ -105,7 +114,15 @@ public class OrderManager {
             }
         }
     }
-
+        /**
+     * Creates an order and adds it to the data manager.
+     * @param Data         The data manager.
+     * @param user         The customer who placed the order.
+     * @param status       The status of the order.
+     * @param shoppingCart The shopping cart containing the items in the order.
+     * @param address      The shipping address for the order.
+     * @param payment      The payment method used for the order.
+     */
     private void CreateOrder(DataManager Data, Customer user, Order_state status, ShoppingCart shoppingCart, String address, PaymentMethod payment) {
         Date ordertime = order.getOrderTime(false);
         Order order = new Order(user, status, shoppingCart, ordertime, address, payment);
@@ -115,6 +132,10 @@ public class OrderManager {
     }
 
 
+    /**
+     * Displays information for all orders in a vector.
+     * @param orders The vector of orders to display.
+     */
     public void viewAllOrders(Vector<Order> orders) {
         Collections.reverse(orders);
         if (orders.size() == 0) {
@@ -131,18 +152,22 @@ public class OrderManager {
                     order.getUser().getName(),
                     order.getStatus().toString(),
                     order.getUser().getShoppingCart().getLoyaltyPoints(),
-                    order.getUser(). getShoppingCart().getTotalCost(),
+                    order.getUser().getShoppingCart().getTotalCost(),
                     order.getPayment().getMethod(),
                     order.getShippingAddress(),
                     order.getOrdertime().toString(),
                     getCartItemsString(order.getShopcart()));
-
         }
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-
     }
 
 
+
+    /**
+     * Converts the items in a shopping cart into a formatted string.
+     * @param cart The shopping cart.
+     * @return The formatted string of cart items.
+     */
     private String getCartItemsString(ShoppingCart cart) {
         StringBuilder sb = new StringBuilder();
         for (CartItem item : cart.getCartItems()) {
@@ -154,8 +179,14 @@ public class OrderManager {
         return sb.toString();
     }
 
-    public boolean PastOrders(Customer customer,Vector<Order>orders){
-        boolean isValid = true,HaveOrders=false;
+    /**
+     * Displays the past order history for a customer and allows reordering.
+     * @param customer The customer.
+     * @param orders   The vector of orders.
+     * @return True if the customer wants to reorder, false otherwise.
+     */
+    public boolean PastOrders(Customer customer, Vector<Order> orders) {
+        boolean isValid = true, HaveOrders = false;
         do {
             Scanner input = new Scanner(System.in);
             System.out.println("-----------------------------------------------------------------  Past Ordered Page ----------------------------------------------------------------");
@@ -174,22 +205,25 @@ public class OrderManager {
                     isValid = false;
                 }
             }
-            }while (!isValid) ;
-
+        } while (!isValid);
 
         return false;
     }
 
-    public void viewStatistics(Vector<Order> order) {
+    /**
+     * Displays statistics based on the orders.
+     * @param orders The vector of orders.
+     */
+    public void viewStatistics(Vector<Order> orders) {
         Map<String, Integer> map = new HashMap<>();
         double TotalOrdersPrice = 0;
-        int NumberOfOrders =0;
-        for(Order x : order){
+        int NumberOfOrders = 0;
+        for (Order x : orders) {
             List<CartItem> orderItems = x.getShopcart().getCartItems();
             NumberOfOrders++;
-            for(CartItem l : orderItems){
-                TotalOrdersPrice += (l.getPrice()*l.getQuantity());
-                if (map.containsKey(l.getName())){
+            for (CartItem l : orderItems) {
+                TotalOrdersPrice += (l.getPrice() * l.getQuantity());
+                if (map.containsKey(l.getName())) {
                     map.put(l.getName(), map.get(l.getName()) + 1);
                 } else {
                     map.put(l.getName(), 1);
@@ -202,11 +236,9 @@ public class OrderManager {
         Iterator<Map.Entry<String, Integer>> it = map.entrySet().iterator();
         if (it.hasNext()) {
             Map.Entry<String, Integer> entry = it.next();
-            System.out.println("The Best Selling  Item is : "  + entry.getKey() + " with : " + entry.getValue() + " sales");
+            System.out.println("The Best Selling  Item is : " + entry.getKey() + " with : " + entry.getValue() + " sales");
         }
         System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
-
-
 
 }

@@ -6,6 +6,12 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class sendOtp {
+    /**
+     * Sends an OTP (One-Time Password) to the specified email address using SMTP.
+     * @param email the email address to send the OTP to
+     * @param code the OTP code to send
+     * @return true if the email was sent successfully, false otherwise
+     */
     public static boolean SendOTP(String email , int code){
         String host = "smtp.gmail.com";
         String username = "fcai.toffeeshop@gmail.com";

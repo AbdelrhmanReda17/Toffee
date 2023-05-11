@@ -11,6 +11,9 @@ import SystemClasses.LoyaltyPoints;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * The UserController class handles user interactions and controls the flow of the Toffee shop application.
+ */
 public class UserController {
     public DataManager Data;
     private OrderManager orderManager = new OrderManager();
@@ -21,6 +24,10 @@ public class UserController {
     private ApplicationController applicationController;
     int CAOption=0;
     String nameE,passwordD;
+    /**
+     * Constructs a new UserController object with the provided ApplicationController.
+     * @param app The ApplicationController object that manages the application flow.
+    */
     public UserController(ApplicationController app)
     {   
         this.applicationController = app;
@@ -29,6 +36,11 @@ public class UserController {
         catalog = Data.getCatalogs();
     }
 
+    /**
+     * Displays the admin interface and provides options for performing various administrative tasks.
+     * @param nameE The username of the admin.
+     * @param PasswordD The password of the admin.
+    */
     public void adminInterface(String nameE, String PasswordD) {
         Admin admin = Data.getCurrentAdmin(nameE, PasswordD);
         System.out.println("-------------------------------------------------------------------------------------Home Page----------------------------------------------------------------------------------------");
@@ -92,6 +104,11 @@ public class UserController {
             }
         }
     }
+    /**
+     * Displays the customer interface and provides options for customers to interact with the Toffee shop.
+     * @param nameE The username of the customer.
+     * @param PasswordD The password of the customer.
+    */
     public void customerInterface(String nameE , String PasswordD){
         Category categoryY = null;
         boolean PaymentProccess = false;
@@ -191,8 +208,10 @@ public class UserController {
 
         }
     }
-
-
+    /**
+     * Displays the registration page and handles the registration process for a new user.
+     * @return true if the registration is successful, false otherwise.
+    */
     public boolean RegisterPage() {
         boolean isReg = false;
         System.out.println("------------------------------------------------------------------------------------------ Registration Page -------------------------------------------------------------------------------");
@@ -200,7 +219,10 @@ public class UserController {
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         return isReg;
     }
-
+    /**
+     * Displays the login page and handles the login process for a user.
+     * @return true if the login is successful, false otherwise.
+    */
     public boolean LoginPage() {
         Scanner input = new Scanner(System.in);
         while (true) {
@@ -221,7 +243,22 @@ public class UserController {
             }
         }
     }
+    /**
+     * Returns the chosen option for the user type during login.
+     * @return the chosen option (1 for Customer, 2 for Admin).
+    */
+
     int getCAOption(){return CAOption;}
+    /**
+     * Returns the entered username during login.
+     * @return the entered username.
+    */
+    
     String getNameE(){return nameE;}
+
+    /**
+     * Returns the entered password during login.
+     * @return the entered password.
+    */
     String getPasswordD(){return passwordD;}
 }

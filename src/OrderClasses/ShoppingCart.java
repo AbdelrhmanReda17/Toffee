@@ -8,6 +8,9 @@ import java.util.Scanner;
 import SystemClasses.DataManager;
 import SystemClasses.LoyaltyPoints;
 
+/**
+ * Represents a shopping cart that allows adding, removing, and updating cart items.
+ */
 public class ShoppingCart {
     private double totalCost;
     private int loyaltyPoints;
@@ -15,7 +18,10 @@ public class ShoppingCart {
     private int pointsEarned;
     private LoyaltyPoints LoyaltyScheme; 
     private DataManager Data = new DataManager();
-
+/**
+     * Initializes a new instance of the ShoppingCart class.
+     * Loads the loyalty scheme from the data manager.
+     */
     public ShoppingCart() {
         this.totalCost = 0.0;
         this.loyaltyPoints = 0;
@@ -25,6 +31,10 @@ public class ShoppingCart {
         LoyaltyScheme = Data.getLoyaltyScheme();
     }
 
+ /**
+     * Adds a cart item to the shopping cart.
+     * @param item The cart item to add.
+     */
     public void addCartItem(CartItem item) {
         int index = -1;
         for(int i = 0 ; i < cartItems.size() ; i++){
@@ -46,6 +56,10 @@ public class ShoppingCart {
         }
     }
 
+     /**
+     * Removes a cart item from the shopping cart.
+     * @param item The cart item to remove.
+     */
     public void removeCartItem(CartItem item) {
         cartItems.remove(item);
         totalCost -=  ((item.getPrice()-item.getPrice()*(item.getDiscountPercentage()/100)) *item.getQuantity());
@@ -53,12 +67,20 @@ public class ShoppingCart {
         pointsEarned -= (item.getPrice()*LoyaltyScheme.getPointsEarnedperEgp() *item.getQuantity()) ;
     }
 
+    /**
+     * Displays the shopping cart with total points earned, total cost, and individual cart items.
+     */
     public void displayShoppingCart() {
         System.out.print("Total Points Earned: "+pointsEarned+"  ||  "+"Total Cost: " + totalCost+"  ||  " + "Total Points Cost: " + loyaltyPoints + "\n");
         for(CartItem d : cartItems){
                 d.displayCartItem();
         }
     }
+    
+/**
+Updates a cart item in the shopping cart.
+Allows discarding an item or updating its quantity.
+*/
     public void updateCartItem() {
         Scanner scanner = new Scanner(System.in);
 
@@ -115,28 +137,54 @@ public class ShoppingCart {
             }
         }
     }
-    public void clearCart() {
-        cartItems.clear();
-        totalCost = 0.0;
+ 
+    /**
+     * Clears the shopping cart by removing all cart items and resetting the total cost to zero.
+    */
+public void clearCart() {
+    cartItems.clear();
+    totalCost = 0.0;
     }
-
+    /**
+     * Retrieves the list of cart items in the shopping cart.
+     * @return The list of cart items.
+    */
     public List<CartItem> getCartItems() {
-        return cartItems;
+    return cartItems;
     }
-
+    /**
+     * Retrieves the total cost of the items in the shopping cart.
+     * @return The total cost.
+    */
     public double getTotalCost() {
-        return totalCost;
+    return totalCost;
     }
+    /**
+     * Retrieves the loyalty points accumulated in the shopping cart.
+     * @return The loyalty points.
+    */
     public int getLoyaltyPoints() {
-        return loyaltyPoints;
+    return loyaltyPoints;
     }
+    /** 
+     * Retrieves the total points earned in the shopping cart.
+     * @return The total points earned.
+    */
     public int getPointsEarned() {
-        return pointsEarned;
+    return pointsEarned;
     }
+    /**
+     * Sets the loyalty points in the shopping cart.
+     * @param loyaltyPoints The loyalty points to set.
+    */
     public void setLoyaltyPoints(int loyaltyPoints) {
-        this.loyaltyPoints = loyaltyPoints;
+    this.loyaltyPoints = loyaltyPoints;
     }
+    /**
+     * Sets the total cost of the items in the shopping cart.
+     * @param totalCost The total cost to set.
+    */
     public void setTotalCost(double totalCost) {
-        this.totalCost = totalCost;
+    this.totalCost = totalCost;
     }
 }

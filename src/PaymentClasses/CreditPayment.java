@@ -8,10 +8,24 @@ public class CreditPayment extends PaymentMethod {
     private String cardNumber;
     private String expDate;
     private int cvv;
-    
+
+    /**
+     * Returns the payment method name
+     * @return the payment method name
+     */
     public String getMethod() {
         return methodName;
     }
+
+    /**
+     * Processes the payment using the credit card information provided by the user
+     * @param Data the data manager for the system
+     * @param user the customer making the payment
+     * @param Email the email associated with the customer's account
+     * @param phone the phone number associated with the customer's account
+     * @param total_price the total price of the transaction
+     * @return 0 if the payment was successful, -1 otherwise
+    */
     public float processPayment(DataManager Data,Customer user,String Email,String phone, double total_price) {
         try (Scanner scanner = new Scanner(System.in)) {
             boolean validCardNumber = false;

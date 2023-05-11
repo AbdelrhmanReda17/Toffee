@@ -6,27 +6,49 @@ import SystemClasses.DataManager;
 
 import java.util.Scanner;
 
+/**
 
-
+The ApplicationController class handles the overall application logic and user interactions.
+*/
 public class ApplicationController {
     public DataManager Data = new DataManager();
     private UserController userController;
     private OrderController orderController;
     int CAOption=0;
     String nameE,passwordD;
+   /**
+ * Gets the usercontroller.
+ * 
+ * @return the usercontroller
+ */
     public UserController getUserController() {
         return userController;
     }
+
+    /**
+     * Gets the ordercontroller.
+     * @return the ordercontroller
+     */
     public OrderController getOrderController() {
         return orderController;
     }
+    /**
+     * Creates an instance of the ApplicationController class.
+     * Initializes a DataManager object.
+     * Initializes an OrderController object and passes a reference to this ApplicationController object.
+     * Initializes a UserController object and passes a reference to this ApplicationController object.
+    */
     public ApplicationController() {
         Data = new DataManager();
         this.orderController = new OrderController(this);
         this.userController = new UserController(this);
     }
-
+    /**
+     * Starts the Toffee Shop application.
+     * Displays a menu of options and handles user input.
+    */
     public void StartApplication() {
+        Data.LoadDATA();
         Scanner input = new Scanner(System.in);
         int option;
         boolean isLoggedIn = false;
@@ -71,6 +93,10 @@ public class ApplicationController {
 
         }
     }
+    /**
+     * Handles the options for a logged-in user based on the given CAOption.
+     * @param CAOption The user's chosen option (1 for customer, 2 for admin).
+    */
     private void Options(int CAOption){
         while (true) {
             if (CAOption == 1) {
@@ -83,9 +109,19 @@ public class ApplicationController {
             }
         }
     }
-
+    /**
+     * Sets the name for the current user.
+     * @param name The name of the user.
+    */
     public void setNameE(String name) {this.nameE = name;}
+    /**
+     * Sets the password for the current user.
+     * @param pass The password of the user.
+    */
     public void setPasswordD(String pass){this.passwordD = pass;}
+    /**
+     * Sets the chosen option for the current user.
+     * @param n The chosen option (1 for customer, 2 for admin).
+    */
     public void setCAOption(int n){this.CAOption=n;}
-
 }

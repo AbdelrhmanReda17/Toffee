@@ -10,18 +10,33 @@ import SystemClasses.DataManager;
 import java.util.Scanner;
 import java.util.Vector;
 
+/**
+The OrderController class handles order-related operations and user interactions.
+*/
 public class OrderController {
     public DataManager Data;
     private OrderManager orderManager = new OrderManager();
     private Catalog catalog = new Catalog();
     private ApplicationController applicationController;
-
+   
+    /**
+     * Creates an instance of the OrderController class.
+     * @param app The ApplicationController instance.
+    */
     public OrderController(ApplicationController app){
         this.applicationController = app;
         Data = new DataManager();
         Data.LoadDATA();
         catalog = Data.getCatalogs();
     }
+
+    /**
+     * Adds items to the shopping cart.
+     * @param numberofItems The number of items to add.
+     * @param catalog The catalog from which to select items.
+     * @param customer The customer object representing the current user.
+     * @return The updated number of items in the cart.
+    */   
     public int AddingItems(int numberofItems , Category catalog , Customer customer){
         int numItems = numberofItems;
         Scanner input = new Scanner(System.in);
@@ -47,8 +62,11 @@ public class OrderController {
             }
         }
     }
-
-
+    /**
+     * Allows the user to choose a category from a list of available catalogs.
+     * @param catalogs A vector of Category objects representing the available catalogs.
+     * @return The selected Category object, or null if the user chooses to exit.
+    */
     public Category ChooseingCategory(Vector<Category> catalogs){
         if(catalogs.isEmpty()) {
             System.out.println("Catalog is Empty !");
@@ -74,8 +92,12 @@ public class OrderController {
             }
         }
     }
-
-
+    /**
+     * Performs the checkout process for a customer.
+     * Displays the shopping cart and provides options for updating the cart, placing the order, or clearing the cart.
+     * @param customer The Customer object representing the current user.
+     * @return True if the user wants to create another order, false otherwise.
+    */
     public boolean checkoutProcess(Customer customer){
         boolean isValid = true , isOrderProccess = false;
         Scanner input = new Scanner(System.in);
@@ -131,8 +153,12 @@ public class OrderController {
         }while(!isValid);
         return false;
     }
-
-
+    
+    /**
+     * Displays the available catalogs and allows the user to choose a category.
+     * Depending on the user's choice, displays the corresponding category items.
+     * @return True if a category is successfully selected and displayed, false otherwise.
+    */
     public boolean displayCatalogs() {
         int choice;
         choice = catalog.displayCatalogs();
@@ -147,6 +173,11 @@ public class OrderController {
         }
     }
 
+    /**
+     * Displays the categories and provides options for user registration or sign-in.
+     * @param Categories A vector of Category objects representing the available categories.
+     * @return True if the user successfully registers or signs in, false otherwise.
+    */
     public boolean displayCategories(Vector<Category> Categories) {
         if (Categories.isEmpty()) return false;
         Scanner input = new Scanner(System.in);

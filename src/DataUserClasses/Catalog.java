@@ -13,54 +13,89 @@ public class Catalog{
     private Vector<Category> notsealed = new Vector<>();
 
     private DataManager Data ;
-    public Catalog(DataManager data) {
-        this.Data=data;
 
+
+    /**
+     * Creates a new Catalog with the given DataManager.
+     * @param data the DataManager object to use
+     */
+    public Catalog(DataManager data) {
+        this.Data = data;
     }
 
-    public Catalog(){
+    /**
+     * Creates a new empty Catalog.
+     */
+    public Catalog() {}
 
-    };
-    public void addSealedCategory(Category category){
+    /**
+     * Adds the given Category to the sealed catalog.
+     * @param category the Category to add
+     */
+    public void addSealedCategory(Category category) {
         sealed.add(category);
     }
-    public void addNSealedCategory(Category category){
+
+    /**
+     * Adds the given Category to the not sealed catalog.
+     * @param category the Category to add
+     */
+    public void addNSealedCategory(Category category) {
         notsealed.add(category);
     }
-    public int displayCatalogs(){
+
+    /**
+     * Displays a list of catalogs and prompts the user to choose one to view.
+     * @return the number of the catalog to view, or -1 to exit
+     */
+    public int displayCatalogs() {
         System.out.println("----------------------------------------------------------------------------------- Catalogs -----------------------------------------------------------------------------------");
         System.out.println("1. Sealed Categories");
         System.out.println("2. Not Sealed Categories");
         System.out.println("Please enter the number of the catalog to view or enter 0 to exit:");
         Scanner scanner = new Scanner(System.in);
-        int n  = scanner.nextInt();
-        if(n == 0)
-        return -1;
-        while(n != 1 && n != 2){
-            System.out.println("Wrong Choose , please enter only 1 or 2 or 0");
-            n  = scanner.nextInt();
+        int n = scanner.nextInt();
+        if (n == 0)
+            return -1;
+        while (n != 1 && n != 2) {
+            System.out.println("Wrong Choose, please enter only 1 or 2 or 0");
+            n = scanner.nextInt();
         }
         return n;
     }
-    public void displaySealed(){
-        if(sealed.size() == 0 ){
+
+    /**
+     * Displays all categories in the sealed catalog.
+     */
+    public void displaySealed() {
+        if (sealed.size() == 0) {
             System.out.println("Sealed Catalog is Empty");
-        }else
-        {
-            for(Category cg : sealed){
+        } else {
+            for (Category cg : sealed) {
                 cg.displayCategory();
             }
         }
     }
-    public void displayNSealed(){
-        if(notsealed.isEmpty()){
+
+    /**
+     * Displays all categories in the not sealed catalog.
+     */
+    public void displayNSealed() {
+        if (notsealed.isEmpty()) {
             System.out.println("Not Sealed Catalog is Empty");
-        }else{
-            for(Category cg : notsealed){
+        } else {
+            for (Category cg : notsealed) {
                 cg.displayCategory();
             }
         }
     }
+
+    /**
+     * Adds a new category to the catalog.
+     * @param ct the vector of Category objects representing the current categories
+     * @param itemM the vector of Item objects representing the current items
+     */
+
     public void addNewCategory(Vector<Category>ct,Vector<Item>itemM) {
         System.out.print("Enter The Category Name : ");
         String name = new Scanner(System.in).nextLine();
@@ -95,6 +130,11 @@ public class Catalog{
         Data.setCategories(ct);
 
     }
+
+    /**
+     * Removes a category from the list of categories.
+     * @param catalogs A vector containing all the available categories.
+     */
     public void removeCategory(Vector<Category> catalogs) {
         Scanner scanner = new Scanner(System.in);
 
@@ -116,7 +156,20 @@ public class Catalog{
         Data.setCategories(catalogs);
     }
 
-    public Vector<Category> getSealedVector(){return sealed;}
-    public Vector<Category> getNSealedVector(){return notsealed;}
+    /**
+     * Returns a sealed vector containing all categories that have been marked as sealed.
+     * @return a vector containing all sealed categories
+     */
+    public Vector<Category> getSealedVector() {
+        return sealed;
+    }
+
+    /**
+     * Returns a not sealed vector containing all categories that have not been marked as sealed.
+     * @return a vector containing all not sealed categories
+     */
+    public Vector<Category> getNSealedVector() {
+        return notsealed;
+    }
 
 }
