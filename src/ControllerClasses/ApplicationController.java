@@ -1,13 +1,11 @@
 package ControllerClasses;
 
-import DataUserClasses.Catalog;
-import OrderClasses.Order;
-import OrderClasses.OrderManager;
+
 import SystemClasses.DataManager;
-import SystemClasses.GiftVoucher;
-import SystemClasses.LoyaltyPoints;
+
 
 import java.util.Scanner;
+import java.util.jar.Attributes.Name;
 
 
 
@@ -17,14 +15,16 @@ public class ApplicationController {
     private OrderController orderController;
     int CAOption=0;
     String nameE,passwordD;
-
+    public UserController getUserController() {
+        return userController;
+    }
+    public OrderController getOrderController() {
+        return orderController;
+    }
     public ApplicationController() {
         Data = new DataManager();
-    }
-
-    public ApplicationController(OrderController orderController,UserController userController) {
-        this.orderController = orderController;
-        this.userController = userController;
+        this.orderController = new OrderController(this);
+        this.userController = new UserController(this);
     }
     public void StartApplication() {
         Scanner input = new Scanner(System.in);
@@ -48,7 +48,7 @@ public class ApplicationController {
                     userController.RegisterPage();
                     break;
                 case 3:
-                    isLoggedIn =userController.LoginPage();;
+                    isLoggedIn = userController.LoginPage();
                     break;
                 case 4:
                     Data.updateData();
@@ -62,10 +62,10 @@ public class ApplicationController {
             }
         }
         if (isLoggedIn) {
-            CAOption = userController.getCAOption();
-            nameE = userController.getNameE();
-            passwordD = userController.getPasswordD();
-            Options(CAOption);
+             CAOption = userController.getCAOption();
+             nameE = userController.getNameE();
+             passwordD = userController.getPasswordD();
+             Options(CAOption);
         }else {
             System.out.println("Oops! Something went wrong while logging in. Please try again!");
 

@@ -14,16 +14,14 @@ public class OrderController {
     public DataManager Data;
     private OrderManager orderManager = new OrderManager();
     private Catalog catalog = new Catalog();
-    public OrderController(){
+    private ApplicationController applicationController;
+
+    public OrderController(ApplicationController app){
+        this.applicationController = app;
         Data = new DataManager();
         Data.LoadDATA();
         catalog = Data.getCatalogs();
     }
-    private ApplicationController applicationController;
-    public OrderController(ApplicationController applicationController) {
-        this.applicationController = applicationController;
-    }
-
     public int AddingItems(int numberofItems , Category catalog , Customer customer){
         int numItems = numberofItems;
         Scanner input = new Scanner(System.in);
@@ -163,33 +161,16 @@ public class OrderController {
         while (true) {
             SRChoice = input.nextInt();
             input.nextLine();
-            if (SRChoice == 1 || SRChoice == 2 || SRChoice == 3 || SRChoice == 4) {
+            if (SRChoice == 1 || SRChoice == 2) {
                 break;
             }
             System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
         }
         if (SRChoice == 1) {
-            System.out.println("REGISTER");
-            Data.register();
-            System.out.println("Login Page !!");
-            System.out.print("Enter Username: ");
-            String nameE = input.nextLine();
-            System.out.print("Enter Password: ");
-            String passwordD = input.nextLine();
-            applicationController.setNameE(nameE);
-            applicationController.setPasswordD(passwordD);
-            return Data.login(1, nameE, passwordD);
+            return applicationController.getUserController().RegisterPage();
         } else {
-            System.out.println("SIGN IN");
-            System.out.print("Enter Username: ");
-            String nameE = input.nextLine();
-            System.out.print("Enter Password: ");
-            String passwordD = input.nextLine();
-            applicationController.setNameE(nameE);
-            applicationController.setPasswordD(passwordD);
-            return Data.login(1, nameE, passwordD);
+            return applicationController.getUserController().LoginPage();
         }
-
     }
 
 }

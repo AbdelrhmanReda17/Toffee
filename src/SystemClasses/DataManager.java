@@ -564,90 +564,124 @@ public class DataManager {
     }
 
 
-    public void register() {
+    public boolean register() {
         // Enter username and check if it follows the rules or not + check if it is unique or not
-        boolean found;
+        boolean found , isCanceled = false;
         String usernameRegex = "^[a-zA-Z0-9_-]+$";
-        String name;
-        do {
-            found = false; // reset found to false
-            System.out.print("Enter username: ");
-            name = new Scanner(System.in).nextLine();
-            if (!name.matches(usernameRegex)) {
-                System.out.println("Invalid username! Username can consist of [letters, numbers, _, -]");
-            }
-            for (Customer customer : customers) {
-                if (customer.getName().equals(name)) {
-                    found = true;
-                    System.out.println("Username already exists! Enter a new one.");
+        String name = "", email ="", address ="", phone ="", password ="";
+        if(!isCanceled){
+            do {        
+                found = false; // reset found to false
+                System.out.print("Enter username - 0 to cancel: ");
+                name = new Scanner(System.in).nextLine();
+                if(name.equals("0")){
+                    isCanceled = true;
                     break;
                 }
-            }
-        } while (!name.matches(usernameRegex) || found);
+                if (!name.matches(usernameRegex)) {
+                    System.out.println("Invalid username! Username can consist of [letters, numbers, _, -]");
+                }
+                for (Customer customer : customers) {
+                    if (customer.getName().equals(name)) {
+                        found = true;
+                        System.out.println("Username already exists! Enter a new one.");
+                        break;
+                    }
+                }
+            } while (!name.matches(usernameRegex) || found);
+         }
 
+        if(!isCanceled){
+            String phoneRegex = "^[0-9]{11}$";
+            do {
+                System.out.print("Enter phone number - 0 to cancel:  ");
+                phone = new Scanner(System.in).nextLine();
+                if(phone.equals("0")){
+                    isCanceled = true;
+                    break;
+                }
+                if (!phone.matches(phoneRegex)) {
+                    System.out.println("Invalid phone number! It must only contain numbers and be 11 digits long.");
+                }
+            } while (!phone.matches(phoneRegex));
+        }
+        
+        if(!isCanceled){
+            String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+            do {
+                System.out.print("Enter Email - 0 to cancel: ");
+                email = new Scanner(System.in).nextLine();
+                if(email.equals("0")){
+                    isCanceled = true;
+                    break;
+                }
+                if (!email.matches(emailRegex)) {
+                    System.out.println("Invalid Email! It must be in the correct format.");
+                }
+            } while (!email.matches(emailRegex));
+        }
 
-        // Enter phone number and check if it follows the rules or not
-        String phoneRegex = "^[0-9]{11}$";
-        String phone;
-        do {
-            System.out.print("Enter phone number: ");
-            phone = new Scanner(System.in).nextLine();
-            if (!phone.matches(phoneRegex)) {
-                System.out.println("Invalid phone number! It must only contain numbers and be 11 digits long.");
-            }
-        } while (!phone.matches(phoneRegex));
-
-        // Enter Email and check if it follows the rules or not
-        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-        String email;
-        do {
-            System.out.print("Enter Email: ");
-            email = new Scanner(System.in).nextLine();
-            if (!email.matches(emailRegex)) {
-                System.out.println("Invalid Email! It must be in the correct format.");
-            }
-        } while (!email.matches(emailRegex));
-
-        // Enter address and check if it follows the rules or not
         String addressRegex = "^[a-zA-Z0-9\\s,-]*$";
-        String address;
-        do {
-            System.out.print("Enter address: ");
-            address = new Scanner(System.in).nextLine();
-            if (!address.matches(addressRegex)) {
-                System.out.println("Invalid address! Addresses can consist of letters, numbers, [, _, -]");
-            }
-        } while (!address.matches(addressRegex));
+        if(!isCanceled){
+            do {
+                System.out.print("Enter address - 0 to cancel: ");        
+                address = new Scanner(System.in).nextLine();
+                if(address.equals("0")){
+                    isCanceled = true;
+                    break;
+                }
+                if (!address.matches(addressRegex)) {
+                    System.out.println("Invalid address! Addresses can consist of letters, numbers, [, _, -]");
+                }
 
-        // Enter password and check if it follows the rules or not
-        String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$#&*%^])[A-Za-z\\d$#&*%^]{8,}$";
-        String password;
-        do {
-            System.out.print("Enter password: ");
-            password = new Scanner(System.in).nextLine();
-            if (!password.matches(passwordRegex)) {
-                System.out.println("Invalid password! It must consist of letters, numbers, and one of [$ # & * % ^ ] and be at least 8 characters long.");
-            }
-        } while (!password.matches(passwordRegex));
-        System.out.println("Please wait While Sending The verification code to your email.... ");
-        int otpCode = (int) (Math.random() * 900000) + 100000;
-        if (sendOtp.SendOTP(email, otpCode)) {
-            System.out.println("OTP sent to your email. Please enter the verification code:");
+            } while (!address.matches(addressRegex));
+        }
 
-            Scanner scanner = new Scanner(System.in);
-            int inputCode = scanner.nextInt();
-            if (inputCode == otpCode) {
-                System.out.println("Email verification successful. Registration completed!");
-                customers.add(new Customer(name, password, email, phone, address));
-                updateCustomers();
+        if(!isCanceled){
+            String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$#&*%^])[A-Za-z\\d$#&*%^]{8,}$";
+            do {
+                System.out.print("Enter password - 0 to cancel: ");
+                password = new Scanner(System.in).nextLine();
+                if(password.equals("0")){
+                    isCanceled = true;
+                    break;
+                }
+                if (!password.matches(passwordRegex)) {
+                    System.out.println("Invalid password! It must consist of letters, numbers, and one of [$ # & * % ^ ] and be at least 8 characters long.");
+                }
+
+            } while (!password.matches(passwordRegex));
+        }
+        if(!isCanceled ){
+            System.out.println("Please wait While Sending The verification code to your email.... ");
+            int otpCode = (int) (Math.random() * 900000) + 100000;
+            if (sendOtp.SendOTP(email, otpCode)) {
+                System.out.println("OTP sent to your email. Please enter the verification code - 0 to cancel:");
+                Scanner scanner = new Scanner(System.in);
+                int inputCode = scanner.nextInt();
+                while(true){
+                    if (inputCode == otpCode) {
+                        System.out.println("Email verification successful. Registration completed!");
+                        customers.add(new Customer(name,password,email, phone, address));
+                        return true;
+                    }else if(inputCode == 0){
+                        System.out.println("Registration rejected.");
+                        return false;
+                    }
+                    else {
+                        System.out.println("Invalid verification code.");                
+                        inputCode = scanner.nextInt();
+                    }
+                }
             } else {
-                System.out.println("Invalid verification code. Registration rejected.");
+                System.out.println("Failed to send OTP to your email. Registration rejected.");
+                    return false;
             }
-        } else {
-            System.out.println("Failed to send OTP to your email. Registration rejected.");
+        }else{
+            System.out.println("Registration rejected.");
+            return false;
         }
     }
-
 
 
     public boolean addItemToVector(Item newItem) {

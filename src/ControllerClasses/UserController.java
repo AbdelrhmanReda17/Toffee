@@ -21,18 +21,17 @@ public class UserController {
     private Catalog catalog = new Catalog();
     private Category category = new Category();
     private GiftVoucher Gift = new GiftVoucher();
-
     private LoyaltyPoints loyalityPoints = new LoyaltyPoints(0.0,0);
-    private ApplicationController applicationController = new ApplicationController();
-    private OrderController orderController = new OrderController(applicationController);
+    private ApplicationController applicationController;
     int CAOption=0;
     String nameE,passwordD;
-    public UserController(){
+    public UserController(ApplicationController app)
+    {   
+        this.applicationController = app;
         Data = new DataManager();
         Data.LoadDATA();
         catalog = Data.getCatalogs();
     }
-
 
     public void adminInterface(String nameE, String PasswordD) {
         Admin admin = Data.getCurrentAdmin(nameE, PasswordD);
@@ -97,13 +96,11 @@ public class UserController {
             }
         }
     }
-
-
     public void customerInterface(String nameE , String PasswordD){
         Category categoryY = null;
         boolean PaymentProccess = false;
         Scanner input = new Scanner(System.in);
-        Customer customer = Data.getCurrentCustomer(nameE, passwordD);
+        Customer customer = Data.getCurrentCustomer(nameE, PasswordD);
         System.out.println("--------------------------------------------------------------------------------------Home Page------------------------------------------------------------------------------");
         System.out.println("Welcome to Toffee, " + customer.getName() + "! Get ready to satisfy your sweet tooth!");
         System.out.println("You have " + customer.getLoyaltyPoints() + " Loyalty Points");
@@ -121,12 +118,12 @@ public class UserController {
                 while(true){
                     int choice = catalog.displayCatalogs();
                     if(choice == 1){
-                        categoryY = orderController.ChooseingCategory(catalog.getSealedVector());
+                        categoryY = applicationController.getOrderController().ChooseingCategory(catalog.getSealedVector());
                     }else if(choice == 2){
-                        categoryY = orderController.ChooseingCategory(catalog.getNSealedVector());
+                        categoryY = applicationController.getOrderController().ChooseingCategory(catalog.getNSealedVector());
                     }else{
                         if(PaymentProccess == true){
-                            if(orderController.checkoutProcess(customer)){
+                            if(applicationController.getOrderController().checkoutProcess(customer)){
                                 break;
                             }else{
                                 return;
@@ -136,7 +133,7 @@ public class UserController {
                         }
                     }
                     if (categoryY != null ){
-                        numberofItems = orderController.AddingItems(numberofItems , categoryY, customer);
+                        numberofItems = applicationController.getOrderController().AddingItems(numberofItems , categoryY, customer);
                         if(numberofItems == 0){
                             PaymentProccess = false;
                         }else{
@@ -149,7 +146,7 @@ public class UserController {
                     PaymentProccess = orderManager.PastOrders(customer,Data.getOrders());
                     if(PaymentProccess)
                     {
-                        if(orderController.checkoutProcess(customer)){
+                        if(applicationController.getOrderController().checkoutProcess(customer)){
                             break;
                         }else{
                             return;
@@ -200,10 +197,12 @@ public class UserController {
     }
 
 
-    public void RegisterPage() {
+    public boolean RegisterPage() {
+        boolean isReg = false;
         System.out.println("------------------------------------------------------------------------------------------ Registration Page -------------------------------------------------------------------------------");
-        Data.register();
+         isReg = Data.register();
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        return isReg;
     }
 
     public boolean LoginPage() {
@@ -226,12 +225,7 @@ public class UserController {
             }
         }
     }
-
     int getCAOption(){return CAOption;}
     String getNameE(){return nameE;}
     String getPasswordD(){return passwordD;}
-
-
-
-
 }
