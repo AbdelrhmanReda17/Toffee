@@ -61,7 +61,7 @@ public class OrderController {
                     customer.getShoppingCart().addCartItem(cartItem);
                     catalogItems.get(itemChoice-1).setQuan(catalogItems.get(itemChoice-1).getQuan()-1);
                     numItems+=1;
-                    System.out.println("Item added to cart! you have" + numItems + "items in your cart");
+                    System.out.println("Item added to cart! you have " + numItems + " items in your cart");
                 }else{
                     System.out.println("Cannout add item , Out Of Stock item");
                 }
