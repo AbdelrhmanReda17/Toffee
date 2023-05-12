@@ -134,7 +134,7 @@ public class UserController {
                         categoryY = applicationController.getOrderController().ChooseingCategory(catalog.getSealedVector());
                     }else if(choice == 2){
                         categoryY = applicationController.getOrderController().ChooseingCategory(catalog.getNSealedVector());
-                    }else if(choice == 0){
+                    }else{
                         if(PaymentProccess == true){
                             if(applicationController.getOrderController().checkoutProcess(customer)){
                                 break;
@@ -151,7 +151,6 @@ public class UserController {
                                 PaymentProccess = false;
                             }else{
                                 PaymentProccess = true;
-                                break;
                             }
                     }
                 }
