@@ -97,40 +97,42 @@ public class Catalog{
      * @param itemM the vector of Item objects representing the current items
      */
 
-    public void addNewCategory(Vector<Category>ct,Vector<Item>itemM) {
+    public void addNewCategory(Vector<Category> ct, Vector<Item> itemM) {
+        Scanner scanner = new Scanner(System.in);
         System.out.print("Enter The Category Name : ");
-        String name = new Scanner(System.in).nextLine();
+        String name = scanner.nextLine();
         for (Category x : ct) {
-            if (x.getName() == name) {
-                System.out.println("The Catalog Name is Already Exist !");
+            if (x.getName().equals(name)) {
+                System.out.println("The Category Name is Already Exist !");
+                return;
             }
         }
-        Category NewCatalog = new Category(name);
-        ct.add(NewCatalog);
-        System.out.print("Press 1.Add New Item , 2.Add Existing Item, 3.No Need To Add Item : ");
-        int choice = new Scanner(System.in).nextInt();
-        if(choice == 1){
+        Category newCatalog = new Category(name, true);
+        ct.add(newCatalog);
+        System.out.print("Press 1.Add New Item , 2.Add Existing Item : ");
+        int choice = scanner.nextInt();
+        if (choice == 1) {
             System.out.println("You Must Add The Item First ! ");
             Item item = new Item();
             item.getItem();
             itemM.add(item);
+            newCatalog.addItem(item);
             Data.setItems(itemM);
-            NewCatalog.addItem(item);
-        }else if(choice == 2){
+        } else if (choice == 2) {
             System.out.print("Enter Item ID : ");
-            int id = new Scanner(System.in).nextInt();
+            int id = scanner.nextInt();
             Vector<Item> it = Data.getItems();
             for (Item item : it) {
                 if (id == item.getID()) {
                     item.setCategory(name);
-                    NewCatalog.addItem(item);
+                    newCatalog.addItem(item);
                 }
             }
         }
         System.out.println("Category added successfully!!");
         Data.setCategories(ct);
-
     }
+
 
     /**
      * Removes a category from the list of categories.

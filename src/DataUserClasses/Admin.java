@@ -38,7 +38,7 @@ public class Admin extends User {
         }
         System.out.println("------------------------------------------------------------------------------------------------");
 
-        System.out.print("Enter the name of the customer you want to suspend / unsuspend: ");
+        System.out.print("Enter the name of the customer you want to suspend / unSuspend: ");
         String username = new Scanner(System.in).nextLine();
         Customer customer= null;
 
@@ -61,7 +61,6 @@ public class Admin extends User {
         int choice = new Scanner(System.in).nextInt();
         if (choice == 1) {
             customer.setStatus( !customer.getStatus());
-            //Data.setCurrentCustomer(customer);
             System.out.println("User "+ (customer.getStatus() ? "suspend" : "unsuspend" ) +" Successful");
         } else {
             System.out.println("Operation cancelled.");

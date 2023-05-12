@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class UserController {
     public DataManager Data;
     private OrderManager orderManager = new OrderManager();
-    private Catalog catalog = new Catalog();
+    private Catalog catalog;
     private Category category = new Category();
     private GiftVoucher Gift = new GiftVoucher();
     private LoyaltyPoints loyalityPoints = new LoyaltyPoints(0.0,0);
@@ -47,17 +47,17 @@ public class UserController {
         System.out.println("Greetings, administrator " + admin.getName() + " ! You have arrived at the command center for all things Toffee. Let's get to work!");
         while (true) {
             System.out.println("What Do You Want To do?");
-            System.out.println("1. Add Item");
-            System.out.println("2. Edit Item");
-            System.out.println("3. Delete Item");
-            System.out.println("4. View All Orders");
-            System.out.println("5. View Statistics");
-            System.out.println("6. Set Loyalty Points");
-            System.out.println("7. Create Gift Voucher");
-            System.out.println("8. Suspend/Unsuspend a User");
-            System.out.println("9. Add Catalog");
-            System.out.println("10. Delete Catalog");
-            System.out.println("0. Log Out");
+            System.out.println("1  . Add Item");
+            System.out.println("2  . Edit Item");
+            System.out.println("3  . Delete Item");
+            System.out.println("4  . View All Orders");
+            System.out.println("5  . View Statistics");
+            System.out.println("6  . Set Loyalty Points");
+            System.out.println("7  . Create Gift Voucher");
+            System.out.println("8  . Suspend/Unsuspend a User");
+            System.out.println("9  . Add New Category");
+            System.out.println("10 . Delete Category");
+            System.out.println("0  . Log Out");
             System.out.println("Please select an option:");
             Scanner scanner = new Scanner(System.in);
             int cho;
@@ -94,10 +94,12 @@ public class UserController {
                     admin.un_or_suspendUser(Data);
                     break;
                 case 9:
-                    //catalog.addNewCategory(Data.getCategories(),Data.getItems());
+                    catalog = new Catalog(Data);
+                    catalog.addNewCategory(Data.getCategories(),Data.getItems());
                     break;
                 case 10:
-                    //catalog.removeCategory(Data.getCategories());
+                    catalog = new Catalog(Data);
+                    catalog.removeCategory(Data.getCategories());
                     break;
                 default:
                     System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
