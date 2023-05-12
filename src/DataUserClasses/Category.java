@@ -286,7 +286,7 @@ public class Category {
                             break;
                         case 9:
                             System.out.print("Enter the new quantity: ");
-                            item.setQuantity(new Scanner(System.in).nextInt());
+                            item.setQuan(new Scanner(System.in).nextInt());
                             break;
                         case 10:
                             break;

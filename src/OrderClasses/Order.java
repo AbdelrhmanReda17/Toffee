@@ -37,7 +37,7 @@ public class Order {
      * @param payment         The payment method used for the order.
      */
     public Order(int OrderID, Customer user, Order_state status, ShoppingCart shopcart, Date ordertime,
-            String shippingAddress, PaymentMethod payment) {
+        String shippingAddress, PaymentMethod payment) {
         this.orderId = OrderID;
         this.user = user;
         this.status = status;
@@ -47,7 +47,6 @@ public class Order {
         this.ordertime = ordertime;
         ORDERCount = OrderID;
     }
-
     /**
      * Parameterized constructor for the Order class.
      * Auto-generates the order ID.
@@ -58,8 +57,7 @@ public class Order {
      * @param shippingAddress The shipping address for the order.
      * @param payment         The payment method used for the order.
      */
-    public Order(Customer user, Order_state status, ShoppingCart shopcart, Date ordertime, String shippingAddress,
-            PaymentMethod payment) {
+    public Order(Customer user, Order_state status, ShoppingCart shopcart, Date ordertime, String shippingAddress,PaymentMethod payment) {
         this.orderId = ++ORDERCount;
         this.user = user;
         this.status = status;

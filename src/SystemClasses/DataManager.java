@@ -276,7 +276,7 @@ public class DataManager {
             for (Item item : items) {
                 writer.write(item.getID() + "," + item.getName() + "," + item.getCategory() + "," + item.getDescription() + "," +
                         item.getBrand() + "," + item.getPrice() + "," + item.getDiscountPercentage() + "," +
-                        item.getPoints() + "," + item.getImage() + "," + item.getQuantity() + "\n");
+                        item.getPoints() + "," + item.getImage() + "," + item.getQuan() + "\n");
             }
             writer.close();
         } catch (IOException e) {
@@ -394,7 +394,7 @@ public class DataManager {
                     Item item = items.get(i);
                     writer.write("\"" + item.getID() + "|" + item.getName() + "|" + item.getCategory() + "|" + item.getDescription() + "|" +
                             item.getBrand() + "|" + item.getPrice() + "|" + item.getDiscountPercentage() + "|" +
-                            item.getPoints() + "|" + item.getImage() + "|" + item.getQuantity() + "\"");
+                            item.getPoints() + "|" + item.getImage() + "|" + item.getQuan() + "\"");
                     if (i < items.size() - 1) {
                         writer.write(",");
                     }
@@ -826,15 +826,15 @@ public class DataManager {
         if(!isCanceled ){
             System.out.println("Please wait While Sending The verification code to your email.... ");
             int otpCode = (int) (Math.random() * 900000) + 100000;
-            if (sendOtp.SendOTP(email, otpCode)) {
+            if (sendOtp.SendOTP(name,email, otpCode)) {
                 System.out.println("OTP sent to your email. Please enter the verification code - 0 to cancel:");
                 Scanner scanner = new Scanner(System.in);
                 int inputCode = scanner.nextInt();
                 while(true){
                     if (inputCode == otpCode) {
                         System.out.println("Email verification successful. Registration completed!");
-                        customers.add(new Customer(name,password,email, phone, address));
-                        return true;
+                         customers.add(new Customer(name,password,email, phone, address));
+                         return true;
                     }else if(inputCode == 0){
                         System.out.println("Registration rejected.");
                         return false;

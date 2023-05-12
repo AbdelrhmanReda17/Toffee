@@ -40,9 +40,10 @@ public class OrderController {
     public int AddingItems(int numberofItems , Category catalog , Customer customer){
         int numItems = numberofItems;
         Scanner input = new Scanner(System.in);
-        catalog.displayCategory();
         int itemChoice = 0;
         while(true){
+            catalog.displayCategory();
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
             System.out.println("Please enter the number of the item you want to buy or enter 0 to choose a different catalog:");
             itemChoice = input.nextInt();
             while(itemChoice > catalog.getItems().size()){
@@ -51,14 +52,19 @@ public class OrderController {
             }
             if (itemChoice == 0) {
                 return numItems;
-            }else {
+            }
+            else {
                 Vector<Item> catalogItems = catalog.getItems();
-                CartItem cartItem = new CartItem();
+                CartItem cartItem = new CartItem();                                        
                 cartItem = cartItem.convertToCartItem(catalogItems.get(itemChoice - 1), 1);
-                customer.getShoppingCart().addCartItem(cartItem);
-                System.out.println("Item added to cart!");
-                numItems+=1;
-                System.out.println("You have " + numItems + " items in your cart.");
+                if(catalogItems.get(itemChoice-1).getQuan() != 0){
+                    customer.getShoppingCart().addCartItem(cartItem);
+                    catalogItems.get(itemChoice-1).setQuan(catalogItems.get(itemChoice-1).getQuan()-1);
+                    numItems+=1;
+                    System.out.println("Item added to cart! you have" + numItems + "items in your cart");
+                }else{
+                    System.out.println("Cannout add item , Out Of Stock item");
+                }
             }
         }
     }
@@ -77,7 +83,9 @@ public class OrderController {
             System.out.println("----------------------------------------------------------------------------------- Available Categories -----------------------------------------------------------------------------------");
             for (int i = 0; i < catalogs.size(); i++) {
                 System.out.println(i + 1 + " " + catalogs.get(i).getName());
-            }
+            }            
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
             System.out.println("Please enter the number of the category you want to view or enter 0 to exit:");
             int choose = input.nextInt();
             while(choose > catalogs.size()){
@@ -198,7 +206,11 @@ public class OrderController {
             System.out.println("Opps! your Choice Is Wrong , Please re-Enter it");
         }
         if (SRChoice == 1) {
-            return applicationController.getUserController().RegisterPage();
+            boolean x = applicationController.getUserController().RegisterPage();
+            if(x){
+                return applicationController.getUserController().LoginPage();
+            }else
+                return x;
         } else {
             return applicationController.getUserController().LoginPage();
         }

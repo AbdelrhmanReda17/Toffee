@@ -12,7 +12,7 @@ public class sendOtp {
      * @param code the OTP code to send
      * @return true if the email was sent successfully, false otherwise
      */
-    public static boolean SendOTP(String email , int code){
+    public static boolean SendOTP(String name , String email , int code){
         String host = "smtp.gmail.com";
         String username = "fcai.toffeeshop@gmail.com";
         String password = "dfpzbhgihyfxtbjp";
@@ -26,22 +26,16 @@ public class sendOtp {
                 return new PasswordAuthentication(username, password);
             }
         });
-
         try {
             Message message = new MimeMessage(session);
-
             message.setFrom(new InternetAddress(username));
-
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-
-            message.setSubject("TOFFE SHOP VERIFICATION CODE");
-            message.setText("Your OTP IS : " + code );
-
+            message.setSubject("Toffe Shop");
+            message.setText("Hello, " + name + "\n" + "Here's Your Verfication code is : " + code + "\nIf you have any bugs please feel free to contact with us in this email") ;
             Transport.send(message);
-            System.out.println("Email sent successfully!");
             return true;
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            return false;
         }
     }
 }

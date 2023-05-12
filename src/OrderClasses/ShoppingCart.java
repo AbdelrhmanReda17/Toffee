@@ -36,24 +36,24 @@ public class ShoppingCart {
      * @param item The cart item to add.
      */
     public void addCartItem(CartItem item) {
-        int index = -1;
-        for(int i = 0 ; i < cartItems.size() ; i++){
-            if(cartItems.get(i).getID() == item.getID()){
-                index = i;
+            int index = -1;
+            for(int i = 0 ; i < cartItems.size() ; i++){
+                if(cartItems.get(i).getID() == item.getID()){
+                    index = i;
+                }
             }
-        }
-        if(index == -1){
-            cartItems.add(item);
-        }else{
-            cartItems.get(index).setQuantity(cartItems.get(index).getQuantity()+1);
-        }
-        totalCost += ((item.getPrice()-item.getPrice()*(item.getDiscountPercentage()/100)) * item.getQuantity());
-        loyaltyPoints += (item.getPoints() *item.getQuantity());
-        if(pointsEarned < LoyaltyScheme.getMaximumpoint()){
-            pointsEarned += (item.getPrice() * LoyaltyScheme.getPointsEarnedperEgp() *item.getQuantity());
-        }else{
-            pointsEarned = LoyaltyScheme.getMaximumpoint();
-        }
+            if(index == -1){
+                cartItems.add(item);
+            }else{
+                cartItems.get(index).setQuantity(cartItems.get(index).getQuantity()+1);
+            }
+            totalCost += ((item.getPrice()-item.getPrice()*(item.getDiscountPercentage()/100)) * item.getQuantity());
+            loyaltyPoints += (item.getPoints() *item.getQuantity());
+            if(pointsEarned < LoyaltyScheme.getMaximumpoint()){
+                pointsEarned += (item.getPrice() * LoyaltyScheme.getPointsEarnedperEgp() *item.getQuantity());
+            }else{
+                pointsEarned = LoyaltyScheme.getMaximumpoint();
+            }
     }
 
      /**
@@ -64,9 +64,8 @@ public class ShoppingCart {
         cartItems.remove(item);
         totalCost -=  ((item.getPrice()-item.getPrice()*(item.getDiscountPercentage()/100)) *item.getQuantity());
         loyaltyPoints -= item.getPoints() * item.getQuantity();
-        pointsEarned -= (item.getPrice()*LoyaltyScheme.getPointsEarnedperEgp() *item.getQuantity()) ;
+        pointsEarned -= (item.getPrice()*LoyaltyScheme.getPointsEarnedperEgp() * item.getQuantity()) ;
     }
-
     /**
      * Displays the shopping cart with total points earned, total cost, and individual cart items.
      */

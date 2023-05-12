@@ -13,7 +13,7 @@ public class CartItem extends Item {
      * @param quantity The quantity of the item to be added.
      */
     public CartItem(Item item, int quantity) {
-        super(item.getID(), item.getName(), item.getCategory(), item.getDescription(), item.getBrand(), item.getPrice(), item.getDiscountPercentage(), item.getPoints(), item.getImage(), item.getQuantity());
+        super(item.getID(), item.getName(), item.getCategory(), item.getDescription(), item.getBrand(), item.getPrice(), item.getDiscountPercentage(), item.getPoints(), item.getImage(), item.getQuan());
         this.quantity = quantity;
     }
 

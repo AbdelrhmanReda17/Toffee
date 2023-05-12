@@ -127,14 +127,14 @@ public class UserController {
             System.out.println("Please choose an option : ");
             int choose = input.nextInt();
             if(choose == 1){
-                int numberofItems = 0;
+                int numberofItems = 0;                    
                 while(true){
                     int choice = catalog.displayCatalogs();
                     if(choice == 1){
                         categoryY = applicationController.getOrderController().ChooseingCategory(catalog.getSealedVector());
                     }else if(choice == 2){
                         categoryY = applicationController.getOrderController().ChooseingCategory(catalog.getNSealedVector());
-                    }else{
+                    }else if(choice == 0){
                         if(PaymentProccess == true){
                             if(applicationController.getOrderController().checkoutProcess(customer)){
                                 break;
@@ -146,12 +146,13 @@ public class UserController {
                         }
                     }
                     if (categoryY != null ){
-                        numberofItems = applicationController.getOrderController().AddingItems(numberofItems , categoryY, customer);
-                        if(numberofItems == 0){
-                            PaymentProccess = false;
-                        }else{
-                            PaymentProccess = true;
-                        }
+                            numberofItems = applicationController.getOrderController().AddingItems(numberofItems , categoryY, customer);
+                            if(numberofItems == 0){
+                                PaymentProccess = false;
+                            }else{
+                                PaymentProccess = true;
+                                break;
+                            }
                     }
                 }
             }else if (choose == 2){

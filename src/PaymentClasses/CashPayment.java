@@ -35,7 +35,7 @@ public class CashPayment extends PaymentMethod {
         this.phoneNumber = phone;
         this.email = Email;
         System.out.println("Please wait While Sending The verification code to your email.... ");
-        sendVerificationCode();
+        sendVerificationCode(user.getName());
         if  (!isEmailSend) {
             System.out.println("Payment could not be processed.");
             return -1;
@@ -49,9 +49,9 @@ public class CashPayment extends PaymentMethod {
     /**
      * Sends a verification code to the customer's email address and processes the payment if the verification is successful.
      */
-    private void sendVerificationCode() {
+    private void sendVerificationCode(String name) {
         int code = (int) (Math.random() * 900000) + 100000;
-        if (sendOtp.SendOTP(email, code)) {
+        if (sendOtp.SendOTP(name ,email, code)) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please enter the verification code - 0 to cancel order:");
             int inputCode = scanner.nextInt();

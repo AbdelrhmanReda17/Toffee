@@ -61,7 +61,7 @@ public class Item {
         setDiscountPercentage(item.getDiscountPercentage());
         setPoints(item.getPoints());
         setImage(item.getImage());
-        setQuantity(item.getQuantity());
+        setQuan(item.getQuan());
     }
 
     /**
@@ -136,7 +136,6 @@ public class Item {
      * @param isCartItem  Indicates whether the item is in the cart.
      */
     public void printItem(boolean IsCustomer , boolean isCartItem){
-        System.out.print("ID: " + getID()+ " || ");
         System.out.print("Name: " + getName() + " || ");
         if(isCartItem)
             System.out.print("Category: " + getCategory()+ " || ");
@@ -144,20 +143,22 @@ public class Item {
             System.out.print("Description: " + getDescription()+ " || ");
             System.out.print("Brand: " + getBrand()+ " || ");
         }
-        if(getDiscountPercentage() > 1){
-            System.out.print("Discount percentage: " + getDiscountPercentage()+ "% || ");
-            System.out.print("Price Before : " + getPrice() + "L.E || ");
-            System.out.print("Price After  : " + (getPrice()-getPrice()*(getDiscountPercentage()/100)) + "L.E || ");
-        }
-        else{
-            System.out.print("Price: " + getPrice() + "L.E || ");
-        }
-        
-        System.out.print("Points: " + getPoints());
+
+        System.out.print("Price : " + (getPrice()-getPrice()*(getDiscountPercentage()/100)) + "L.E || ");
         if(!IsCustomer)
         {
             System.out.print(" || "+ "Image: " + getImage()+ " || ");
-            System.out.print("Quantity: " + getQuantity());
+        }if(IsCustomer){
+            if(getQuan() == 0){
+                System.out.print("   - OUT OF STOCK -");
+            }else
+            {
+                    if( getDiscountPercentage() > 1)                {
+                    System.out.print("   - On Sale  [Discount :" + discountPercentage +"% Applied ] ");
+                }else{
+                    System.out.print("  - On Sale  -");
+                }
+            }
         }
     }
         
@@ -229,7 +230,7 @@ public class Item {
      * Returns the quantity of the item.
      * @return The quantity of the item.
      */
-    public int getQuantity() {
+    public int getQuan() {
         return quantity;
     }
 
@@ -310,7 +311,7 @@ public class Item {
      * Sets the quantity of the item.
      * @param quantity The quantity of the item.
      */
-    public void setQuantity(int quantity) {
+    public void setQuan(int quantity) {
         this.quantity = quantity;
     }
 

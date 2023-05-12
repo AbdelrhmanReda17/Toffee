@@ -3,7 +3,7 @@ package ControllerClasses;
 
 import SystemClasses.DataManager;
 
-
+import java.io.Console;
 import java.util.Scanner;
 
 /**
@@ -64,7 +64,6 @@ public class ApplicationController {
             switch (option) {
                 case 1:
                     isLoggedIn = orderController.displayCatalogs();
-                    CAOption = 1;
                     break;
                 case 2:
                     userController.RegisterPage();
