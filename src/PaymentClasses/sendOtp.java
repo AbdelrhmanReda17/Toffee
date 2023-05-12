@@ -32,14 +32,12 @@ public class sendOtp {
             message.setFrom(new InternetAddress(username));
 
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-
-            message.setSubject("TOFFEE SHOP VERIFICATION CODE");
-            message.setText("Your OTP IS : " + code);
-
+            message.setSubject("Toffe Shop");
+            message.setText("Hello , Here's Your Verfication code is : " + code + "\nIf you have any bugs please feel free to contact with us in this email") ;
             Transport.send(message);
             return true;
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            return false;
         }
     }
 }
