@@ -12,16 +12,15 @@ public class sendOtp {
      * @param code the OTP code to send
      * @return true if the email was sent successfully, false otherwise
      */
-    public static boolean SendOTP(String name , String email , int code){
+    public static boolean SendOTP(String email , int code){
         String host = "smtp.gmail.com";
-        String username = "toffeeshop.fcai@gmail.com";
-        String password = "smdkidwildhlpxkf";
+        String username = "toffeewebsite8@gmail.com";
+        String password = "knfmmhrszhkabtlm";
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.ssl.enable", "true");
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
@@ -29,14 +28,18 @@ public class sendOtp {
         });
         try {
             Message message = new MimeMessage(session);
+
             message.setFrom(new InternetAddress(username));
+
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("Toffe Shop");
-            message.setText("Hello, " + name + "\n" + "Here's Your Verfication code is : " + code + "\nIf you have any bugs please feel free to contact with us in this email") ;
+
+            message.setSubject("TOFFEE SHOP VERIFICATION CODE");
+            message.setText("Your OTP IS : " + code);
+
             Transport.send(message);
             return true;
         } catch (MessagingException e) {
-            return false;
+            throw new RuntimeException(e);
         }
     }
 }

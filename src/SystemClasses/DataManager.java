@@ -826,7 +826,7 @@ public class DataManager {
         if(!isCanceled ){
             System.out.println("Please wait While Sending The verification code to your email.... ");
             int otpCode = (int) (Math.random() * 900000) + 100000;
-            if (sendOtp.SendOTP(name,email, otpCode)) {
+            if (sendOtp.SendOTP(email, otpCode)) {
                 System.out.println("OTP sent to your email. Please enter the verification code - 0 to cancel:");
                 Scanner scanner = new Scanner(System.in);
                 int inputCode = scanner.nextInt();
