@@ -56,7 +56,7 @@ public class GiftVoucher {
     public void createAGiftVoucher(Vector<GiftVoucher> vouchers) {
         Scanner X = new Scanner(System.in);
         //voucher code
-        String codeRegex = "^[A-Za-z0-9]{16}$";
+        String codeRegex = "^[A-Za-z0-9]{5}$";
         String vouchercode;
         do {
             System.out.print("Enter Voucher code: ");
