@@ -830,20 +830,20 @@ public class DataManager {
                 System.out.println("OTP sent to your email. Please enter the verification code - 0 to cancel:");
                 Scanner scanner = new Scanner(System.in);
                 int inputCode = scanner.nextInt();
-                while(true){
-                    if (inputCode == otpCode) {
-                        System.out.println("Email verification successful. Registration completed!");
-                         customers.add(new Customer(name,password,email, phone, address));
-                         return true;
-                    }else if(inputCode == 0){
-                        System.out.println("Registration rejected.");
-                        return false;
-                    }
-                    else {
-                        System.out.println("Invalid verification code.");                
-                        inputCode = scanner.nextInt();
-                    }
+
+                if (inputCode == otpCode) {
+                    System.out.println("Email verification successful. Registration completed!");
+                     customers.add(new Customer(name,password,email, phone, address));
+                     return true;
+                }else if(inputCode == 0){
+                    System.out.println("Registration rejected.");
+                    return false;
                 }
+                else {
+                    System.out.println("Verification Code isn't Correct,So Registration rejected Please Try Again Later.");
+                    return false;
+                }
+
             } else {
                 System.out.println("Failed to send OTP to your email. Registration rejected.");
                     return false;
