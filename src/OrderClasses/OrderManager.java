@@ -196,8 +196,7 @@ public class OrderManager {
                 System.out.println("Would you like to reorder? (Please enter 1 for yes, 2 for no)");
                 int ch2 = input.nextInt();
                 if (ch2 == 1) {
-                    order = customer.reorder(orders);
-                    customer.setShoppingCart(order.getShopcart());
+                    customer.setShoppingCart(customer.reorder(orders));
                     return true;
                 } else if (ch2 == 2) {
                     return false;

@@ -25,7 +25,6 @@ public class Order {
      */
     public Order() {
     }
-
     /**
      * Parameterized constructor for the Order class.
      * @param OrderID         The ID of the order.
@@ -47,6 +46,16 @@ public class Order {
         this.ordertime = ordertime;
         ORDERCount = OrderID;
     }
+    public Order(Order order) {
+        this.orderId = ++ORDERCount;
+        this.user = order.user;
+        this.status = order.status;
+        this.shopcart = order.shopcart;
+        this.ordertime = order.ordertime;
+        this.shippingAddress = order.shippingAddress;
+        this.payment = order.payment;
+    }
+    
     /**
      * Parameterized constructor for the Order class.
      * Auto-generates the order ID.

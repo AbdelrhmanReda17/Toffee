@@ -5,6 +5,8 @@ import OrderClasses.ShoppingCart;
 import java.util.Scanner;
 import java.util.Vector;
 
+import javax.swing.plaf.synth.SynthPopupMenuUI;
+
 
 
 public class Customer extends User {
@@ -57,9 +59,9 @@ public class Customer extends User {
      * @param orders A vector of all the orders in the system.
      * @return The order that the customer selected to reorder.
      */
-    public Order reorder(Vector<Order>orders) {
+    public ShoppingCart reorder(Vector<Order>orders) {
         Vector<Order> PrevOrders = LoadPrevOrderHistory(orders);
-        System.out.println("Please select one of you past orders them and enter it's number : ");
+        System.out.println("Please select one of your past orders them and enter it's number : ");
         Scanner input = new Scanner(System.in);
         int OrderCho = input.nextInt();
         while(OrderCho > PrevOrders.size()){
@@ -67,7 +69,9 @@ public class Customer extends User {
             OrderCho = input.nextInt();
         }
         OrderCho = OrderCho-1;
-        return PrevOrders.get(OrderCho);
+        ShoppingCart selectedCart = PrevOrders.get(OrderCho).getShopcart();
+        ShoppingCart newCart = new ShoppingCart(selectedCart.getCartItems());
+        return newCart;
     }
 
     /**

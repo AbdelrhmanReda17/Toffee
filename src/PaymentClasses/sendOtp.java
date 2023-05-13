@@ -28,12 +28,10 @@ public class sendOtp {
         });
         try {
             Message message = new MimeMessage(session);
-s
             message.setFrom(new InternetAddress(username));
-
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject("Toffe Shop");
-            message.setText("Hello " + name + ",\nHere's your verification code: [ " + code + " ]\nIf you have any issues, please feel free to contact us at this email.");
+            message.setText("Hello " + name + ",\nHere's your verification code: [ " + code + "]\nIf you have any issues, please feel free to contact us at this email.");
             Transport.send(message);
             return true;
         } catch (MessagingException e) {

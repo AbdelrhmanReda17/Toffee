@@ -27,7 +27,17 @@ public class ShoppingCart {
         Data.loadLoyaltyScheme();
         LoyaltyScheme = Data.getLoyaltyScheme();
     }
-
+    public ShoppingCart (List<CartItem> items){
+        this.totalCost = 0.0;
+        this.loyaltyPoints = 0;
+        this.pointsEarned=0;
+        this.cartItems = new ArrayList<>();
+        Data.loadLoyaltyScheme();
+        LoyaltyScheme = Data.getLoyaltyScheme();
+        for(CartItem x : items){
+            addCartItem(x);
+        }
+    }
  /**
      * Adds a cart item to the shopping cart.
      * @param item The cart item to add.
@@ -73,10 +83,10 @@ public class ShoppingCart {
         }
     }
     
-/**
-Updates a cart item in the shopping cart.
-Allows discarding an item or updating its quantity.
-*/
+    /**
+    Updates a cart item in the shopping cart.
+    Allows discarding an item or updating its quantity.
+    */
     public void updateCartItem(Vector<Item> items) {
         Scanner scanner = new Scanner(System.in);
 
@@ -99,9 +109,7 @@ Allows discarding an item or updating its quantity.
                 if (Objects.equals(cartItem.getName(), namee)) {
                    removeCartItem(cartItem);
                    break;
-
                 }}
-
         }else {
             Boolean isFound = false;
             System.out.println("Enter the name of the item you want to update its Quantity: ");
@@ -131,7 +139,6 @@ Allows discarding an item or updating its quantity.
                     }else{
                         System.out.println("Sorry , The Maximum Quantity You Can get per Item is 50 !!");
                     }
-    
                     if(isexist){
                         break;
                     }
@@ -164,9 +171,11 @@ Allows discarding an item or updating its quantity.
     /**
      * Clears the shopping cart by removing all cart items and resetting the total cost to zero.
     */
-public void clearCart() {
+    public void clearCart() {
     cartItems.clear();
-    totalCost = 0.0;
+        totalCost = 0.0;
+        pointsEarned = 0;
+        loyaltyPoints = 0;
     }
     /**
      * Retrieves the list of cart items in the shopping cart.
