@@ -121,7 +121,7 @@ public class OrderController {
             input.nextLine();
             switch (ch) {
                 case 1:
-                    customer.getShoppingCart().updateCartItem();
+                    customer.getShoppingCart().updateCartItem(Data.getItems());
                     System.out.println("Cart updated!");
                     isValid = false;
                     break;

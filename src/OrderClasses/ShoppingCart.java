@@ -1,9 +1,6 @@
 package OrderClasses;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 import SystemClasses.DataManager;
 import SystemClasses.LoyaltyPoints;
@@ -80,7 +77,7 @@ public class ShoppingCart {
 Updates a cart item in the shopping cart.
 Allows discarding an item or updating its quantity.
 */
-    public void updateCartItem() {
+    public void updateCartItem(Vector<Item> items) {
         Scanner scanner = new Scanner(System.in);
 
         int choice =0;
@@ -109,13 +106,28 @@ Allows discarding an item or updating its quantity.
             System.out.println("Enter the name of the item you want to update its Quantity: ");
             String name = scanner.nextLine();
             int quantity = 0;
+            boolean isexist = false;
             while (true) {
                 System.out.println("Enter the Quantity you want -maximum 50-: ");
                 quantity = scanner.nextInt();
                 if (quantity <= 50) {
+                    for(Item i : items){
+                        if(i.getName().equals(name)){
+                            if(quantity<= i.getQuan()){
+                                isexist = true;
+                                break;
+                            }else{
+                                System.out.println("Your Needed Quantity are not avalible now , we have : "+ i.getQuan() + " Only in Stock");
+                            }
+                        }
+                    }
+                }else{
+                    System.out.println("Sorry , The Maximum Quantity You Can get per Item is 50 !!");
+                }
+
+                if(isexist){
                     break;
                 }
-                System.out.println("quantity should not exceed 50!! ");
             }
             for (CartItem cartItem : cartItems) {
                 if (Objects.equals(cartItem.getName(), name)) {
