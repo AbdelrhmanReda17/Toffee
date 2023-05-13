@@ -103,48 +103,60 @@ Allows discarding an item or updating its quantity.
                 }}
 
         }else {
+            Boolean isFound = false;
             System.out.println("Enter the name of the item you want to update its Quantity: ");
             String name = scanner.nextLine();
-            int quantity = 0;
-            boolean isexist = false;
-            while (true) {
-                System.out.println("Enter the Quantity you want -maximum 50-: ");
-                quantity = scanner.nextInt();
-                if (quantity <= 50) {
-                    for(Item i : items){
-                        if(i.getName().equals(name)){
-                            if(quantity<= i.getQuan()){
-                                isexist = true;
-                                break;
-                            }else{
-                                System.out.println("Your Needed Quantity are not avalible now , we have : "+ i.getQuan() + " Only in Stock");
-                            }
-                        }
-                    }
-                }else{
-                    System.out.println("Sorry , The Maximum Quantity You Can get per Item is 50 !!");
-                }
-
-                if(isexist){
-                    break;
-                }
-            }
             for (CartItem cartItem : cartItems) {
                 if (Objects.equals(cartItem.getName(), name)) {
-                    int oldQuantity = cartItem.getQuantity();
-                    double oldCost = (cartItem.getPrice() - cartItem.getPrice() * (cartItem.getDiscountPercentage() / 100))
-                            * oldQuantity;
-                    cartItem.setQuantity(quantity);
-                    double newCost = (cartItem.getPrice() - cartItem.getPrice() * (cartItem.getDiscountPercentage() / 100))
-                            * quantity;
-                    totalCost += newCost - oldCost;
-                    loyaltyPoints += cartItem.getPoints() * (quantity - oldQuantity);
-                    pointsEarned += (cartItem.getPrice() * LoyaltyScheme.getPointsEarnedperEgp())
-                            * (quantity - oldQuantity);
-                    if (pointsEarned > LoyaltyScheme.getMaximumpoint()) {
-                        pointsEarned = LoyaltyScheme.getMaximumpoint();
+                    isFound = true;
+                }
+            }
+            if(isFound){
+                int quantity = 0;
+                boolean isexist = false;
+                while (true) {
+                    System.out.println("Enter the Quantity you want -maximum 50-: ");
+                    quantity = scanner.nextInt();
+                    if (quantity <= 50) {
+                        for(Item i : items){
+                            if(i.getName().equals(name)){
+                                if(quantity <= i.getQuan()){
+                                    isexist = true;
+                                    break;
+                                }else{
+                                    System.out.println("Your Needed Quantity are not avalible now , we have : "+ i.getQuan() + " Only in Stock");
+                                }
+                            }
+                        }
+                    }else{
+                        System.out.println("Sorry , The Maximum Quantity You Can get per Item is 50 !!");
+                    }
+    
+                    if(isexist){
+                        break;
                     }
                 }
+                for (CartItem cartItem : cartItems) {
+                    if (Objects.equals(cartItem.getName(), name)) {
+                        int oldQuantity = cartItem.getQuantity();
+                        double oldCost = (cartItem.getPrice() - cartItem.getPrice() * (cartItem.getDiscountPercentage() / 100))
+                                * oldQuantity;
+                        cartItem.setQuantity(quantity);
+                        double newCost = (cartItem.getPrice() - cartItem.getPrice() * (cartItem.getDiscountPercentage() / 100))
+                                * quantity;
+                        totalCost += newCost - oldCost;
+                        loyaltyPoints += cartItem.getPoints() * (quantity - oldQuantity);
+                        pointsEarned += (cartItem.getPrice() * LoyaltyScheme.getPointsEarnedperEgp())
+                                * (quantity - oldQuantity);
+                        if (pointsEarned > LoyaltyScheme.getMaximumpoint()) {
+                            pointsEarned = LoyaltyScheme.getMaximumpoint();
+                        }
+                    }
+                }
+                System.out.println("Item Updated Successfully");
+                displayShoppingCart();
+            }else{
+                System.out.println("Item not found ");
             }
         }
     }
