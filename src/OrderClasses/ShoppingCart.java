@@ -79,7 +79,7 @@ Allows discarding an item or updating its quantity.
 */
     public void updateCartItem(Vector<Item> items) {
         Scanner scanner = new Scanner(System.in);
-
+        boolean isexist = false;
         int choice =0;
         while (true) {
             System.out.println("What Do You Want To Update ?");
@@ -113,7 +113,7 @@ Allows discarding an item or updating its quantity.
             }
             if(isFound){
                 int quantity = 0;
-                boolean isexist = false;
+               
                 while (true) {
                     System.out.println("Enter the Quantity you want -maximum 50-: ");
                     quantity = scanner.nextInt();
