@@ -90,6 +90,7 @@ public class ShoppingCart {
     public void updateCartItem(Vector<Item> items) {
         Scanner scanner = new Scanner(System.in);
         boolean isexist = false;
+        boolean FOUND=false;
         int choice =0;
         while (true) {
             System.out.println("What Do You Want To Update ?");
@@ -107,9 +108,16 @@ public class ShoppingCart {
             String namee = new Scanner(System.in).nextLine();
             for (CartItem cartItem : cartItems) {
                 if (Objects.equals(cartItem.getName(), namee)) {
-                   removeCartItem(cartItem);
-                   break;
+                    removeCartItem(cartItem);
+                    System.out.println("Item removed successfully!");
+                    FOUND=true;
+                    break;
+
                 }}
+            if(!FOUND){
+                System.out.println("Item not found");
+            }
+
         }else {
             Boolean isFound = false;
             System.out.println("Enter the name of the item you want to update its Quantity: ");
@@ -121,7 +129,7 @@ public class ShoppingCart {
             }
             if(isFound){
                 int quantity = 0;
-               
+
                 while (true) {
                     System.out.println("Enter the Quantity you want -maximum 50-: ");
                     quantity = scanner.nextInt();
@@ -139,6 +147,7 @@ public class ShoppingCart {
                     }else{
                         System.out.println("Sorry , The Maximum Quantity You Can get per Item is 50 !!");
                     }
+
                     if(isexist){
                         break;
                     }
