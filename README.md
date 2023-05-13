@@ -14,5 +14,5 @@ The backend implementation of the system was developed using the following tools
 
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/) / [Visual Studio Code](https://code.visualstudio.com/): The Java Integrated Development Environment (IDE) used for writing, debugging, and testing the code.
 - [Git](https://git-scm.com/): The version control system used for tracking changes to the code and managing collaboration among team members.
-- [javax.mail](https://javaee.github.io/javamail/): The JavaMail API library used for sending email notifications to customers and admins.
+- [javax.mail](https://javaee.github.io/javamail/): The JavaMail API library used for sending email notifications to customers.
 
